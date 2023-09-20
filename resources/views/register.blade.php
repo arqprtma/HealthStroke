@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {{-- cdn tailwindcss --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Register - Health Stroke</title>
+</head>
+
+<body class="bg-emerald-200">
+    <div
+        class="card w-[450px] bg-white border-b-4 rounded-lg border-emerald-800 pb-5 p-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+        <h1 class="text-2xl font-bold text-center mb-5">Register</h1>
+        {{-- Form --}}
+        <form action="">
+            <label for="" class="block mb-">Email</label>
+            <input type="text"
+                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <label for="" class="block pt-4">Password</label>
+            <input type="text"
+                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <label for="" class="block pt-4">Confirm Password</label>
+            <input type="text"
+                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <button
+                class="mt-10 hover:bg-blue-800 bg-blue-900 text-white font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline">Submit</button>
+        </form>
+        <p class="text-center pt-10">Sudah punya akun ? <a href="{{ route('login') }}"
+                class="text-blue-800 underline">Login
+                disini</a></p>
+        <p class="text-center pt-10">Kembali ke <a href="{{ route('index') }}" class="text-blue-800">Dashboard</a></p>
+    </div>
+</body>
+
+</html>

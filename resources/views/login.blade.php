@@ -10,7 +10,7 @@
     <title>Health Stroke</title>
 </head>
 
-<body class="bg-emerald-200">
+<body class="bg-[#FFF4E0]">
     <div
         class="card w-[450px] bg-white border-b-4 rounded-lg border-emerald-800 pb-5 p-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
         <h1 class="text-2xl font-bold text-center mb-5">Login</h1>
@@ -23,7 +23,7 @@
             <input type="text"
                 class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <button
-                class="mt-10 hover:bg-blue-800 bg-blue-900 text-white font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline">Submit</button>
+                class="mt-10 hover:bg-[#FF6B7B] bg-[#FF6B6B] text-white font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline">Submit</button>
         </form>
 
         <p class="text-center pt-10">Belum memiliki akun ? <a href="{{ route('register') }}"

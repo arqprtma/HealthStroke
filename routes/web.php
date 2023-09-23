@@ -29,4 +29,8 @@ Route::get('/dashboard', function () {
     return view('auth.dashboard');
 })->name('dashboard');
 
+Route::get('/manage', function( ){
+    return view('auth.manage');
+})->name('manage');
+
 

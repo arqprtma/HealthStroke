@@ -7,31 +7,76 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- cdn tailwindcss --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./recources/css/app.css">
     <title>Register - Health Stroke</title>
 </head>
 
-<body class="bg-emerald-200">
-    <div
-        class="card w-[450px] bg-white border-b-4 rounded-lg border-emerald-800 pb-5 p-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-        <h1 class="text-2xl font-bold text-center mb-5">Register</h1>
-        {{-- Form --}}
-        <form action="">
-            <label for="" class="block mb-">Email</label>
-            <input type="text"
-                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <label for="" class="block pt-4">Password</label>
-            <input type="text"
-                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <label for="" class="block pt-4">Confirm Password</label>
-            <input type="text"
-                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <button
-                class="mt-10 hover:bg-blue-800 bg-blue-900 text-white font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline">Submit</button>
-        </form>
-        <p class="text-center pt-10">Sudah punya akun ? <a href="{{ route('login') }}"
-                class="text-blue-800 underline">Login
-                disini</a></p>
-        <p class="text-center pt-10">Kembali ke <a href="{{ route('index') }}" class="text-blue-800">Dashboard</a></p>
+<body class="bg-[#F8F8FF]">
+    <div class="container mx-auto">
+        <div class="judul relative top-[50px] lg:top-[50px]">
+            <h1 class="font-bold text-[14] text-center lg:text-[24px]">REGISTER</h1>
+            <hr class="w-[60px] lg:w-[100px] mx-auto border-2 border-solid border-[#15ADA7]">
+        </div>
+        <div class="relative top-[65px] lg:top-[65px] w-[70%] lg:w-[50%] mx-auto">
+            <div class="mb-4">
+                <label class="text-gray-700 text-sm font-bold mb-2" for="nama">
+                    Nama Lengkap
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="nama" type="text" placeholder="Masukan Nama Lengkap">
+            </div>
+            <div class="mb-4">
+                <label class="text-gray-700 text-sm font-bold mb-2" for="email">
+                    Email
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="email" type="email" placeholder="Masukan Email">
+            </div>
+            <div class="flex justify-between gap-1">
+                <div class="mb-4 flex-1">
+                    <label class="text-gray-700 text-sm font-bold mb-2" for="email">
+                        Jenis Kelamin
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="email" type="text" placeholder="Masukan Email">
+                </div>
+                <div class="mb-4 basis-1/3">
+                    <label class="text-gray-700 text-sm font-bold mb-2" for="umur">
+                        Umur
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="umur" type="text" placeholder="Umur">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="text-gray-700 text-sm font-bold mb-2" for="username">
+                    Username
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="username" type="text" placeholder="Masukan Username">
+            </div>
+            <div class="mb-4">
+                <label class="text-gray-700 text-sm font-bold mb-2" for="password">
+                    Password
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="password" type="password" placeholder="Masukan Password">
+            </div>
+            <div class="text-center mt-7">
+                <button
+                    class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-3xl text-white">Register</button>
+            </div>
+            <p class="text-center mt-5 text-gray-500">Already have an Account ? <a href="#"
+                    class="text-[#0085FF] cursor-pointer font-bold">Sign
+                    in</a>
+            </p>
+        </div>
     </div>
 </body>
 

@@ -25,6 +25,10 @@ Route::get('/register', function () {
     return view('register');
 })->name('register');
 
+Route::get('/forgot-password', function () {
+    return view('forgot-password');
+})->name('forgot-password');
+
 Route::get('/dashboard', function () {
     return view('auth.dashboard');
 })->name('dashboard');
@@ -32,5 +36,9 @@ Route::get('/dashboard', function () {
 Route::get('/manage', function( ){
     return view('auth.manage');
 })->name('manage');
+
+Route::get('/artikel', function( ){
+    return view('auth.artikel');
+})->name('artikel');
 
 

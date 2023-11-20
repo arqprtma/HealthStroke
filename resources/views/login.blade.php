@@ -7,29 +7,46 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- cdn tailwindcss --}}
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Health Stroke</title>
+    <link rel="stylesheet" href="./recources/css/app.css">
+    <title>Register - Health Stroke</title>
 </head>
 
-<body class="bg-[#FFF4E0]">
-    <div
-        class="card w-[450px] bg-white border-b-4 rounded-lg border-emerald-800 pb-5 p-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-        <h1 class="text-2xl font-bold text-center mb-5">Login</h1>
-        {{-- Form --}}
-        <form action="dashboard">
-            <label for="" class="block mb-">Email</label>
-            <input type="text"
-                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <label for="" class="block pt-4">Password</label>
-            <input type="text"
-                class="block appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <button
-                class="mt-10 hover:bg-[#FF6B7B] bg-[#FF6B6B] text-white font-bold py-3 w-full rounded focus:outline-none focus:shadow-outline">Submit</button>
-        </form>
-
-        <p class="text-center pt-10">Belum memiliki akun ? <a href="{{ route('register') }}"
-                class="text-blue-800 underline">Daftar
-                disini</a></p>
-        <p class="text-center pt-10">Kembali ke <a href="{{ route('index') }}" class="text-blue-800">Dashboard</a></p>
+<body class="bg-[#F8F8FF]">
+    <div class="container mx-auto">
+        <div class="judul relative top-[130px] lg:top-[150px]">
+            <h1 class="font-bold text-[14] text-center lg:text-[24px]">LOGIN</h1>
+            <hr class="w-[60px] lg:w-[100px] mx-auto border-2 border-solid border-[#15ADA7]">
+        </div>
+        <div class="relative top-[150px] lg:top-[170px] w-[70%] lg:w-[50%] mx-auto">
+            <div class="mb-4">
+                <label class="text-gray-700 text-sm font-bold mb-2" for="username">
+                    Username
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="username" type="text" placeholder="Masukan Username">
+            </div>
+            <div class="mb-4">
+                <label class="text-gray-700 text-sm font-bold mb-2" for="password">
+                    Password
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="password" type="password" placeholder="Masukan Password">
+            </div>
+            <div class="text-center mt-7">
+                <button
+                    class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7] w-[197px] h-[40px] rounded-3xl text-white">Login</button>
+            </div>
+            <p class="text-sm lg:text-lg text-center mt-5 text-gray-500">Don't have an Account ? <a href="#"
+                    class="text-[#0085FF] cursor-pointer font-bold">Sign
+                    up</a>
+            </p>
+            <p class="mt-4 text-sm lg:text-lg text-center text-[#0085FF] cursor-pointer font-bold"><a href="#"
+                    class="">Forgotten
+                    Password ? </a>
+            </p>
+        </div>
     </div>
 </body>
 

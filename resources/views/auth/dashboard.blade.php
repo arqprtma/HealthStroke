@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="/path/to/flickity.css" media="screen">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 
-
-    <title>Dashboard - Health Stroke</title>
+    <title>{{ $title }}</title>
     <style>
         .carousel-cell {
             width: 66%;

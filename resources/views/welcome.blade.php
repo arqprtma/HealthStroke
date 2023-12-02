@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap');
     </style>
 
-    <title>Laravel</title>
+    <title>{{ $title }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

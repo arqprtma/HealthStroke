@@ -8,7 +8,7 @@
     {{-- cdn tailwindcss --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./recources/css/app.css">
-    <title>Pasien - Health Stroke</title>
+    <title>{{ $title }}</title>
 </head>
 
 <body class="bg-[#F8F8FF]">

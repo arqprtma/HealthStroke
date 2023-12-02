@@ -33,12 +33,24 @@ Route::get('/dashboard', function () {
     return view('auth.dashboard');
 })->name('dashboard');
 
-Route::get('/manage', function( ){
-    return view('auth.manage');
-})->name('manage');
+Route::get('/pasien', function () {
+    return view('auth.user.pasien.profile-pasien');
+})->name('pasien');
+
+Route::get('/setting-profile', function( ){
+    return view('auth.profile-user');
+})->name('setting-profile');
+
+Route::get('/detail-aktivitas', function( ){
+    return view('auth.user.pasien.detail-aktivitas');
+})->name('detail-aktivitas');
 
 Route::get('/artikel', function( ){
-    return view('auth.artikel');
+    return view('auth.user.artikel.artikel');
 })->name('artikel');
+
+Route::get('/detail-artikel', function( ){
+    return view('auth.user.artikel.detail-artikel');
+})->name('detail-artikel');
 
 

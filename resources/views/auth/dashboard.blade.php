@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./recources/css/app.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="/path/to/flickity.css" media="screen">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+
 
     <title>Dashboard - Health Stroke</title>
     <style>
@@ -36,6 +38,38 @@
         .flickity-prev-next-button {
             display: none;
         }
+
+        .bottom-menu {
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6.3px);
+            -webkit-backdrop-filter: blur(6.3px);
+            border: 1px solid #ffffff;
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+
+
+
+        .detail-task-aktivitas,
+        .detail-task-penanganan {
+            display: none;
+        }
+
+        .parent-penanganan {
+            display: none;
+        }
+
+        .inactive {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
     </style>
 </head>
 
@@ -55,21 +89,22 @@
             <div class="components-pasien flex justify-between">
                 <h1 class="font-bold text-sm lg:text-lg ">Daftar Pasien</h1>
                 <button
-                    class="bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7]">Tambah</button>
+                    class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7]">Tambah</button>
             </div>
         </div>
         <div class="card-pasien mt-5">
             <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
-                <div class="carousel-cell w-[80%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
+                <div
+                    class="carousel-pasien carousel-cell w-[80%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
                     <div
                         class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
                         <img src="/images/Logo-apps.png" alt=""
                             class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
                     </div>
                     <div class="deskripsi flex-1 text-sm">
-                        <button
+                        <a href={{ 'pasien' }}
                             class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
-                        </button>
+                        </a>
                         <div class="nama flex mt-2 ">
                             <p
                                 class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
@@ -104,7 +139,8 @@
                     </div>
 
                 </div>
-                <div class="carousel-cell w-[80%] lg:w-[66%] lg:h-[200px] h-[150px] flex justify-evenly shadow-md m-2">
+                <div
+                    class="carousel-pasien carousel-cell w-[80%] lg:w-[66%] lg:h-[200px] h-[150px] flex justify-evenly shadow-md m-2">
                     <div
                         class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
                         <img src="/images/Logo-apps.png" alt=""
@@ -150,98 +186,117 @@
             </div>
         </div>
     </div>
-    <div class="tasks container lg:w-[80%] mx-auto p-10 mt-5">
+    <div class="tasks container lg:w-[80%] mx-auto p-10 mt-5 ">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
-        <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg shadow-lg mt-2 overflow-scroll">
+        <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-scroll">
             <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
-                <a href="#" class="aktivitas">
+                <button class="aktivitas-button" onclick="toggleParent('aktivitas')">
                     <h1 class="text-center">Aktivitas</h1>
-                    <hr class="border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px]">
-                </a>
-                <a href="#" class="penanganan">
+                    <hr class="border-aktivitas border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px]">
+                </button>
+                <button class="penanganan-button" onclick="toggleParent('penanganan')">
                     <h1>Penanganan</h1>
-                    {{-- <hr class="border-2 border-solid border-[#15ADA7]"> --}}
-                </a>
+                    <hr class="border-penanganan border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px]">
+                </button>
             </div>
-            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
-                <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                    <div class="gambar">
-                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
-                    </div>
-                    <div class="deskripsi">
-                        <div class="judul text-sm lg:text-lg">
-                            <h1>Aktivitas</h1>
+            <?php for ($i=1; $i < 5; $i++) { ?>
+            <div class="parent-aktivitas">
+                <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
+                    <div class="flex gap-5 w-[100%] mx-auto pt-5">
+                        <div class="gambar">
+                            <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
                         </div>
-                        <div class="kategori text-sm lg:text-lg">
-                            <h3>Makanan dan Minuman</h3>
+                        <div class="deskripsi">
+                            <div class="judul text-sm lg:text-lg">
+                                <h1>Aktivitas</h1>
+                            </div>
+                            <div class="kategori text-sm lg:text-lg">
+                                <h3>Makanan dan Minuman</h3>
+                            </div>
                         </div>
                     </div>
+                    <button class="toggle-button" onclick="toggleContent('aktivitas', <?= $i - 1 ?>)">Tampilkan Konten
+                        <?= $i ?></button>
+
                 </div>
-                <div class="dropdown p-5 mt-2 cursor-pointer">
-                    <h1>V</h1>
-                </div>
-            </div>
-            <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
-            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
-                <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                    <div class="gambar">
-                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
-                    </div>
-                    <div class="deskripsi">
-                        <div class="judul text-sm lg:text-lg">
-                            <h1>Aktivitas</h1>
-                        </div>
-                        <div class="kategori text-sm lg:text-lg">
-                            <h3>Olahraga</h3>
+                <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
+                <div id="content{{ $i }}" class="detail-task-aktivitas text-white">
+                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#15ADA7]">
+                        <div class="flex justify-center gap-10 p-2 items-center">
+                            <div class="text-sm lg:text-lg">
+                                1
+                            </div>
+                            <div class="deskripsi text-sm lg:text-lg">
+                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="dropdown p-5 mt-2 cursor-pointer">
-                    <h1>V</h1>
-                </div>
-            </div>
-            <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
-            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
-                <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                    <div class="gambar">
-                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
-                    </div>
-                    <div class="deskripsi">
-                        <div class="judul text-sm lg:text-lg">
-                            <h1>Aktivitas</h1>
-                        </div>
-                        <div class="kategori text-sm lg:text-lg">
-                            <h3>Terapi</h3>
+                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#2296D1]">
+                        <div class="flex justify-center gap-10 p-2 items-center">
+                            <div class="text-sm lg:text-lg">
+                                2
+                            </div>
+                            <div class="deskripsi text-sm lg:text-lg">
+                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="dropdown p-5 mt-2 cursor-pointer">
-                    <h1>V</h1>
                 </div>
             </div>
-            <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
-            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
-                <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                    <div class="gambar">
-                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
-                    </div>
-                    <div class="deskripsi">
-                        <div class="judul text-sm lg:text-lg">
-                            <h1>Aktivitas</h1>
+            <?php } ?>
+
+
+            <?php for ($i=1; $i < 25; $i++) { ?>
+            <div class="parent-penanganan">
+                <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
+                    <div class="flex gap-5 w-[100%] mx-auto pt-5">
+                        <div class="gambar">
+                            <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
                         </div>
-                        <div class="kategori text-sm lg:text-lg">
-                            <h3>Olahraga</h3>
+                        <div class="deskripsi">
+                            <div class="judul text-sm lg:text-lg">
+                                <h1>Penanganan</h1>
+                            </div>
+                            <div class="kategori text-sm lg:text-lg">
+                                <h3>Makanan dan Minuman</h3>
+                            </div>
                         </div>
                     </div>
+                    <button class="toggle-button" onclick="toggleContent('penanganan', <?= $i - 1 ?>)">Tampilkan
+                        Konten <?= $i ?></button>
+
+
                 </div>
-                <div class="dropdown p-5 mt-2 cursor-pointer">
-                    <h1>V</h1>
+                <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
+                <div id="content{{ $i }}" class="detail-task-penanganan text-white">
+                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#15ADA7]">
+                        <div class="flex justify-center gap-10 p-2 items-center">
+                            <div class="text-sm lg:text-lg">
+                                1
+                            </div>
+                            <div class="deskripsi text-sm lg:text-lg">
+                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#2296D1]">
+                        <div class="flex justify-center gap-10 p-2 items-center">
+                            <div class="text-sm lg:text-lg">
+                                2
+                            </div>
+                            <div class="deskripsi text-sm lg:text-lg">
+                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
+            <?php } ?>
+
+
         </div>
     </div>
     <div class="berita lg:w-[80%] mx-auto px-10 mt-3">
@@ -277,14 +332,79 @@
         @endfor
 
     </div>
+    <nav class="nav-bottom md:hidden w-[100%] h-[60px] bottom-[0.8rem] fixed z-10 ">
+        <ul class="flex justify-center items-center h-[60px] bottom-menu">
+            <li>
+                <a href="" class="me-10">
+                    <i class="uil uil-estate text-[30px] text-black"></i>
+                </a>
+            </li>
+            <li>
+                <a type="button" class="me-10 cursor-pointer" data-modal-target="profileModal"
+                    data-modal-toggle="profileModal">
+                    <i class="uil uil-user text-[30px] text-black"></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="">
+                    <i class="uil uil-chart-bar text-[30px] text-black"></i>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
 </body>
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <script src="/path/to/flickity.pkgd.min.js"></script>
 <script>
-    $('.main-carousel').flickity({
-        // options
-        cellAlign: 'left',
-        contain: true
+    function toggleParent(type) {
+        var aktivitasParents = document.querySelectorAll('.parent-aktivitas');
+        var penangananParents = document.querySelectorAll('.parent-penanganan');
+
+        var borderAktivitas = document.querySelector('border-aktivitas');
+        var borderPenanganan = document.querySelector('border-penanganan');
+
+        if (type === 'aktivitas') {
+            aktivitasParents.forEach(function(parent) {
+                parent.classList.add('active');
+                parent.classList.remove('inactive');
+            });
+            penangananParents.forEach(function(parent) {
+                parent.classList.remove('active');
+                parent.classList.add('inactive');
+            });
+        } else if (type === 'penanganan') {
+            penangananParents.forEach(function(parent) {
+                parent.classList.add('active');
+                parent.classList.remove('inactive');
+            });
+            aktivitasParents.forEach(function(parent) {
+                parent.classList.remove('active');
+                parent.classList.add('inactive');
+            });
+        }
+    }
+
+    function toggleContent(type, index) {
+        var aktivitasContents = document.querySelectorAll('.detail-task-aktivitas');
+        var penangananContents = document.querySelectorAll('.detail-task-penanganan');
+
+        if (type === 'aktivitas') {
+            aktivitasContents[index].classList.toggle('active');
+        } else if (type === 'penanganan') {
+            penangananContents[index].classList.toggle('active');
+        }
+    }
+
+    // Menambahkan event listener untuk tombol pada carousel
+    $('.main-carousel').on('select.flickity', function(event, index) {
+        // Menonaktifkan semua konten ketika slider berpindah
+        contents.forEach(function(content) {
+            content.classList.remove('active');
+        });
+
+        // Mengaktifkan konten yang sesuai dengan indeks slider
+        contents[index].classList.add('active');
     });
 </script>
 

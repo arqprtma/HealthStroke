@@ -31,7 +31,7 @@
                 <button
                     class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-3xl text-white">Kirim</button>
             </div>
-            <p class="text-center mt-5 text-gray-500">Already have an Account ? <a href="#"
+            <p class="text-center mt-5 text-gray-500">Already have an Account ? <a href={{ 'login' }}
                     class="text-[#0085FF] cursor-pointer font-bold">Sign
                     in</a>
             </p>

@@ -8,7 +8,7 @@
     {{-- cdn tailwindcss --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./recources/css/app.css">
-    <title>Register - Health Stroke</title>
+    <title>Login - Health Stroke</title>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -38,12 +38,12 @@
                 <button
                     class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7] w-[197px] h-[40px] rounded-3xl text-white">Login</button>
             </div>
-            <p class="text-sm lg:text-lg text-center mt-5 text-gray-500">Don't have an Account ? <a href="#"
-                    class="text-[#0085FF] cursor-pointer font-bold">Sign
+            <p class="text-sm lg:text-lg text-center mt-5 text-gray-500">Don't have an Account ? <a
+                    href={{ 'register' }} class="text-[#0085FF] cursor-pointer font-bold">Sign
                     up</a>
             </p>
-            <p class="mt-4 text-sm lg:text-lg text-center text-[#0085FF] cursor-pointer font-bold"><a href="#"
-                    class="">Forgotten
+            <p class="mt-4 text-sm lg:text-lg text-center text-[#0085FF] cursor-pointer font-bold"><a
+                    href={{ 'forgot-password' }} class="">Forgotten
                     Password ? </a>
             </p>
         </div>

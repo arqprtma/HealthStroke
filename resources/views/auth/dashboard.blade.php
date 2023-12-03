@@ -75,6 +75,7 @@
 </head>
 
 <body class="bg-[#F8F8FF] h-[2500px]">
+    {{ dd(auth()->user()) }}
     <div class="navigasi container lg:w-[80%] mx-auto p-10">
         <div class="navbar flex justify-between h-[20px]">
             <div class="alert flex gap-2 box-border">

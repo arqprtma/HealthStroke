@@ -23,7 +23,6 @@ Route::middleware(['middleware' => 'guest'])->group(function () {
     // Backend
         Route::post('/register/proses', [UserController::class, 'register'])->name('regiter.proses');
         Route::post('/login/proses', [UserController::class, 'login'])->name('login.proses');
-
     // END Backend
 });
 Route::middleware(['middleware' => 'CheckAuth'])->group(function () {

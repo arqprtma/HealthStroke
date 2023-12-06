@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- cdn tailwindcss --}}
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
-    @vite('resources/css/app.css')
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" href="./recources/css/app.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="/path/to/flickity.css" media="screen">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
@@ -359,59 +357,62 @@
 
         </ul>
     </nav>
-</body>
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-<script src="/path/to/flickity.pkgd.min.js"></script>
-<script>
-    function toggleParent(type) {
-        var aktivitasParents = document.querySelectorAll('.parent-aktivitas');
-        var penangananParents = document.querySelectorAll('.parent-penanganan');
 
-        var borderAktivitas = document.querySelector('border-aktivitas');
-        var borderPenanganan = document.querySelector('border-penanganan');
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        if (type === 'aktivitas') {
-            aktivitasParents.forEach(function(parent) {
-                parent.classList.add('active');
-                parent.classList.remove('inactive');
-            });
-            penangananParents.forEach(function(parent) {
-                parent.classList.remove('active');
-                parent.classList.add('inactive');
-            });
-        } else if (type === 'penanganan') {
-            penangananParents.forEach(function(parent) {
-                parent.classList.add('active');
-                parent.classList.remove('inactive');
-            });
-            aktivitasParents.forEach(function(parent) {
-                parent.classList.remove('active');
-                parent.classList.add('inactive');
-            });
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    {{-- <script src="/path/to/flickity.pkgd.min.js"></script> --}}
+    <script>
+        function toggleParent(type) {
+            var aktivitasParents = document.querySelectorAll('.parent-aktivitas');
+            var penangananParents = document.querySelectorAll('.parent-penanganan');
+
+            var borderAktivitas = document.querySelector('border-aktivitas');
+            var borderPenanganan = document.querySelector('border-penanganan');
+
+            if (type === 'aktivitas') {
+                aktivitasParents.forEach(function(parent) {
+                    parent.classList.add('active');
+                    parent.classList.remove('inactive');
+                });
+                penangananParents.forEach(function(parent) {
+                    parent.classList.remove('active');
+                    parent.classList.add('inactive');
+                });
+            } else if (type === 'penanganan') {
+                penangananParents.forEach(function(parent) {
+                    parent.classList.add('active');
+                    parent.classList.remove('inactive');
+                });
+                aktivitasParents.forEach(function(parent) {
+                    parent.classList.remove('active');
+                    parent.classList.add('inactive');
+                });
+            }
         }
-    }
 
-    function toggleContent(type, index) {
-        var aktivitasContents = document.querySelectorAll('.detail-task-aktivitas');
-        var penangananContents = document.querySelectorAll('.detail-task-penanganan');
+        function toggleContent(type, index) {
+            var aktivitasContents = document.querySelectorAll('.detail-task-aktivitas');
+            var penangananContents = document.querySelectorAll('.detail-task-penanganan');
 
-        if (type === 'aktivitas') {
-            aktivitasContents[index].classList.toggle('active');
-        } else if (type === 'penanganan') {
-            penangananContents[index].classList.toggle('active');
+            if (type === 'aktivitas') {
+                aktivitasContents[index].classList.toggle('active');
+            } else if (type === 'penanganan') {
+                penangananContents[index].classList.toggle('active');
+            }
         }
-    }
 
-    // Menambahkan event listener untuk tombol pada carousel
-    $('.main-carousel').on('select.flickity', function(event, index) {
-        // Menonaktifkan semua konten ketika slider berpindah
-        contents.forEach(function(content) {
-            content.classList.remove('active');
+        // Menambahkan event listener untuk tombol pada carousel
+        $('.main-carousel').on('select.flickity', function(event, index) {
+            // Menonaktifkan semua konten ketika slider berpindah
+            contents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+
+            // Mengaktifkan konten yang sesuai dengan indeks slider
+            contents[index].classList.add('active');
         });
-
-        // Mengaktifkan konten yang sesuai dengan indeks slider
-        contents[index].classList.add('active');
-    });
-</script>
+    </script>
+</body>
 
 </html>

@@ -30,7 +30,7 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/pasien', [PageController::class, 'pasien'])->name('pasien');
     Route::get('/setting-profile', [PageController::class, 'profile'])->name('setting-profile');
-    Route::get('/detail-aktivitas', [PageController::class, 'show_aktvitas'])->name('detail-aktivitas');
+    Route::get('/detail-aktivitas', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel', [PageController::class, 'show_artikel'])->name('detail-artikel');
 });

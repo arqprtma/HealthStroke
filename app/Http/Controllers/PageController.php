@@ -17,6 +17,7 @@ class PageController extends Controller
         $data = [
             'title' => 'Login | StrokeCare',
         ];
+
         return view('login', $data);
     }
 
@@ -39,6 +40,7 @@ class PageController extends Controller
         $data = [
             'title' => 'Dashboard | StrokeCare',
         ];
+        // dd(auth()->user());
         return view('auth.dashboard', $data);
     }
 
@@ -69,11 +71,21 @@ class PageController extends Controller
         ];
         return view('auth.user.artikel.artikel', $data);
     }
-    
+
     public function show_artikel(Request $request) {
         $data = [
             'title' => 'Overview Artikel | StrokeCare',
         ];
         return view('auth.user.artikel.detail-artikel', $data);
+    }
+
+    // Admin
+    public function login_admin(Request $request) {
+        $data = [
+            'title' => 'Login Admin | StrokeCare',
+        ];
+        // dd('coba');
+
+        return view('auth.admin.login', $data);
     }
 }

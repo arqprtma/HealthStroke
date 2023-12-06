@@ -42,7 +42,7 @@ class UserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ];
-        
+
         User::create($data_request);
 
         return redirect()->route('login');
@@ -62,8 +62,9 @@ class UserController extends Controller
             'username' => ['required'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::attempt($credentials)) {
+
             return redirect()->route('dashboard');
         }
 
@@ -77,5 +78,16 @@ class UserController extends Controller
         // }
 
         return back()->withErrors($credentials)->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

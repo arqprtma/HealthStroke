@@ -75,15 +75,19 @@
 </head>
 
 <body class="bg-[#F8F8FF] h-[2500px]">
-    {{ dd(auth()->user()) }}
+
     <div class="navigasi container lg:w-[80%] mx-auto p-10">
         <div class="navbar flex justify-between h-[20px]">
             <div class="alert flex gap-2 box-border">
-                <h1 class="font-bold">Hi,</h1><span> Stroke Care</span>
+                <h1 class="font-bold">Hi, </h1><span>{{ auth()->user()->nama }}</span>
             </div>
             <div class="logo box-border">
                 <img src="/images/Logo-apps.png" alt="logo" class="w-[50px] h-[50px] mt-[-15px]">
             </div>
+            <form method="post" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
         </div>
     </div>
     <div class="pasien container lg:w-[80%]  mx-auto ps-10 pe-10">

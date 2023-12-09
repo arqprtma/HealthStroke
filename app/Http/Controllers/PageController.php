@@ -80,12 +80,20 @@ class PageController extends Controller
     }
 
     // Admin
-    public function login_admin(Request $request) {
-        $data = [
-            'title' => 'Login Admin | StrokeCare',
-        ];
-        // dd('coba');
+        public function login_admin(Request $request) {
+            $data = [
+                'title' => 'Login Admin | StrokeCare',
+            ];
+            // dd('coba');
 
-        return view('auth.admin.login', $data);
-    }
+            return view('auth.admin.login', $data);
+        }
+        public function admin_dashboard() {
+            $data = [
+                'title' => 'Dashboard Admin | StrokeCare',
+            ];
+            
+            return view('auth.admin.index', $data);
+        }
+    // End Admin
 }

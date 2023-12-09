@@ -66,7 +66,13 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            $user = auth()->user();
+
+            if($user->role == 'user'){
+                return redirect()->route('dashboard');
+            }else{
+                return redirect()->route('admin.index');
+            }
         }
 
         // $credentials = [

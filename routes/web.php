@@ -27,15 +27,18 @@ Route::middleware(['middleware' => 'guest'])->group(function () {
 });
 Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
-    Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/pasien', [PageController::class, 'pasien'])->name('pasien');
     Route::get('/setting-profile', [PageController::class, 'profile'])->name('setting-profile');
     Route::get('/detail-aktivitas', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel', [PageController::class, 'show_artikel'])->name('detail-artikel');
+
+    // Admin
+    Route::name('admin.')->group(function () {
+        Route::get('/dashboard-admin', [PageController::class, 'admin_dashboard'])->name('index');
+    });
 });
-
-
 
 // Route::prefix('admin')->group(function(){
     Route::get('/login-admin', [PageController::class, 'login_admin'])->name('login.admin');

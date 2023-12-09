@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- cdn tailwindcss --}}
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <title>{{ $title }}</title>
 </head>
 
 <body class="bg-[#F8F8FF]">
     <div class="container mx-auto">
         <div class="judul relative top-[130px] lg:top-[150px]">
-            <h1 class="font-bold text-[14] text-center lg:text-[24px]">LOGIN</h1>
+            <h1 class="font-bold text-[14] text-center lg:text-[24px]">LOGIN ADMIN</h1>
             <hr class="w-[60px] lg:w-[100px] mx-auto border-2 border-solid border-[#15ADA7]">
         </div>
         <div class="relative top-[150px] lg:top-[170px] w-[70%] lg:w-[50%] mx-auto">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Komplikasi;
+use App\Models\Pemicu;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -94,6 +96,26 @@ class PageController extends Controller
             ];
             
             return view('auth.admin.index', $data);
+        }
+        public function admin_pemicu() {
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+
+            $data = [
+                'title' => 'Pemicu Admin | StrokeCare',
+                'pemicu' => $pemicu,
+            ];
+            
+            return view('auth.admin.pemicu.index', $data);
+        }
+        public function admin_komplikasi() {
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'komplikasi Admin | StrokeCare',
+                'komplikasi' => $komplikasi,
+            ];
+            
+            return view('auth.admin.komplikasi.index', $data);
         }
     // End Admin
 }

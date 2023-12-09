@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,15 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
     // Admin
     Route::name('admin.')->group(function () {
         Route::get('/dashboard-admin', [PageController::class, 'admin_dashboard'])->name('index');
+        Route::get('/pemicu', [PageController::class, 'admin_pemicu'])->name('pemicu');
+        Route::get('/pemicu', [PageController::class, 'admin_pemicu'])->name('pemicu');
+        Route::delete('/pemicu/{id?}', [AdminController::class, 'destroy_pemicu'])->name('pemicu.delete');
+        Route::put('/pemicu/{id?}', [AdminController::class, 'update_pemicu'])->name('pemicu.update');
+        Route::post('/pemicu/proses', [AdminController::class, 'store_pemicu'])->name('pemicu.post');
+        Route::get('/komplikasi', [PageController::class, 'admin_komplikasi'])->name('komplikasi');
+        Route::delete('/komplikasi/{id?}', [AdminController::class, 'destroy_komplikasi'])->name('komplikasi.delete');
+        Route::put('/komplikasi/{id?}', [AdminController::class, 'update_komplikasi'])->name('komplikasi.update');
+        Route::post('/komplikasi/proses', [AdminController::class, 'store_komplikasi'])->name('komplikasi.post');
     });
 });
 

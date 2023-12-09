@@ -12,7 +12,7 @@
 </head>
 
 <body class="bg-[#F8F8FF]">
-    <div class="bg-auto bg-cover bg-left-top bg-no-repeat -mt-4" id="bg-blub">
+    <div class="bg-auto bg-cover bg-left-top bg-no-repeat -mt-4 lg:h-[356px] h-[300px]" id="bg-blub">
         <div class="navigasi container lg:w-[80%] mx-auto pt-10 pb-7 px-5">
             <div class="navbar flex justify-between h-[20px]">
                 <div class="alert flex gap-2 box-border">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="logo box-border relative">
                     <img src="{{ asset('images/User.png') }}" alt="logo" class="w-[30px] h-[30px]" id="profile" data-target="#profile-admin">
-                    <div id="profile-admin" class="w-[13vw] h-auto bg-white absolute right-0 top-10 rounded shadow-lg py-2 px-4 hidden">
+                    <div id="profile-admin" class="lg:w-[13vw] w-[35vw] h-auto bg-white absolute lg:right-0 right-0 top-10 rounded shadow-lg py-2 px-4 hidden">
                         <ul>
                             <li onclick="logout()" class="cursor-pointer font-bold text-red-500">Logout</li>
                         </ul>
@@ -51,10 +51,15 @@
         </section>
         <section id="menu" class="mt-8">
             <h2 class="text-left font-bold text-black lg:text-xl text-base mb-2">Kelola Layanan</h2>
-            <div class="grid lg:grid-rows-1 md:grid-rows-2 grid-rows-4 grid-flow-col gap-4">
-                <a href="#" class="w-full">
+            <div class="grid lg:grid-rows-1 md:grid-rows-2 grid-rows-5 grid-flow-col gap-4">
+                <a href="{{ route('admin.pemicu') }}" class="w-full">
                     <button class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Pemicu.png') }}" alt="Pemicu"> Pemicu
+                    </button>
+                </a>
+                <a href="{{ route('admin.komplikasi') }}" class="w-full">
+                    <button class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Pemicu.png') }}" alt="Pemicu"> Komplikasi
                     </button>
                 </a>
                 <a href="#" class="w-full">
@@ -154,10 +159,7 @@
                 $(data_target).addClass('hidden')
             }
         })
-    </script>
 
-    <!-- Logout -->
-    <script>
         // LOGOUT
         function logout() {
             window.location.href = '/logout';

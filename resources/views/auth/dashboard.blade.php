@@ -73,124 +73,128 @@
 </head>
 
 <body class="bg-[#F8F8FF] h-[2500px]">
-
-    <div class="navigasi container lg:w-[80%] mx-auto p-10">
-        <div class="navbar flex justify-between h-[20px]">
-            <div class="alert flex gap-2 box-border">
-                <h1 class="font-bold">Hi, </h1><span>{{ auth()->user()->nama }}</span>
-            </div>
-            <div class="logo box-border">
-                <img src="/images/Logo-apps.png" alt="logo" class="w-[50px] h-[50px] mt-[-15px]">
-            </div>
-            <form method="post" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit">Logout</button>
-            </form>
-        </div>
-    </div>
-    <div class="pasien container lg:w-[80%]  mx-auto ps-10 pe-10">
-        <div class="container-card-pasien mt-10">
-            <div class="components-pasien flex justify-between">
-                <h1 class="font-bold text-sm lg:text-lg ">Daftar Pasien</h1>
-                <button
-                    class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7]">Tambah</button>
-            </div>
-        </div>
-        <div class="card-pasien mt-5">
-            <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
-                <div
-                    class="carousel-pasien carousel-cell w-[80%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
-                    <div
-                        class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
-                        <img src="/images/Logo-apps.png" alt=""
-                            class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
-                    </div>
-                    <div class="deskripsi flex-1 text-sm">
-                        <a href={{ 'pasien' }}
-                            class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
-                        </a>
-                        <div class="nama flex mt-2 ">
-                            <p
-                                class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
-                                Ariq Pratama
-
-                            </p>
-                            <img src="images/male.png" alt=""
-                                class="w-[15px] h-[15px] lg:w-[30px] lg:h-[30px] ms-1 lg:ms-2 mt-8 lg:mt-6">
-                        </div>
-                        <div class="progress-bar">
-                            <div class="bar-aktivitas">
-                                <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment</h3>
-                                <div
-                                    class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                    3/4
-                                </div>
-                                <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
-                                </div>
-                            </div>
-                            <div class="bar-penanganan mt-1 lg:mt-2">
-                                <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
-                                <div
-                                    class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                    3/4
-                                </div>
-                                <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+    <div class="bg-auto bg-cover bg-left-top bg-no-repeat pt-10 lg:h-[356px] h-[300px]" id="bg-blub">
+        <div class="navigasi container lg:w-[80%] mx-auto px-4">
+            <div class="navbar flex justify-between h-[20px]">
+                <div class="alert flex gap-2 box-border">
+                    <h1 class="font-bold">Hi, </h1><span>{{ auth()->user()->nama }}</span>
                 </div>
-                <div
-                    class="carousel-pasien carousel-cell w-[80%] lg:w-[66%] lg:h-[200px] h-[150px] flex justify-evenly shadow-md m-2">
-                    <div
-                        class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
-                        <img src="/images/Logo-apps.png" alt=""
-                            class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
-                    </div>
-                    <div class="deskripsi flex-1 text-sm">
-                        <button
-                            class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
-                        </button>
-                        <div class="nama flex mt-2 relative z-10">
-                            <p
-                                class=" text-[12px] relative h-[25px] lg:h-[35px] lg:text-xl lg:font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
-                                Agung Dwi Sahputra
-
-                            </p>
-                            <img src="images/male.png" alt=""
-                                class="w-[15px] h-[15px] lg:w-[30px] lg:h-[30px] ms-1 lg:ms-2 mt-8 lg:mt-6">
-                        </div>
-                        <div class="progress-bar">
-                            <div class="bar-aktivitas">
-                                <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment</h3>
-                                <div
-                                    class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                    3/4
-                                </div>
-                                <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
-                                </div>
-                            </div>
-                            <div class="bar-penanganan mt-1 lg:mt-2">
-                                <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
-                                <div
-                                    class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                    3/4
-                                </div>
-                                <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="logo box-border cursor-pointer" id="profile">
+                    <img src="/images/Logo-apps.png" alt="logo" class="w-[50px] h-[50px] mt-[-15px]">
                 </div>
             </div>
+            <div
+                class="dropdown-profile lg:w-[10vw] w-[22vw] h-auto bg-white absolute lg:right-40 right-5 top-20 rounded shadow-lg py-2 px-4 inactive">
+                <ul>
+                    <li onclick="logout()" class="cursor-pointer font-bold text-red-500">Logout</li>
+                </ul>
+            </div>
+        </div>
+        <div class="pasien container lg:w-[80%]  mx-auto px-4 pt-10">
+            <div class="container-card-pasien mt-10">
+                <div class="components-pasien flex justify-between">
+                    <h1 class="font-bold text-sm lg:text-lg ">Daftar Pasien</h1>
+                    <button
+                        class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7]">Tambah</button>
+                </div>
+            </div>
+            <div class="card-pasien mt-5">
+                <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
+                    <div
+                        class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
+                        <div
+                            class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
+                            <img src="/images/Logo-apps.png" alt=""
+                                class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
+                        </div>
+                        <div class="deskripsi flex-1 text-sm">
+                            <a href={{ 'pasien' }}
+                                class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
+                            </a>
+                            <div class="nama flex mt-2 ">
+                                <p
+                                    class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
+                                    Ariq Pratama
+
+                                </p>
+                                <img src="images/male.png" alt=""
+                                    class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
+                            </div>
+                            <div class="progress-bar">
+                                <div class="bar-aktivitas">
+                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment</h3>
+                                    <div
+                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                        3/4
+                                    </div>
+                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-penanganan mt-1 lg:mt-2">
+                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
+                                    <div
+                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                        3/4
+                                    </div>
+                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div
+                        class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex justify-evenly shadow-md m-2">
+                        <div
+                            class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
+                            <img src="/images/Logo-apps.png" alt=""
+                                class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
+                        </div>
+                        <div class="deskripsi flex-1 text-sm">
+                            <button
+                                class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
+                            </button>
+                            <div class="nama flex mt-2 relative z-10">
+                                <p
+                                    class=" text-[12px] relative h-[25px] lg:h-[35px] lg:text-xl lg:font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
+                                    Agung Dwi Sahputra
+
+                                </p>
+                                <img src="images/male.png" alt=""
+                                    class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
+                            </div>
+                            <div class="progress-bar">
+                                <div class="bar-aktivitas">
+                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment</h3>
+                                    <div
+                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                        3/4
+                                    </div>
+                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-penanganan mt-1 lg:mt-2">
+                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
+                                    <div
+                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                        3/4
+                                    </div>
+                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="tasks container lg:w-[80%] mx-auto p-10 mt-5 ">
+
+    <div class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[100px]">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
@@ -203,7 +207,8 @@
                 </button>
                 <button class="penanganan-button" onclick="toggleParent('penanganan')">
                     <h1>Penanganan</h1>
-                    <hr class="border-penanganan border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px]">
+                    <hr
+                        class="border-penanganan border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px] inactive">
                 </button>
             </div>
             <?php for ($i=1; $i < 5; $i++) { ?>
@@ -222,13 +227,14 @@
                             </div>
                         </div>
                     </div>
-                    <button class="toggle-button" onclick="toggleContent('aktivitas', <?= $i - 1 ?>)">Tampilkan Konten
+                    <button class="toggle-button text-sm lg:text-lg"
+                        onclick="toggleContent('aktivitas', <?= $i - 1 ?>)">Tampilkan Konten
                         <?= $i ?></button>
 
                 </div>
                 <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
                 <div id="content{{ $i }}" class="detail-task-aktivitas text-white">
-                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#15ADA7]">
+                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
                         <div class="flex justify-center gap-10 p-2 items-center">
                             <div class="text-sm lg:text-lg">
                                 1
@@ -238,7 +244,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#2296D1]">
+                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#2296D1]">
                         <div class="flex justify-center gap-10 p-2 items-center">
                             <div class="text-sm lg:text-lg">
                                 2
@@ -269,14 +275,15 @@
                             </div>
                         </div>
                     </div>
-                    <button class="toggle-button" onclick="toggleContent('penanganan', <?= $i - 1 ?>)">Tampilkan
+                    <button class="toggle-button text-sm lg:text-lg"
+                        onclick="toggleContent('penanganan', <?= $i - 1 ?>)">Tampilkan
                         Konten <?= $i ?></button>
 
 
                 </div>
-                <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
+                <hr class="mt-1 border-1 border-solid mx-auto w-[80%]">
                 <div id="content{{ $i }}" class="detail-task-penanganan text-white">
-                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#15ADA7]">
+                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
                         <div class="flex justify-center gap-10 p-2 items-center">
                             <div class="text-sm lg:text-lg">
                                 1
@@ -286,7 +293,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container p-1 w-[80%] mx-auto mt-2 h-[60px] rounded-sm bg-[#2296D1]">
+                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#2296D1]">
                         <div class="flex justify-center gap-10 p-2 items-center">
                             <div class="text-sm lg:text-lg">
                                 2
@@ -303,7 +310,7 @@
 
         </div>
     </div>
-    <div class="berita lg:w-[80%] mx-auto px-10 mt-3">
+    <div class="berita lg:w-[80%] mx-auto px-3 mt-3">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
@@ -358,35 +365,70 @@
         </ul>
     </nav>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     {{-- <script src="/path/to/flickity.pkgd.min.js"></script> --}}
     <script>
+        if ($(window).width() < 768) {
+            $('#bg-blub').css('background-image', 'url("/images/bg-mobile.png")');
+            $('#bg-blub').css('background-position', 'center -50px');
+        } else if ($(window).width() < 992) {
+            $('#bg-blub').css('background-image', 'url("/images/bg-tablet.png")');
+            $('#bg-blub').css('background-position', 'center -20px');
+        } else {
+            $('#bg-blub').css('background-image', 'url("/images/bg-desktop.png")');
+            $('#bg-blub').css('background-position', 'center -20px');
+        }
+
+
+        let logo = document.querySelector('.logo');
+        let dropdownProfile = document.querySelector('.dropdown-profile');
+
+        logo.addEventListener('click', function() {
+            dropdownProfile.classList.toggle('inactive');
+        });
+
+
+        // LOGOUT
+        function logout() {
+            window.location.href = '/logout';
+        }
+
         function toggleParent(type) {
             var aktivitasParents = document.querySelectorAll('.parent-aktivitas');
             var penangananParents = document.querySelectorAll('.parent-penanganan');
 
-            var borderAktivitas = document.querySelector('border-aktivitas');
-            var borderPenanganan = document.querySelector('border-penanganan');
+            let borderAktivitas = document.querySelector('.border-aktivitas');
+            let borderPenanganan = document.querySelector('.border-penanganan');
 
             if (type === 'aktivitas') {
+
                 aktivitasParents.forEach(function(parent) {
                     parent.classList.add('active');
                     parent.classList.remove('inactive');
+                    borderAktivitas.classList.add('active');
+                    borderAktivitas.classList.remove('inactive');
                 });
                 penangananParents.forEach(function(parent) {
                     parent.classList.remove('active');
                     parent.classList.add('inactive');
+                    borderPenanganan.classList.remove('active');
+                    borderPenanganan.classList.add('inactive');
                 });
             } else if (type === 'penanganan') {
                 penangananParents.forEach(function(parent) {
                     parent.classList.add('active');
                     parent.classList.remove('inactive');
+                    borderPenanganan.classList.add('active');
+                    borderPenanganan.classList.remove('inactive');
                 });
                 aktivitasParents.forEach(function(parent) {
                     parent.classList.remove('active');
                     parent.classList.add('inactive');
+                    borderAktivitas.classList.remove('active');
+                    borderAktivitas.classList.add('inactive');
                 });
             }
         }

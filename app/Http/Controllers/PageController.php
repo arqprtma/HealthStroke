@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Aktivitas;
 use App\Models\Kategori_aktivitas;
+use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
+use App\Models\Penanganan;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -166,6 +168,56 @@ class PageController extends Controller
             ];
             
             return view('auth.admin.aktivitas.edit_aktivitas', $data);
+        }
+
+        // Penanganan
+        public function admin_penanganan() {
+            $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->get();
+            
+            $data = [
+                'title' => 'Penanganan Admin | StrokeCare',
+                'penanganan' => $penanganan,
+            ];
+            
+            return view('auth.admin.penanganan.index', $data);
+        }
+        public function admin_tambah_penanganan() {
+            $kat_penanganan = Kategori_penanganan::select('id_kat_penanganan','nama')->get();
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'Tambah penanganan | StrokeCare',
+                'kat_penanganan' => $kat_penanganan,
+                'pemicu' => $pemicu,
+                'komplikasi' => $komplikasi,
+            ];
+            
+            return view('auth.admin.penanganan.penanganan', $data);
+        }
+        public function admin_tambah_kategori_penanganan() {
+            $data = [
+                'title' => 'Tambah Kategori Penanganan | StrokeCare',
+            ];
+            
+            return view('auth.admin.penanganan.kategori_penanganan', $data);
+        }
+        public function admin_edit_penanganan($id) {
+            $penanganan = Penanganan::where('id_penanganan', $id)->first();
+
+            $kat_penanganan = Kategori_penanganan::select('id_kat_penanganan','nama')->get();
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'Edit Penanganan | StrokeCare',
+                'penanganan' => $penanganan,
+                'kat_penanganan' => $kat_penanganan,
+                'pemicu' => $pemicu,
+                'komplikasi' => $komplikasi,
+            ];
+            
+            return view('auth.admin.penanganan.edit_penanganan', $data);
         }
     // End Admin
 }

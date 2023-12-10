@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Aktivitas;
 use App\Models\Kategori_aktivitas;
+use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
+use App\Models\Penanganan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -245,6 +247,100 @@ class AdminController extends Controller
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.aktivitas')->with('error', 'Data aktivitas tidak ditemukan');
+        }
+    }
+
+    // Penanganan
+    public function admin_store_penanganan(Request $request){
+        // Validasi request
+        $validation = Validator::make($request->all(),[
+            'deskripsi' => 'required',
+        ],[
+            'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
+        ]);
+
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+        $data = [
+            'id_pemicu' => $request->pemicu,
+            'id_komplikasi' => $request->komplikasi,
+            'id_kat_penanganan' => $request->penanganan,
+            'deskripsi' => $request->deskripsi,
+            'video' => $request->link_video
+        ];
+
+        Penanganan::create($data);
+
+        return redirect()->route('admin.penanganan')->with('success', 'Berhasil menambahkan penanganan');
+    }
+    public function admin_store_kategori_penanganan(Request $request){
+        $validation = Validator::make($request->all(),[
+            'penanganan' => 'required|string|max:100',
+        ],[
+            'penanganan.required' => 'Kolom penanganan wajib diisi.',
+        ]);
+        
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        Kategori_penanganan::create(['nama' => $request->penanganan]);
+
+        return redirect()->route('admin.penanganan.kategori.tambah')->with('success', 'Berhasil menambah data kategori penanganan');
+    }
+    public function destroy_penanganan($id){
+        $penanganan = Penanganan::with('kategori_penanganan')->where('id_penanganan', $id)->first();
+
+        if ($penanganan) {
+            try {
+                Penanganan::where('id_penanganan', $id)->delete();
+                
+                // Eksekusi jika penghapusan berhasil
+                return redirect()->route('admin.penanganan')->with('success', 'Berhasil menghapus penanganan '.$penanganan->kategori_penanganan->nama);
+            } catch (\Exception $e) {
+                // Eksekusi jika terjadi kesalahan
+                return redirect()->route('admin.penanganan')->with('error', 'Gagal menghapus penanganan '.$penanganan->kategori_penanganan->nama);
+            }
+        } else {
+            // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
+            return redirect()->route('admin.penanganan')->with('error', 'Data penanganan tidak ditemukan');
+        }
+    }
+    public function update_penanganan(Request $request, $id) {
+        $validation = Validator::make($request->all(),[
+            'deskripsi' => 'required',
+        ],[
+            'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
+        ]);
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        $penanganan = Penanganan::with('kategori_penanganan')->where('id_penanganan', $id)->first();
+
+        if ($penanganan) {
+            try {
+                $data = Penanganan::findOrFail($id);
+                $data->id_pemicu = $request->pemicu;
+                $data->id_komplikasi = $request->komplikasi;
+                $data->id_kat_penanganan = $request->penanganan;
+                $data->deskripsi = $request->deskripsi;
+                $data->video = $request->link_video;
+                $data->save();
+                
+                // Eksekusi jika penghapusan berhasil
+                return redirect()->route('admin.penanganan')->with('success', 'Berhasil merubah penanganan '.$penanganan->kategori_penanganan->nama);
+            } catch (\Exception $e) {
+                // Eksekusi jika terjadi kesalahan
+                return redirect()->route('admin.penanganan')->with('error', $e->getMessage());
+            }
+        } else {
+            // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
+            return redirect()->route('admin.penanganan')->with('error', 'Data penanganan tidak ditemukan');
         }
     }
 }

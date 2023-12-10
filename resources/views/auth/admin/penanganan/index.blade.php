@@ -21,17 +21,17 @@
             </a>
         </div>
         <div class="container lg:w-[80%] mx-auto pb-7 px-5">
-            <h2 class="text-center font-bold text-black lg:text-2xl text-lg mb-10">Aktivitas Treatment</h2>
-            <a href="{{ route('admin.aktivitas.tambah') }}"><button class="px-5 py-2 bg-[#8DD67A] hover:bg-[#85D470] text-white rounded ml-auto block" id="dropdown">Tambah</button></a>
+            <h2 class="text-center font-bold text-black lg:text-2xl text-lg mb-10">Penanganan Treatment</h2>
+            <a href="{{ route('admin.penanganan.tambah') }}"><button class="px-5 py-2 bg-[#8DD67A] hover:bg-[#85D470] text-white rounded ml-auto block" id="dropdown">Tambah</button></a>
         </div>
     </div>
     <div class="container lg:w-[80%] mx-auto pb-7 px-5 lg:-mt-5 mt-7">
         <div class="overflow-auto lg:max-h-[100vh] max-h-[50vh]">
-        <table class="table-fixed">
+        <table class="table-fixed w-full">
             <thead>
               <tr class="h-10">
                 <th class="border">No</th>
-                <th class="border">Aktivitas</th>
+                <th class="border">Penanganan</th>
                 <th class="border">Pemicu</th>
                 <th class="border">Komplikasi</th>
                 <th class="border">Deskripsi</th>
@@ -40,24 +40,30 @@
               </tr>
             </thead>
             <tbody>
-                @foreach ($aktivitas as $key => $data)
-                    <tr class="{{ ($key % 2 == 1) ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
-                        <td class="border text-center p-3">{{ $key+1 }}</td>
-                        <td class="border w-full min-w-[200px] p-3">{{ $data->kategori_aktivitas->nama }}</td>
-                        <td class="border w-full min-w-[200px] p-3">{{ $data->pemicu->nama }}</td>
-                        <td class="border w-full min-w-[200px] p-3">{{ $data->komplikasi->nama }}</td>
-                        <td class="border w-full min-w-[200px] p-3">{{ $data->deskripsi }}</td>
-                        <td class="border w-full min-w-[200px] p-3">{{ $data->video ? $data->video : '-' }}</td>
-                        <td class="border w-full min-w-[130px] p-3 text-center">
-                            <a href="{{ route('admin.aktivitas.edit', $data->id_aktivitas) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $data->id_aktivitas }}')" class="text-red-500 inline-block">Hapus</a>
-                        </td>
+                @if($penanganan->isNotEmpty())
+                    @foreach ($penanganan as $key => $data)
+                        <tr class="{{ ($key % 2 == 1) ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
+                            <td class="border text-center p-3">{{ $key+1 }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->kategori_penanganan->nama }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->pemicu->nama }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->komplikasi->nama }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->deskripsi }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->video ? $data->video : '-' }}</td>
+                            <td class="border w-full min-w-[130px] p-3 text-center">
+                                <a href="{{ route('admin.penanganan.edit', $data->id_penanganan) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $data->id_penanganan }}')" class="text-red-500 inline-block">Hapus</a>
+                            </td>
+                        </tr>
+                        <!-- Form untuk metode DELETE -->
+                        <form class="hidden" id="deleteForm{{ $data->id_penanganan }}" action="{{ route('admin.penanganan.delete', ['id' => $data->id_penanganan]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="7" class="text-center text-base font-medium border w-full min-w-[200px] p-3 text-red-500">Data masih kosong</td>
                     </tr>
-                    <!-- Form untuk metode DELETE -->
-                    <form class="hidden" id="deleteForm{{ $data->id_aktivitas }}" action="{{ route('admin.aktivitas.delete', ['id' => $data->id_aktivitas]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                @endforeach
+                @endif
             </tbody>
         </table>  
         </div>

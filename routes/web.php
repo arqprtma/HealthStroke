@@ -57,6 +57,15 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
         Route::put('/aktivitas/edit/{id?}', [AdminController::class, 'update_aktivitas'])->name('aktivitas.update');
         Route::post('/aktivitas/store', [AdminController::class, 'admin_store_aktivitas'])->name('aktivitas.store');
         Route::delete('/aktivitas/{id?}', [AdminController::class, 'destroy_aktivitas'])->name('aktivitas.delete');
+        
+        Route::get('/penanganan', [PageController::class, 'admin_penanganan'])->name('penanganan');
+        Route::get('/penanganan/tambah', [PageController::class, 'admin_tambah_penanganan'])->name('penanganan.tambah');
+        Route::get('/penanganan/kategori/tambah', [PageController::class, 'admin_tambah_kategori_penanganan'])->name('penanganan.kategori.tambah');
+        Route::post('/penanganan/kategori/store', [AdminController::class, 'admin_store_kategori_penanganan'])->name('penanganan.kategori.store');
+        Route::get('/penanganan/edit/{id?}', [PageController::class, 'admin_edit_penanganan'])->name('penanganan.edit');
+        Route::put('/penanganan/edit/{id?}', [AdminController::class, 'update_penanganan'])->name('penanganan.update');
+        Route::post('/penanganan/store', [AdminController::class, 'admin_store_penanganan'])->name('penanganan.store');
+        Route::delete('/penanganan/{id?}', [AdminController::class, 'destroy_penanganan'])->name('penanganan.delete');
     });
 });
 

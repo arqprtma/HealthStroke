@@ -23,7 +23,7 @@ return new class extends Migration
             // Menambahkan foreign key constraint
             $table->foreign('id_kat_aktivitas')->references('id_kat_aktivitas')->on('kategori_aktivitas');
             $table->text('deskripsi');
-            $table->text('video');
+            $table->text('video')->nullable();
             $table->timestamps();
         });
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aktivitas;
+use App\Models\Kategori_aktivitas;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use Illuminate\Http\Request;
@@ -111,11 +113,59 @@ class PageController extends Controller
             $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
 
             $data = [
-                'title' => 'komplikasi Admin | StrokeCare',
+                'title' => 'Komplikasi Admin | StrokeCare',
                 'komplikasi' => $komplikasi,
             ];
             
             return view('auth.admin.komplikasi.index', $data);
+        }
+        public function admin_aktivitas() {
+            $aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->get();
+            
+            $data = [
+                'title' => 'Aktivitas Admin | StrokeCare',
+                'aktivitas' => $aktivitas,
+            ];
+            
+            return view('auth.admin.aktivitas.index', $data);
+        }
+        public function admin_tambah_aktivitas() {
+            $kat_aktivitas = Kategori_aktivitas::select('id_kat_aktivitas','nama')->get();
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'Tambah Aktivitas | StrokeCare',
+                'kat_aktivitas' => $kat_aktivitas,
+                'pemicu' => $pemicu,
+                'komplikasi' => $komplikasi,
+            ];
+            
+            return view('auth.admin.aktivitas.aktivitas', $data);
+        }
+        public function admin_tambah_kategori_aktivitas() {
+            $data = [
+                'title' => 'Tambah Kategori Aktivitas | StrokeCare',
+            ];
+            
+            return view('auth.admin.aktivitas.kategori_aktivitas', $data);
+        }
+        public function admin_edit_aktivitas($id) {
+            $aktivitas = Aktivitas::where('id_aktivitas', $id)->first();
+
+            $kat_aktivitas = Kategori_aktivitas::select('id_kat_aktivitas','nama')->get();
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'Edit Aktivitas | StrokeCare',
+                'aktivitas' => $aktivitas,
+                'kat_aktivitas' => $kat_aktivitas,
+                'pemicu' => $pemicu,
+                'komplikasi' => $komplikasi,
+            ];
+            
+            return view('auth.admin.aktivitas.edit_aktivitas', $data);
         }
     // End Admin
 }

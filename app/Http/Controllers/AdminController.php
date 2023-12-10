@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aktivitas;
+use App\Models\Kategori_aktivitas;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -22,7 +26,7 @@ class AdminController extends Controller
         }
         
     }
-    function destroy_pemicu($id){
+    public function destroy_pemicu($id){
         $pemicu = Pemicu::select('id_pemicu','nama')->where('id_pemicu', $id)->first();
 
         if ($pemicu) {
@@ -40,7 +44,7 @@ class AdminController extends Controller
             return redirect()->route('admin.pemicu')->with('error', 'Data pemicu tidak ditemukan');
         }
     }
-    function update_pemicu(Request $request, $id) {
+    public function update_pemicu(Request $request, $id) {
         
         $pemicu = Pemicu::select('id_pemicu','nama')->where('id_pemicu', $id)->first();
 
@@ -81,7 +85,7 @@ class AdminController extends Controller
         }
         
     }
-    function destroy_komplikasi($id){
+    public function destroy_komplikasi($id){
         $komplikasi = komplikasi::select('id_komplikasi','nama')->where('id_komplikasi', $id)->first();
 
         if ($komplikasi) {
@@ -99,7 +103,7 @@ class AdminController extends Controller
             return redirect()->route('admin.komplikasi')->with('error', 'Data komplikasi tidak ditemukan');
         }
     }
-    function update_komplikasi(Request $request, $id) {
+    public function update_komplikasi(Request $request, $id) {
         
         $komplikasi = Komplikasi::select('id_komplikasi','nama')->where('id_komplikasi', $id)->first();
 
@@ -119,11 +123,128 @@ class AdminController extends Controller
                 return redirect()->route('admin.komplikasi')->with('success', 'Berhasil merubah komplikasi '.$komplikasi->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.komplikasi')->with('error', $e->getMessage());
+                return redirect()->route('admin.komplikasi')->with('error', 'Gagal merubah komplikasi '.$komplikasi->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.komplikasi')->with('error', 'Data komplikasi tidak ditemukan');
+        }
+    }
+    public function admin_store_aktivitas(Request $request){
+        // Validasi request
+        $validation = Validator::make($request->all(),[
+            'deskripsi' => 'required',
+        ],[
+            'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
+        ]);
+
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+        $data = [
+            'id_pemicu' => $request->pemicu,
+            'id_komplikasi' => $request->komplikasi,
+            'id_kat_aktivitas' => $request->aktivitas,
+            'deskripsi' => $request->deskripsi,
+            'video' => $request->link_video
+        ];
+
+        Aktivitas::create($data);
+
+        return redirect()->route('admin.aktivitas')->with('success', 'Berhasil menambahkan aktivitas');
+        // dd($request->all());
+
+        // dd($request->all());
+
+        // // Menyimpan deskripsi ke database
+        // $deskripsi = $request->deskripsi;
+
+        // // Proses input gambar dari TinyMCE
+        // $imageDataUrl = $request->input('image_data_url');
+        // $coba = $request->input('coba');
+        // preg_match('/<img src="([^"]+)"/', $imageDataUrl, $matches);
+        // $imageUrl = $matches[1] ?? null;
+
+        // // Mendapatkan nama file dari URL gambar
+        // $imagePath = parse_url($imageUrl, PHP_URL_PATH);
+        // $imageName = time() . '_' . pathinfo($imagePath, PATHINFO_BASENAME);
+
+        // // Menyimpan file gambar ke direktori storage
+        // // Storage::put('public/images/' . $imageName, file_get_contents($imageUrl));
+
+        // // // Mendapatkan URL untuk file gambar yang disimpan
+        // // $imageUrl = Storage::url('public/images/' . $imageName);
+
+        // // $imageFile = $this->saveImageFromDataUrl($imageDataUrl);
+        // dd($deskripsi, $imageName, $imageUrl, $coba);
+    }
+    public function admin_store_kategori_aktivitas(Request $request){
+        $validation = Validator::make($request->all(),[
+            'aktivitas' => 'required|string|max:100',
+        ],[
+            'aktivitas.required' => 'Kolom aktivitas wajib diisi.',
+        ]);
+        
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        Kategori_aktivitas::create(['nama' => $request->aktivitas]);
+
+        return redirect()->route('admin.aktivitas.kategori.tambah')->with('success', 'Berhasil menambah data kategori aktivitas');
+    }
+    public function destroy_aktivitas($id){
+        $aktivitas = Aktivitas::with('kategori_aktivitas')->where('id_aktivitas', $id)->first();
+
+        if ($aktivitas) {
+            try {
+                Aktivitas::where('id_aktivitas', $id)->delete();
+                
+                // Eksekusi jika penghapusan berhasil
+                return redirect()->route('admin.aktivitas')->with('success', 'Berhasil menghapus aktivitas '.$aktivitas->kategori_aktivitas->nama);
+            } catch (\Exception $e) {
+                // Eksekusi jika terjadi kesalahan
+                return redirect()->route('admin.aktivitas')->with('error', 'Gagal menghapus aktivitas '.$aktivitas->kategori_aktivitas->nama);
+            }
+        } else {
+            // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
+            return redirect()->route('admin.aktivitas')->with('error', 'Data aktivitas tidak ditemukan');
+        }
+    }
+    public function update_aktivitas(Request $request, $id) {
+        $validation = Validator::make($request->all(),[
+            'deskripsi' => 'required',
+        ],[
+            'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
+        ]);
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        $aktivitas = Aktivitas::with('kategori_aktivitas')->where('id_aktivitas', $id)->first();
+
+        if ($aktivitas) {
+            try {
+                $data = Aktivitas::findOrFail($id);
+                $data->id_pemicu = $request->pemicu;
+                $data->id_komplikasi = $request->komplikasi;
+                $data->id_kat_aktivitas = $request->aktivitas;
+                $data->deskripsi = $request->deskripsi;
+                $data->video = $request->link_video;
+                $data->save();
+                
+                // Eksekusi jika penghapusan berhasil
+                return redirect()->route('admin.aktivitas')->with('success', 'Berhasil merubah aktivitas '.$aktivitas->kategori_aktivitas->nama);
+            } catch (\Exception $e) {
+                // Eksekusi jika terjadi kesalahan
+                return redirect()->route('admin.aktivitas')->with('error', $e->getMessage());
+            }
+        } else {
+            // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
+            return redirect()->route('admin.aktivitas')->with('error', 'Data aktivitas tidak ditemukan');
         }
     }
 }

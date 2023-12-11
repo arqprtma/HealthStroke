@@ -98,7 +98,7 @@ class PageController extends Controller
             $data = [
                 'title' => 'Dashboard Admin | StrokeCare',
             ];
-            
+
             return view('auth.admin.index', $data);
         }
         public function admin_pemicu() {
@@ -108,7 +108,7 @@ class PageController extends Controller
                 'title' => 'Pemicu Admin | StrokeCare',
                 'pemicu' => $pemicu,
             ];
-            
+
             return view('auth.admin.pemicu.index', $data);
         }
         public function admin_komplikasi() {
@@ -118,17 +118,17 @@ class PageController extends Controller
                 'title' => 'Komplikasi Admin | StrokeCare',
                 'komplikasi' => $komplikasi,
             ];
-            
+
             return view('auth.admin.komplikasi.index', $data);
         }
         public function admin_aktivitas() {
             $aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->get();
-            
+
             $data = [
                 'title' => 'Aktivitas Admin | StrokeCare',
                 'aktivitas' => $aktivitas,
             ];
-            
+
             return view('auth.admin.aktivitas.index', $data);
         }
         public function admin_tambah_aktivitas() {
@@ -142,14 +142,14 @@ class PageController extends Controller
                 'pemicu' => $pemicu,
                 'komplikasi' => $komplikasi,
             ];
-            
+
             return view('auth.admin.aktivitas.aktivitas', $data);
         }
         public function admin_tambah_kategori_aktivitas() {
             $data = [
                 'title' => 'Tambah Kategori Aktivitas | StrokeCare',
             ];
-            
+
             return view('auth.admin.aktivitas.kategori_aktivitas', $data);
         }
         public function admin_edit_aktivitas($id) {
@@ -166,19 +166,19 @@ class PageController extends Controller
                 'pemicu' => $pemicu,
                 'komplikasi' => $komplikasi,
             ];
-            
+
             return view('auth.admin.aktivitas.edit_aktivitas', $data);
         }
 
         // Penanganan
         public function admin_penanganan() {
             $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->get();
-            
+
             $data = [
                 'title' => 'Penanganan Admin | StrokeCare',
                 'penanganan' => $penanganan,
             ];
-            
+
             return view('auth.admin.penanganan.index', $data);
         }
         public function admin_tambah_penanganan() {
@@ -192,14 +192,14 @@ class PageController extends Controller
                 'pemicu' => $pemicu,
                 'komplikasi' => $komplikasi,
             ];
-            
+
             return view('auth.admin.penanganan.penanganan', $data);
         }
         public function admin_tambah_kategori_penanganan() {
             $data = [
                 'title' => 'Tambah Kategori Penanganan | StrokeCare',
             ];
-            
+
             return view('auth.admin.penanganan.kategori_penanganan', $data);
         }
         public function admin_edit_penanganan($id) {
@@ -216,7 +216,7 @@ class PageController extends Controller
                 'pemicu' => $pemicu,
                 'komplikasi' => $komplikasi,
             ];
-            
+
             return view('auth.admin.penanganan.edit_penanganan', $data);
         }
     // End Admin

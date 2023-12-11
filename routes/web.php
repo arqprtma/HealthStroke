@@ -30,7 +30,8 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/pasien', [PageController::class, 'pasien'])->name('pasien');
-    Route::get('/setting-profile', [PageController::class, 'profile'])->name('setting-profile');
+    Route::get('/profile', [PageController::class, 'profile'])->name('profile');
+    Route::any('/profile/{id}', [UserController::class, 'profile'])->name('setting-profile');
     Route::get('/detail-aktivitas', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel', [PageController::class, 'show_artikel'])->name('detail-artikel');
@@ -57,7 +58,7 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
         Route::put('/aktivitas/edit/{id?}', [AdminController::class, 'update_aktivitas'])->name('aktivitas.update');
         Route::post('/aktivitas/store', [AdminController::class, 'admin_store_aktivitas'])->name('aktivitas.store');
         Route::delete('/aktivitas/{id?}', [AdminController::class, 'destroy_aktivitas'])->name('aktivitas.delete');
-        
+
         Route::get('/penanganan', [PageController::class, 'admin_penanganan'])->name('penanganan');
         Route::get('/penanganan/tambah', [PageController::class, 'admin_tambah_penanganan'])->name('penanganan.tambah');
         Route::get('/penanganan/kategori/tambah', [PageController::class, 'admin_tambah_kategori_penanganan'])->name('penanganan.kategori.tambah');

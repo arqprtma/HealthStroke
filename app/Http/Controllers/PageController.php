@@ -6,8 +6,10 @@ use App\Models\Aktivitas;
 use App\Models\Kategori_aktivitas;
 use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
+use App\Models\Pasien;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
+use Illuminate\Support\Facades\Auth; // Make sure to include this
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -43,18 +45,20 @@ class PageController extends Controller
 
     // Auth
     public function dashboard(Request $request) {
+        // Get the current user's ID
+        $userId = Auth::id();
+
+        $pasien = Pasien::with('user')
+        ->where('id_user', $userId) // Apply the condition
+        ->get();
+
+
         $data = [
             'title' => 'Dashboard | StrokeCare',
+            'pasien' => $pasien
         ];
         // dd(auth()->user());
         return view('auth.dashboard', $data);
-    }
-
-    public function pasien(Request $request) {
-        $data = [
-            'title' => 'Pasien | StrokeCare',
-        ];
-        return view('auth.user.pasien.profile-pasien', $data);
     }
 
     public function profile(Request $request) {
@@ -84,6 +88,17 @@ class PageController extends Controller
         ];
         return view('auth.user.artikel.detail-artikel', $data);
     }
+
+    // Pasien
+
+    public function pasien(Request $request) {
+        $data = [
+            'title' => 'Pasien | StrokeCare',
+        ];
+        return view('auth.user.pasien.profile-pasien', $data);
+    }
+
+
 
     // Admin
         public function login_admin(Request $request) {

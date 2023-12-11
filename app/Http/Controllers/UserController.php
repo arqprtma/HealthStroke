@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Pasien;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -134,7 +136,30 @@ class UserController extends Controller
 
         return redirect()->route('profile')->with('success', 'Berhasil merubah profile');
 
-        // dd($data);
-        // dd($request->all());
+
+    }
+
+    // Pasien
+
+    public function pasien_store(Request $request) {
+
+
+        $data_request = [
+            'nama' => $request->nama,
+            'id_user' => $request->id_user,
+            'gender' => $request->gender,
+            'umur' => $request->umur,
+            'pemicu' => $request->input('pemicu',[]),
+            'komplikasi' => $request->input('komplikasi',[]),
+
+
+        ];
+
+        Pasien::create($data_request);
+        return redirect()->route('pasien')->with('success', 'Berhasil tambah data pasien');
+    }
+
+    public function pasien_update(Request $request, $id){
+
     }
 }

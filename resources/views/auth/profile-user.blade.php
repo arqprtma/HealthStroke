@@ -56,7 +56,7 @@
                 <div class="flex justify-between gap-1">
                     <div class="mb-4 flex-1">
                         <div>
-                            <label for="aktivitas" class="text-gray-700 text-sm font-bold">Jenis Kelamin</label>
+                            <label for="gender" class="text-gray-700 text-sm font-bold">Jenis Kelamin</label>
                             <div class="relative inline-block w-full">
                                 <select id="gender" name="gender"
                                     class="block appearance-none w-full bg-white  hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm">

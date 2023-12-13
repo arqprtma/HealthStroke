@@ -52,7 +52,6 @@ class PageController extends Controller
         ->where('id_user', $userId) // Apply the condition
         ->get();
 
-
         $data = [
             'title' => 'Dashboard | StrokeCare',
             'pasien' => $pasien
@@ -92,22 +91,27 @@ class PageController extends Controller
     // Pasien
 
     public function pasien(Request $request) {
+        $pemicu = Pemicu::all();
+        $komplikasi = Komplikasi::all();
         $data = [
             'title' => 'Pasien | StrokeCare',
+            'pemicu' => $pemicu,
+            'komplikasi' => $komplikasi,
         ];
         return view('auth.user.pasien.profile-pasien', $data);
     }
 
     public function pasien_id(Request $request) {
         $userId = $request->id;
-
-
         $pasien = Pasien::where('id', $userId)->get();
-
+        $pemicu = Pemicu::all();
+        $komplikasi = Komplikasi::all();
         // dd($pasien);
         $data = [
             'title' => 'Pasien | StrokeCare',
             'pasien' => $pasien,
+            'pemicu' => $pemicu,
+            'komplikasi' => $komplikasi,
         ];
         return view('auth.user.pasien.profile-pasien', $data);
     }

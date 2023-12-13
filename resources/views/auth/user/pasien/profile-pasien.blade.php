@@ -102,36 +102,23 @@
                         <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">Pemicu</h3>
                         <ul
                             class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="hipertensi-checkbox" type="checkbox" name="pemicu[1]" value="Hipertensi"
-                                        {{ in_array('Hipertensi', $item->pemicu) ? 'checked' : '' }}
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="hipertensi-checkbox"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hipertensi</label>
-                                </div>
-                            </li>
-                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="diabetes-checkbox" type="checkbox" name="pemicu[2]"
-                                        {{ in_array('Diabetes Melitus', $item->pemicu) ? 'checked' : '' }}
-                                        value="Diabetes Melitus"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="diabetes-checkbox"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Diabetes
-                                        Melitus</label>
-                                </div>
-                            </li>
-                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="cardio-checkbox" type="checkbox" name="pemicu[3]" value="Cardio Vascular"
-                                        {{ in_array('Cardio Vascular', $item->pemicu) ? 'checked' : '' }}
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="cardio-checkbox"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cardio
-                                        Vascular</label>
-                                </div>
-                            </li>
+                            @foreach ($pemicu as $p)
+                                @php
+                                    $checked = in_array($p->nama, $item->komplikasi);
+                                @endphp
+                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                    <div class="flex items-center ps-3">
+                                        <input id="{{ $p->id }}-{{ $p->nama }}" type="checkbox"
+                                            name="pemicu[]" value="{{ $p->id }}"
+                                            {{ $checked ? 'checked' : '' }}
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                        <label for="{{ $p->id }}-{{ $p->nama }}"
+                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $p->nama }}</label>
+                                    </div>
+                                </li>
+                            @endforeach
+
+
                         </ul>
                         @error('pemicu')
                             <span class="text-red-700 text-xs">{{ $message }}</span>
@@ -262,92 +249,39 @@
                     </div>
 
                     <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">Pemicu</h3>
+
                     <ul
                         class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="hipertensi-checkbox" type="checkbox" name="pemicu[1]" value="Hipertensi"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="hipertensi-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hipertensi</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="diabetes-checkbox" type="checkbox" name="pemicu[2]"
-                                    value="Diabetes Melitus"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="diabetes-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Diabetes
-                                    Melitus</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="cardio-checkbox" type="checkbox" name="pemicu[3]" value="Cardio Vascular"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="cardio-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cardio
-                                    Vascular</label>
-                            </div>
-                        </li>
+                        @foreach ($pemicu as $p)
+                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                <div class="flex items-center ps-3">
+                                    <input id="{{ $p->id_pemicu }}-{{ $p->nama }}" type="checkbox"
+                                        name="pemicu[]" value="{{ $p->id_pemicu }}"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    <label for="{{ $p->id_pemicu }}-{{ $p->nama }}"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $p->nama }}</label>
+                                </div>
+                            </li>
+                        @endforeach
+
                     </ul>
 
                     <h3 class="mb-4 font-semibold text-gray-900 dark:text-white mt-5">Komplikasi</h3>
                     <ul
                         class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="kelumpuhan-checkbox" type="checkbox" name="komplikasi[1]"
-                                    value="Kelumpuhan/Kelemahan"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="kelumpuhan-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kelumpuhan
-                                    /
-                                    Kelemahan</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="kesulitanmenelean-checkbox" type="checkbox" name="komplikasi[2]"
-                                    value="Kesulitan Menelan"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="kesulitanmenelean-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kesulitan
-                                    Menelan</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="kesulianBAB-checkbox" type="checkbox" name="komplikasi[3]"
-                                    value="Kesulitan BAB"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="kesulianBAB-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kesulitan
-                                    BAB</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="penglihatanKabur-checkbox" type="checkbox" name="komplikasi[4]"
-                                    value="Penglihatan Kabur"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="penglihatanKabur-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Penglihatan
-                                    Kabur</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="kesulitanBerbicara-checkbox" type="checkbox" name="komplikasi[5]"
-                                    value="Kesulitan Berbicara"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="kesulitanBerbicara-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Kesulitan
-                                    Berbicara
-                                </label>
-                            </div>
-                        </li>
+                        @foreach ($komplikasi as $k)
+                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                <div class="flex items-center ps-3">
+                                    <input id="{{ $k->id_komplikasi }}-{{ $k->nama }}" type="checkbox"
+                                        name="komplikasi[1]" value="{{ $k->id_komplikasi }}"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    <label for="{{ $k->id_komplikasi }}-{{ $k->nama }}"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $k->nama }}</label>
+                                </div>
+                            </li>
+                        @endforeach
+
+
                     </ul>
                     <div class="text-center mt-7 pb-10">
                         <button type="submit"

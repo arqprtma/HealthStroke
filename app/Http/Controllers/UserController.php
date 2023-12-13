@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Pasien;
+use App\Models\Aktivitas;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -142,6 +143,7 @@ class UserController extends Controller
     // Pasien
 
     public function pasien_store(Request $request) {
+        // dd($request->all());
         $validation = Validator::make($request->all(), [
             'nama' => ['required', 'string', 'max:100', 'regex:/^[^\d]+$/'],
             'gender' => 'required',
@@ -172,6 +174,15 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validation)->withInput()->with('error', 'Gagal tambah data pasien');
         }
 
+        $aktivitas = Aktivitas::where('id_komplikasi', $request->input('komplikasi'))->where('id_pemicu', $request->input('pemicu'))->get();
+
+        dd($aktivitas);
+
+        $data_treatment = [
+            'id_aktivitas' => $request->id_aktivitas,
+            'id_penanganan' => $request->id_penanganan,
+        ];
+
         $data_request = [
             'nama' => $request->nama,
             'id_user' => $request->id_user,
@@ -180,6 +191,7 @@ class UserController extends Controller
             'pemicu' => $request->input('pemicu',[]),
             'komplikasi' => $request->input('komplikasi',[]),
         ];
+
 
         Pasien::create($data_request);
         return redirect()->route('pasien')->with('success', 'Berhasil tambah data pasien');

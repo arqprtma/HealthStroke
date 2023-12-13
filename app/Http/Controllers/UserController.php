@@ -142,7 +142,35 @@ class UserController extends Controller
     // Pasien
 
     public function pasien_store(Request $request) {
+        $validation = Validator::make($request->all(), [
+            'nama' => ['required', 'string', 'max:100', 'regex:/^[^\d]+$/'],
+            'gender' => 'required',
+            'umur' => 'required|numeric|max:100|min:1',
+            'pemicu' => 'required|array|min:1|max:2',
+            'pemicu.*' => 'required|string',
+            'komplikasi' => 'required|array|min:1',
+            'komplikasi.*' => 'required|string',
+        ], [
+            'nama.required' => 'Kolom nama wajib diisi.',
+            'nama.string' => 'Kolom nama harus berupa teks.',
+            'nama.max' => 'Kolom nama tidak boleh lebih dari 100 karakter.',
+            'nama.regex' => 'Kolom nama tidak boleh mengandung angka.',
+            'gender.required' => 'Kolom gender wajib diisi.',
+            'umur.required' => 'Kolom umur wajib diisi.',
+            'umur.numeric' => 'Kolom umur harus berupa angka.',
+            'umur.max' => 'Umur tidak boleh lebih dari 100 tahun.',
+            'umur.min' => 'Umur tidak boleh kurang dari 1 tahun.',
+            'pemicu.required' => 'Minimal 1 checkbox pemicu harus dicentang.',
+            'pemicu.*.required' => 'Checkbox pemicu harus dicentang.',
+            'pemicu.max' => 'Jumlah checkbox pemicu tidak boleh lebih dari 2.',
+            'komplikasi.required' => 'Minimal 1 checkbox komplikasi harus dicentang.',
+            'komplikasi.*.required' => 'Checkbox komplikasi harus dicentang.',
+        ]);
 
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput()->with('error', 'Gagal tambah data pasien');
+        }
 
         $data_request = [
             'nama' => $request->nama,
@@ -151,8 +179,6 @@ class UserController extends Controller
             'umur' => $request->umur,
             'pemicu' => $request->input('pemicu',[]),
             'komplikasi' => $request->input('komplikasi',[]),
-
-
         ];
 
         Pasien::create($data_request);
@@ -160,6 +186,47 @@ class UserController extends Controller
     }
 
     public function pasien_update(Request $request, $id){
+        $validation = Validator::make($request->all(), [
+            'nama' => ['required', 'string', 'max:100', 'regex:/^[^\d]+$/'],
+            'gender' => 'required',
+            'umur' => 'required|numeric|max:100|min:1',
+            'pemicu' => 'required|array|min:1|max:2',
+            'pemicu.*' => 'required|string',
+            'komplikasi' => 'required|array|min:1',
+            'komplikasi.*' => 'required|string',
+        ], [
+            'nama.required' => 'Kolom nama wajib diisi.',
+            'nama.string' => 'Kolom nama harus berupa teks.',
+            'nama.max' => 'Kolom nama tidak boleh lebih dari 100 karakter.',
+            'nama.regex' => 'Kolom nama tidak boleh mengandung angka.',
+            'gender.required' => 'Kolom gender wajib diisi.',
+            'umur.required' => 'Kolom umur wajib diisi.',
+            'umur.numeric' => 'Kolom umur harus berupa angka.',
+            'umur.max' => 'Umur tidak boleh lebih dari 100 tahun.',
+            'umur.min' => 'Umur tidak boleh kurang dari 1 tahun.',
+            'pemicu.required' => 'Minimal 1 checkbox pemicu harus dicentang.',
+            'pemicu.*.required' => 'Checkbox pemicu harus dicentang.',
+            'pemicu.max' => 'Jumlah checkbox pemicu tidak boleh lebih dari 2.',
+            'komplikasi.required' => 'Minimal 1 checkbox komplikasi harus dicentang.',
+            'komplikasi.*.required' => 'Checkbox komplikasi harus dicentang.',
+        ]);
+
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput()->with('error', 'Gagal merubah data pasien');
+        }
+
+        $data = Pasien::findOrFail($id);
+        $data->nama = $request->nama;
+        $data->id_user = $request->id_user;
+        $data->gender = $request->gender;
+        $data->umur = $request->umur;
+        $data->pemicu = $request->input('pemicu', []);
+        $data->komplikasi = $request->input('komplikasi',[]);
+
+        $data->save();
+
+        return redirect()->back()->with('success', 'Berhasil merubah data pasien');
 
     }
 }

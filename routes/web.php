@@ -32,6 +32,7 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
     Route::get('/pasien', [PageController::class, 'pasien'])->name('pasien');
     Route::get('/pasien/{id}', [PageController::class, 'pasien_id'])->name('pasien.update');
     Route::post('/pasien', [UserController::class, 'pasien_store'])->name('pasien.post');
+    Route::post('/setting-pasien/{id}', [UserController::class, 'pasien_update'])->name('setting-pasien');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
     Route::any('/profile/{id}', [UserController::class, 'profile'])->name('setting-profile');
     Route::get('/detail-aktivitas', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');

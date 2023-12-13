@@ -98,6 +98,20 @@ class PageController extends Controller
         return view('auth.user.pasien.profile-pasien', $data);
     }
 
+    public function pasien_id(Request $request) {
+        $userId = $request->id;
+
+
+        $pasien = Pasien::where('id', $userId)->get();
+
+        // dd($pasien);
+        $data = [
+            'title' => 'Pasien | StrokeCare',
+            'pasien' => $pasien,
+        ];
+        return view('auth.user.pasien.profile-pasien', $data);
+    }
+
 
 
     // Admin

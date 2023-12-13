@@ -49,7 +49,7 @@
                                 <td class="border w-full min-w-[200px] p-3">{{ $data->kategori_aktivitas->nama }}</td>
                                 <td class="border w-full min-w-[200px] p-3">{{ $data->pemicu->nama }}</td>
                                 <td class="border w-full min-w-[200px] p-3">{{ $data->komplikasi->nama }}</td>
-                                <td class="border w-full min-w-[200px] p-3">{{ $data->deskripsi }}</td>
+                                <td class="border w-full min-w-[200px] p-3">{{ strip_tags($data->deskripsi) }}</td>
                                 <td class="border w-full min-w-[200px] p-3">{{ $data->video ? $data->video : '-' }}
                                 </td>
                                 <td class="border w-full min-w-[130px] p-3 text-center">

@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($pemicu->isNotEmpty())
+                    @if (count($pemicu) > 0)
                         @foreach ($pemicu as $key => $data)
                             <tr class="{{ $key % 2 == 1 ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
                                 <td class="border p-3">{{ $key + 1 }}</td>
@@ -74,12 +74,13 @@
                             </form>
                         @endforeach
                     @else
+                        <tr>
+                            <td colspan="3"
+                                class="text-center text-base font-medium border w-full min-w-[200px] p-3 text-red-500">
+                                Data masih kosong</td>
+                        </tr>
                     @endif
-                    <tr>
-                        <td colspan="3"
-                            class="text-center text-base font-medium border w-full min-w-[200px] p-3 text-red-500">
-                            Data masih kosong</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>

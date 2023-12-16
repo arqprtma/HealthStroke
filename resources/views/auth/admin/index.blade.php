@@ -62,7 +62,7 @@
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Pemicu.png') }}" alt="Pemicu"> Komplikasi
                     </button>
                 </a>
-                <a href="#" class="w-full">
+                <a href="{{ route('admin.artikel') }}" class="w-full">
                     <button class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Blog.png') }}" alt="Blog"> Artikel
                     </button>

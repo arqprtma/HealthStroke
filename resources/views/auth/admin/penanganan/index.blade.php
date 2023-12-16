@@ -27,16 +27,16 @@
     </div>
     <div class="container lg:w-[80%] mx-auto pb-7 px-5 lg:-mt-5 mt-7">
         <div class="overflow-auto lg:max-h-[100vh] max-h-[50vh]">
-        <table class="table-fixed w-full">
+        <table class="w-full">
             <thead>
               <tr class="h-10">
-                <th class="border">No</th>
-                <th class="border">Penanganan</th>
-                <th class="border">Pemicu</th>
-                <th class="border">Komplikasi</th>
-                <th class="border">Deskripsi</th>
-                <th class="border">Link Video</th>
-                <th class="border">Aksi</th>
+                <th class="border w-auto p-3">No</th>
+                <th class="border w-auto p-3">Penanganan</th>
+                <th class="border w-auto p-3">Pemicu</th>
+                <th class="border w-auto p-3">Komplikasi</th>
+                <th class="border w-full p-3">Deskripsi</th>
+                <th class="border w-auto p-3">Link Video</th>
+                <th class="border w-auto p-3">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -44,12 +44,12 @@
                     @foreach ($penanganan as $key => $data)
                         <tr class="{{ ($key % 2 == 1) ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
                             <td class="border text-center p-3">{{ $key+1 }}</td>
-                            <td class="border w-full min-w-[200px] p-3">{{ $data->kategori_penanganan->nama }}</td>
-                            <td class="border w-full min-w-[200px] p-3">{{ $data->pemicu->nama }}</td>
-                            <td class="border w-full min-w-[200px] p-3">{{ $data->komplikasi->nama }}</td>
-                            <td class="border w-full min-w-[200px] p-3">{{ $data->deskripsi }}</td>
-                            <td class="border w-full min-w-[200px] p-3">{{ $data->video ? $data->video : '-' }}</td>
-                            <td class="border w-full min-w-[130px] p-3 text-center">
+                            <td class="border w-auto p-3">{{ $data->kategori_penanganan->nama }}</td>
+                            <td class="border w-auto p-3">{{ $data->pemicu->nama }}</td>
+                            <td class="border w-auto p-3">{{ $data->komplikasi->nama }}</td>
+                            <td class="border w-full p-3">{{ $data->deskripsi }}</td>
+                            <td class="border w-auto p-3">{{ $data->video ? $data->video : '-' }}</td>
+                            <td class="border w-auto min-w-[130px] p-3 text-center">
                                 <a href="{{ route('admin.penanganan.edit', $data->id_penanganan) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $data->id_penanganan }}')" class="text-red-500 inline-block">Hapus</a>
                             </td>
                         </tr>

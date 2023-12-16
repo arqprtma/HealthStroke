@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktivitas;
+use App\Models\Artikel;
 use App\Models\Kategori_aktivitas;
+use App\Models\Kategori_artikel;
 use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -208,7 +212,7 @@ class PageController extends Controller
             $kat_penanganan = Kategori_penanganan::select('id_kat_penanganan','nama')->get();
             $pemicu = Pemicu::select('id_pemicu','nama')->get();
             $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
-
+            
             $data = [
                 'title' => 'Edit Penanganan | StrokeCare',
                 'penanganan' => $penanganan,
@@ -219,5 +223,38 @@ class PageController extends Controller
             
             return view('auth.admin.penanganan.edit_penanganan', $data);
         }
-    // End Admin
-}
+        public function admin_artikel() {
+            $artikel = Artikel::with('kategori_artikel')->get();
+            $data = [
+                'title' => 'Artikel Admin | StrokeCare',
+                'artikel' => $artikel,
+            ];
+            
+            return view('auth.admin.artikel.index', $data);
+        }
+        public function admin_tambah_artikel() {
+            $kat_artikel = Kategori_artikel::select('id_kat_artikel','nama')->get();
+
+            $data = [
+                'title' => 'Tambah penanganan | StrokeCare',
+                'kat_artikel' => $kat_artikel,
+            ];
+            
+            return view('auth.admin.artikel.artikel', $data);
+        }
+        public function admin_edit_artikel($id) {
+            $artikel = Artikel::where('id', $id)->first();
+    
+            $kat_artikel = Kategori_artikel::select('id_kat_artikel','nama')->get();
+            
+            $data = [
+                'title' => 'Edit Artikel | StrokeCare',
+                'artikel' => $artikel,
+                'kat_artikel' => $kat_artikel,
+            ];
+            
+            return view('auth.admin.artikel.edit_artikel', $data);
+        }
+        // End Admin
+    }
+    

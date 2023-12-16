@@ -37,38 +37,46 @@ Route::middleware(['middleware' => 'CheckAuth'])->group(function () {
 
     // Admin
     Route::name('admin.')->group(function () {
-        Route::get('/dashboard-admin', [PageController::class, 'admin_dashboard'])->name('index');
-        Route::get('/pemicu', [PageController::class, 'admin_pemicu'])->name('pemicu');
-        Route::get('/pemicu', [PageController::class, 'admin_pemicu'])->name('pemicu');
-        Route::delete('/pemicu/{id?}', [AdminController::class, 'destroy_pemicu'])->name('pemicu.delete');
-        Route::put('/pemicu/{id?}', [AdminController::class, 'update_pemicu'])->name('pemicu.update');
-        Route::post('/pemicu/proses', [AdminController::class, 'store_pemicu'])->name('pemicu.post');
+        Route::get('/admin/dashboard', [PageController::class, 'admin_dashboard'])->name('index');
+        Route::get('/admin/pemicu', [PageController::class, 'admin_pemicu'])->name('pemicu');
+        Route::get('/admin/pemicu', [PageController::class, 'admin_pemicu'])->name('pemicu');
+        Route::delete('/admin/pemicu/{id?}', [AdminController::class, 'destroy_pemicu'])->name('pemicu.delete');
+        Route::put('/admin/pemicu/{id?}', [AdminController::class, 'update_pemicu'])->name('pemicu.update');
+        Route::post('/admin/pemicu/proses', [AdminController::class, 'store_pemicu'])->name('pemicu.post');
 
-        Route::get('/komplikasi', [PageController::class, 'admin_komplikasi'])->name('komplikasi');
-        Route::delete('/komplikasi/{id?}', [AdminController::class, 'destroy_komplikasi'])->name('komplikasi.delete');
-        Route::put('/komplikasi/{id?}', [AdminController::class, 'update_komplikasi'])->name('komplikasi.update');
-        Route::post('/komplikasi/proses', [AdminController::class, 'store_komplikasi'])->name('komplikasi.post');
+        Route::get('/admin/komplikasi', [PageController::class, 'admin_komplikasi'])->name('komplikasi');
+        Route::delete('/admin/komplikasi/{id?}', [AdminController::class, 'destroy_komplikasi'])->name('komplikasi.delete');
+        Route::put('/admin/komplikasi/{id?}', [AdminController::class, 'update_komplikasi'])->name('komplikasi.update');
+        Route::post('/admin/komplikasi/proses', [AdminController::class, 'store_komplikasi'])->name('komplikasi.post');
 
-        Route::get('/aktivitas', [PageController::class, 'admin_aktivitas'])->name('aktivitas');
-        Route::get('/aktivitas/tambah', [PageController::class, 'admin_tambah_aktivitas'])->name('aktivitas.tambah');
-        Route::get('/aktivitas/kategori/tambah', [PageController::class, 'admin_tambah_kategori_aktivitas'])->name('aktivitas.kategori.tambah');
-        Route::post('/aktivitas/kategori/store', [AdminController::class, 'admin_store_kategori_aktivitas'])->name('aktivitas.kategori.store');
-        Route::get('/aktivitas/edit/{id?}', [PageController::class, 'admin_edit_aktivitas'])->name('aktivitas.edit');
-        Route::put('/aktivitas/edit/{id?}', [AdminController::class, 'update_aktivitas'])->name('aktivitas.update');
-        Route::post('/aktivitas/store', [AdminController::class, 'admin_store_aktivitas'])->name('aktivitas.store');
-        Route::delete('/aktivitas/{id?}', [AdminController::class, 'destroy_aktivitas'])->name('aktivitas.delete');
+        Route::get('/admin/aktivitas', [PageController::class, 'admin_aktivitas'])->name('aktivitas');
+        Route::get('/admin/aktivitas/tambah', [PageController::class, 'admin_tambah_aktivitas'])->name('aktivitas.tambah');
+        Route::get('/admin/aktivitas/kategori/tambah', [PageController::class, 'admin_tambah_kategori_aktivitas'])->name('aktivitas.kategori.tambah');
+        Route::post('/admin/aktivitas/kategori/store', [AdminController::class, 'admin_store_kategori_aktivitas'])->name('aktivitas.kategori.store');
+        Route::get('/admin/aktivitas/edit/{id?}', [PageController::class, 'admin_edit_aktivitas'])->name('aktivitas.edit');
+        Route::put('/admin/aktivitas/edit/{id?}', [AdminController::class, 'update_aktivitas'])->name('aktivitas.update');
+        Route::post('/admin/aktivitas/store', [AdminController::class, 'admin_store_aktivitas'])->name('aktivitas.store');
+        Route::delete('/admin/aktivitas/{id?}', [AdminController::class, 'destroy_aktivitas'])->name('aktivitas.delete');
         
-        Route::get('/penanganan', [PageController::class, 'admin_penanganan'])->name('penanganan');
-        Route::get('/penanganan/tambah', [PageController::class, 'admin_tambah_penanganan'])->name('penanganan.tambah');
-        Route::get('/penanganan/kategori/tambah', [PageController::class, 'admin_tambah_kategori_penanganan'])->name('penanganan.kategori.tambah');
-        Route::post('/penanganan/kategori/store', [AdminController::class, 'admin_store_kategori_penanganan'])->name('penanganan.kategori.store');
-        Route::get('/penanganan/edit/{id?}', [PageController::class, 'admin_edit_penanganan'])->name('penanganan.edit');
-        Route::put('/penanganan/edit/{id?}', [AdminController::class, 'update_penanganan'])->name('penanganan.update');
-        Route::post('/penanganan/store', [AdminController::class, 'admin_store_penanganan'])->name('penanganan.store');
-        Route::delete('/penanganan/{id?}', [AdminController::class, 'destroy_penanganan'])->name('penanganan.delete');
+        Route::get('/admin/penanganan', [PageController::class, 'admin_penanganan'])->name('penanganan');
+        Route::get('/admin/penanganan/tambah', [PageController::class, 'admin_tambah_penanganan'])->name('penanganan.tambah');
+        Route::get('/admin/penanganan/kategori/tambah', [PageController::class, 'admin_tambah_kategori_penanganan'])->name('penanganan.kategori.tambah');
+        Route::post('/admin/penanganan/kategori/store', [AdminController::class, 'admin_store_kategori_penanganan'])->name('penanganan.kategori.store');
+        Route::get('/admin/penanganan/edit/{id?}', [PageController::class, 'admin_edit_penanganan'])->name('penanganan.edit');
+        Route::put('/admin/penanganan/edit/{id?}', [AdminController::class, 'update_penanganan'])->name('penanganan.update');
+        Route::post('/admin/penanganan/store', [AdminController::class, 'admin_store_penanganan'])->name('penanganan.store');
+        Route::delete('/admin/penanganan/{id?}', [AdminController::class, 'destroy_penanganan'])->name('penanganan.delete');
+        
+        // Artikel
+        Route::get('/admin/artikel', [PageController::class, 'admin_artikel'])->name('artikel');
+        Route::get('/admin/artikel/tambah', [PageController::class, 'admin_tambah_artikel'])->name('artikel.tambah');
+        Route::post('/admin/artikel/store', [AdminController::class, 'admin_store_artikel'])->name('artikel.store');
+        Route::get('/admin/artikel/edit/{id?}', [PageController::class, 'admin_edit_artikel'])->name('artikel.edit');
+        Route::put('/admin/artikel/edit/{id?}', [AdminController::class, 'update_artikel'])->name('artikel.update');
+        Route::delete('/admin/artikel/{id?}', [AdminController::class, 'destroy_artikel'])->name('artikel.delete');
     });
 });
 
 // Route::prefix('admin')->group(function(){
-    Route::get('/login-admin', [PageController::class, 'login_admin'])->name('login.admin');
+    Route::get('/login/admin', [PageController::class, 'login_admin'])->name('login.admin');
 // });

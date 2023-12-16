@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktivitas;
+use App\Models\Artikel;
 use App\Models\Kategori_aktivitas;
 use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -341,6 +343,123 @@ class AdminController extends Controller
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.penanganan')->with('error', 'Data penanganan tidak ditemukan');
+        }
+    }
+    public function admin_store_artikel(Request $request){
+        // Validasi request
+        $validation = Validator::make($request->all(),[
+            'fileInput' => 'file|mimes:jpeg,png|max:2048'
+        ],[
+            'fileInput.mimes' => 'Kolom File hanya bisa untuk jpeg dan png wajib diisi.',
+        ]);
+
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        if ($request->hasFile('fileInput')) {
+            $file = $request->file('fileInput');
+            // Enkripsi nama file
+            $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
+            // $decryptedFileName = Crypt::decryptString($uploadedFile->filename); //Cara nampilin file     
+            // $imageUrl = asset(Storage::url("public/artikel/cover/{$decryptedFileName}")); //untuk nampilin image
+    
+            // Simpan file ke direktori yang diinginkan
+            $file->storeAs('public/artikel/cover', $encryptedFileName);
+            $data = [
+                'judul' => $request->judul,
+                'cover' => $encryptedFileName,
+                'kategori' => $request->kat_artikel,
+                'deskripsi' => $request->deskripsi
+            ];
+        }else{
+            $data = [
+                'judul' => $request->judul,
+                'kategori' => $request->kat_artikel,
+                'id_kat_artikr' => $request->artikr,
+                'deskripsi' => $request->deskripsi
+            ];
+        }
+
+
+        Artikel::create($data);
+
+        return redirect()->route('admin.artikel')->with('success', 'Berhasil menambahkan artikel');
+    }
+
+    public function update_artikel(Request $request, $id) {
+        // Validasi request
+        $validation = Validator::make($request->all(),[
+            'fileInput' => 'mimes:jpeg,png,jpg'
+        ],[
+            'fileInput.mimes' => 'Kolom File hanya bisa untuk jpg, jpeg dan png wajib diisi.',
+        ]);
+        
+        if ($validation->fails()) {
+            // Handle kesalahan validasi
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+    
+        $artikel = Artikel::where('id', $id)->first();
+
+        if($artikel){
+            if ($request->hasFile('fileInput')) {
+                $file = $request->file('fileInput');
+                // Enkripsi nama file
+                $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
+                // $decryptedFileName = Crypt::decryptString($uploadedFile->filename); //Cara nampilin file     
+                // $imageUrl = asset(Storage::url("public/artikel/cover/{$decryptedFileName}")); //untuk nampilin image
+        
+                // Simpan file ke direktori yang diinginkan
+                $file->storeAs('public/artikel/cover', $encryptedFileName);
+
+                try {
+                    $data = Artikel::findOrFail($id);
+                    $data->judul = $request->judul;
+                    $data->cover = $encryptedFileName;
+                    $data->kategori = $request->kat_artikel;
+                    $data->deskripsi = $request->deskripsi;
+                    $data->save();
+
+                    // Eksekusi jika penghapusan berhasil
+                    return redirect()->route('admin.artikel')->with('success', 'Berhasil merubah Artikel '.$artikel->nama);
+                } catch (\Exception $e) {
+                    // Eksekusi jika terjadi kesalahan
+                    return redirect()->route('admin.artikel')->with('error', $e->getMessage());
+                }
+            }else{
+                try {
+                    $data = Artikel::findOrFail($id);
+                    $data->judul = $request->judul;
+                    $data->kategori = $request->kat_artikel;
+                    $data->deskripsi = $request->deskripsi;
+                    $data->save();
+                    return redirect()->route('admin.artikel')->with('success', 'Berhasil merubah Artikel '.$artikel->kategori_artikel->nama);
+                } catch (\Exception $e) {
+                    // Eksekusi jika terjadi kesalahan
+                    return redirect()->route('admin.artikel')->with('error', $e->getMessage());
+                }
+            }
+        }
+    }
+
+    public function destroy_artikel($id){
+        $artikel = Artikel::where('id', $id)->first();
+
+        if ($artikel) {
+            try {
+                Artikel::where('id', $id)->delete();
+                
+                // Eksekusi jika penghapusan berhasil
+                return redirect()->route('admin.artikel')->with('success', 'Berhasil menghapus artikel '.$artikel->nama);
+            } catch (\Exception $e) {
+                // Eksekusi jika terjadi kesalahan
+                return redirect()->route('admin.artikel')->with('error', 'Gagal menghapus artikel '.$artikel->nama);
+            }
+        } else {
+            // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
+            return redirect()->route('admin.artikel')->with('error', 'Data artikel tidak ditemukan');
         }
     }
 }

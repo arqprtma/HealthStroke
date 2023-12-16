@@ -273,7 +273,7 @@
                             <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                 <div class="flex items-center ps-3">
                                     <input id="{{ $k->id_komplikasi }}-{{ $k->nama }}" type="checkbox"
-                                        name="komplikasi[1]" value="{{ $k->id_komplikasi }}"
+                                        name="komplikasi[]" value="{{ $k->id_komplikasi }}"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="{{ $k->id_komplikasi }}-{{ $k->nama }}"
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $k->nama }}</label>
@@ -287,7 +287,9 @@
                         <button type="submit"
                             class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-3xl text-white">Simpan</button>
                     </div>
+                    <form>
             @endif
+
 
         </div>
     </div>

@@ -141,9 +141,8 @@ class UserController extends Controller
     }
 
     // Pasien
-
     public function pasien_store(Request $request) {
-        // dd($request->all());
+        // Validasi input
         $validation = Validator::make($request->all(), [
             'nama' => ['required', 'string', 'max:100', 'regex:/^[^\d]+$/'],
             'gender' => 'required',
@@ -169,33 +168,43 @@ class UserController extends Controller
             'komplikasi.*.required' => 'Checkbox komplikasi harus dicentang.',
         ]);
 
+        // Jika validasi gagal
         if ($validation->fails()) {
-            // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput()->with('error', 'Gagal tambah data pasien');
         }
 
-        $aktivitas = Aktivitas::where('id_komplikasi', $request->input('komplikasi'))->where('id_pemicu', $request->input('pemicu'))->get();
+        // Ambil data pemicu dan komplikasi yang dipilih
+        $selectedPemicu = $request->input('pemicu', []);
+        $selectedKomplikasi = $request->input('komplikasi', []);
+
+        // Ambil aktivitas berdasarkan pemicu dan komplikasi yang dipilih
+        $aktivitas = Aktivitas::whereIn('id_komplikasi', $selectedKomplikasi)
+            ->whereIn('id_pemicu', $selectedPemicu)
+            ->get();
 
         dd($aktivitas);
-
+        // Data untuk treatment
         $data_treatment = [
             'id_aktivitas' => $request->id_aktivitas,
             'id_penanganan' => $request->id_penanganan,
         ];
 
+        // Data untuk request pasien
         $data_request = [
             'nama' => $request->nama,
             'id_user' => $request->id_user,
             'gender' => $request->gender,
             'umur' => $request->umur,
-            'pemicu' => $request->input('pemicu',[]),
-            'komplikasi' => $request->input('komplikasi',[]),
+            'pemicu' => $selectedPemicu,
+            'komplikasi' => $selectedKomplikasi,
         ];
 
-
+        // Simpan data pasien
         Pasien::create($data_request);
+
         return redirect()->route('pasien')->with('success', 'Berhasil tambah data pasien');
     }
+
 
     public function pasien_update(Request $request, $id){
         $validation = Validator::make($request->all(), [

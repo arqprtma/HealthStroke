@@ -9,8 +9,8 @@ class Pasien extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_pasien';
-
+    protected $primaryKey = 'id';
+    protected $table = 'pasien';
     protected $fillable = [
         'id_user',
         'nama',
@@ -19,10 +19,14 @@ class Pasien extends Model
         'pemicu',
         'komplikasi',
     ];
+    protected $casts = [
+        'pemicu' => 'array',
+        'komplikasi' => 'array',
+    ];
 
     // Define relasi dengan tabel User
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'id');
     }
 }

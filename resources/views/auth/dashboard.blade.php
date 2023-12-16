@@ -73,7 +73,10 @@
 </head>
 
 <body class="bg-[#F8F8FF] h-[2500px]">
+
+
     <div class="bg-auto bg-cover bg-left-top bg-no-repeat pt-10 lg:h-[356px] h-[300px]" id="bg-blub">
+        {{-- {{ $pasien }} --}}
         <div class="navigasi container lg:w-[80%] mx-auto px-4">
             <div class="navbar flex justify-between h-[20px]">
                 <div class="alert flex gap-2 box-border">
@@ -99,97 +102,69 @@
                 </div>
             </div>
             <div class="card-pasien mt-5">
-                <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
-                    <div
-                        class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
-                        <div
-                            class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
-                            <img src="/images/Logo-apps.png" alt=""
-                                class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
-                        </div>
-                        <div class="deskripsi flex-1 text-sm">
-                            <a href={{ 'pasien' }}
-                                class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
-                            </a>
-                            <div class="nama flex mt-2 ">
-                                <p
-                                    class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
-                                    Ariq Pratama
+                @if (count($pasien) > 0)
+                    <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
+                        @foreach ($pasien as $item)
+                            <div
+                                class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
+                                <div
+                                    class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
+                                    <img src="/images/Logo-apps.png" alt=""
+                                        class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
+                                </div>
+                                <div class="deskripsi flex-1 text-sm">
+                                    <a href={{ 'pasien' . '/' . ($id = $item->id) }}
+                                        class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
+                                    </a>
+                                    <div class="nama flex mt-2 ">
+                                        <p
+                                            class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
+                                            {{ $item->nama }}
 
-                                </p>
-                                <img src="images/male.png" alt=""
-                                    class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
-                            </div>
-                            <div class="progress-bar">
-                                <div class="bar-aktivitas">
-                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment</h3>
-                                    <div
-                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                        3/4
+                                        </p>
+                                        @if ($item->gender == 'L')
+                                            <img src="images/male.png" alt=""
+                                                class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
+                                        @elseif ($item->gender == 'P')
+                                            <img src="images/female.png" alt=""
+                                                class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
+                                        @endif
+
                                     </div>
-                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
+                                    <div class="progress-bar">
+                                        <div class="bar-aktivitas">
+                                            <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment
+                                            </h3>
+                                            <div
+                                                class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                                3/4
+                                            </div>
+                                            <div
+                                                class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="bar-penanganan mt-1 lg:mt-2">
+                                            <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
+                                            <div
+                                                class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                                3/4
+                                            </div>
+                                            <div
+                                                class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="bar-penanganan mt-1 lg:mt-2">
-                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
-                                    <div
-                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                        3/4
-                                    </div>
-                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
+                            </div>
+                        @endforeach
                     </div>
-                    <div
-                        class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex justify-evenly shadow-md m-2">
-                        <div
-                            class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
-                            <img src="/images/Logo-apps.png" alt=""
-                                class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
-                        </div>
-                        <div class="deskripsi flex-1 text-sm">
-                            <button
-                                class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
-                            </button>
-                            <div class="nama flex mt-2 relative z-10">
-                                <p
-                                    class=" text-[12px] relative h-[25px] lg:h-[35px] lg:text-xl lg:font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
-                                    Agung Dwi Sahputra
-
-                                </p>
-                                <img src="images/male.png" alt=""
-                                    class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
-                            </div>
-                            <div class="progress-bar">
-                                <div class="bar-aktivitas">
-                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment</h3>
-                                    <div
-                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                        3/4
-                                    </div>
-                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
-                                    </div>
-                                </div>
-                                <div class="bar-penanganan mt-1 lg:mt-2">
-                                    <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
-                                    <div
-                                        class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                        3/4
-                                    </div>
-                                    <div class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                        <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @else
+                    <p class="text-center mx-auto" style="border: 2px solid black">Kamu belum menambahkan data pasien,
+                        ayo segera tambahkan !</p>
+                @endif
             </div>
         </div>
     </div>
@@ -382,6 +357,10 @@
             $('#bg-blub').css('background-position', 'center -20px');
         }
 
+        const tambahPasien = document.querySelector('.tambah-pasien');
+        tambahPasien.addEventListener("click", function() {
+            window.location.href = '/pasien';
+        })
 
         let logo = document.querySelector('.logo');
         let dropdownProfile = document.querySelector('.dropdown-profile');

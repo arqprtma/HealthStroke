@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pasien', function (Blueprint $table) {
-            $table->id('id_pasien');
+            $table->id('id');
             $table->unsignedBigInteger('id_user');
             // Menambahkan foreign key constraint
-            $table->foreign('id_user')->references('id_user')->on('users');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->string('nama', 100);
             $table->enum('gender', ['L', 'P'])->default('L');
             $table->integer('umur');

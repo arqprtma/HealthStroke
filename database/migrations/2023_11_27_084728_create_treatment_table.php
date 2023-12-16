@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('id_penanganan')->references('id_penanganan')->on('penanganan');
             $table->unsignedBigInteger('id_pasien');
             // Menambahkan foreign key constraint
-            $table->foreign('id_pasien')->references('id_pasien')->on('pasien');
+            $table->foreign('id_pasien')->references('id')->on('pasien');
             $table->timestamps();
         });
     }

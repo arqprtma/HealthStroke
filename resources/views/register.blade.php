@@ -26,7 +26,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="nama" name="nama" type="text" value="{{ old('nama') }}" placeholder="Masukan Nama Lengkap">
+                        id="nama" name="nama" type="text" value="{{ old('nama') }}"
+                        placeholder="Masukan Nama Lengkap">
                     @error('nama')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
@@ -37,19 +38,35 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="email" name="email" type="email" value="{{ old('email') }}" placeholder="Masukan Email">
+                        id="email" name="email" type="email" value="{{ old('email') }}"
+                        placeholder="Masukan Email">
                     @error('email')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="flex justify-between gap-1">
                     <div class="mb-4 flex-1">
-                        <label class="text-gray-700 text-sm font-bold mb-2" for="gender">
-                            Jenis Kelamin
-                        </label>
-                        <input
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="gender" name="gender" type="text" value="{{ old('gender') }}" placeholder="Masukan Gender">
+                        <div>
+                            <label for="aktivitas" class="text-gray-700 text-sm font-bold">Jenis Kelamin</label>
+                            <div class="relative inline-block w-full">
+                                <select id="gender" name="gender"
+                                    class="block appearance-none w-full bg-white  hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm">
+                                    <option value="" disabled selected
+                                        class=" text-gray-700 text-sm font-bold mb-2">Pilih Jenis Kelamin</option>
+                                    <option value="L">Laki-Laki</option>
+                                    <option value="P">Perempuan</option>
+
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute top-1/2 right-0 transform -translate-x-1/2 translate-y-0 px-1">
+                                    <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.293 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0 0-1.414z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
                         @error('gender')
                             <span class="text-red-700 text-xs">{{ $message }}</span>
                         @enderror
@@ -72,7 +89,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" name="username" type="text" value="{{ old('username') }}" placeholder="Masukan Username">
+                        id="username" name="username" type="text" value="{{ old('username') }}"
+                        placeholder="Masukan Username">
                     @error('username')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
@@ -83,7 +101,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="password" name="password" type="password" {{ old('password') }} placeholder="Masukan Password">
+                        id="password" name="password" type="password" {{ old('password') }}
+                        placeholder="Masukan Password">
                     @error('password')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
@@ -92,7 +111,7 @@
                     <button
                         class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-3xl text-white">Register</button>
                 </div>
-            </form>  
+            </form>
             <p class="text-center mt-5 text-gray-500">Already have an Account ? <a href={{ 'login' }}
                     class="text-[#0085FF] cursor-pointer font-bold">Sign
                     in</a>

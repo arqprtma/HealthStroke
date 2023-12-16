@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
         // Contoh data pengguna
         $users = [
             [
-                'id_user' => 1,
+                'id' => 1,
                 'nama' => 'Agung Dwi Sahputra',
                 'email' => 'agungdwisahputra@gmail.com',
                 'gender' => 'L',
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
             ],
             // Tambahkan data pengguna lain sesuai kebutuhan
             [
-                'id_user' => 2,
+                'id' => 2,
                 'nama' => 'Ariq Pratama',
                 'email' => 'ariqp63@gmail.com',
                 'gender' => 'L',

@@ -21,14 +21,14 @@ class AdminController extends Controller
             Pemicu::create([
                 'nama' => $request->pemicu
             ]);
-        
+
             // Eksekusi jika pembuatan berhasil
             return redirect()->route('admin.pemicu')->with('success', 'Berhasil menyimpan pemicu '.$request->pemicu);
         } catch (\Exception $e) {
             // Eksekusi jika terjadi kesalahan
             return redirect()->route('admin.pemicu')->with('error', 'Gagal menyimpan pemicu '.$request->pemicu);
         }
-        
+
     }
     public function destroy_pemicu($id){
         $pemicu = Pemicu::select('id_pemicu','nama')->where('id_pemicu', $id)->first();
@@ -36,7 +36,7 @@ class AdminController extends Controller
         if ($pemicu) {
             try {
                 Pemicu::where('id_pemicu', $id)->delete();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.pemicu')->with('success', 'Berhasil menghapus pemicu '.$pemicu->nama);
             } catch (\Exception $e) {
@@ -49,7 +49,7 @@ class AdminController extends Controller
         }
     }
     public function update_pemicu(Request $request, $id) {
-        
+
         $pemicu = Pemicu::select('id_pemicu','nama')->where('id_pemicu', $id)->first();
 
         $request->validate([
@@ -63,7 +63,7 @@ class AdminController extends Controller
                 $data = Pemicu::findOrFail($id);
                 $data->nama = $request->nama;
                 $data->save();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.pemicu')->with('success', 'Berhasil merubah pemicu '.$pemicu->nama);
             } catch (\Exception $e) {
@@ -80,14 +80,14 @@ class AdminController extends Controller
             Komplikasi::create([
                 'nama' => $request->komplikasi
             ]);
-        
+
             // Eksekusi jika pembuatan berhasil
             return redirect()->route('admin.komplikasi')->with('success', 'Berhasil menyimpan komplikasi '.$request->komplikasi);
         } catch (\Exception $e) {
             // Eksekusi jika terjadi kesalahan
             return redirect()->route('admin.komplikasi')->with('error', 'Gagal menyimpan komplikasi '.$request->komplikasi);
         }
-        
+
     }
     public function destroy_komplikasi($id){
         $komplikasi = komplikasi::select('id_komplikasi','nama')->where('id_komplikasi', $id)->first();
@@ -95,7 +95,7 @@ class AdminController extends Controller
         if ($komplikasi) {
             try {
                 Komplikasi::where('id_komplikasi', $id)->delete();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.komplikasi')->with('success', 'Berhasil menghapus komplikasi '.$komplikasi->nama);
             } catch (\Exception $e) {
@@ -108,7 +108,7 @@ class AdminController extends Controller
         }
     }
     public function update_komplikasi(Request $request, $id) {
-        
+
         $komplikasi = Komplikasi::select('id_komplikasi','nama')->where('id_komplikasi', $id)->first();
 
         $request->validate([
@@ -122,7 +122,7 @@ class AdminController extends Controller
                 $data = Komplikasi::findOrFail($id);
                 $data->nama = $request->nama;
                 $data->save();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.komplikasi')->with('success', 'Berhasil merubah komplikasi '.$komplikasi->nama);
             } catch (\Exception $e) {
@@ -189,7 +189,7 @@ class AdminController extends Controller
         ],[
             'aktivitas.required' => 'Kolom aktivitas wajib diisi.',
         ]);
-        
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
@@ -205,7 +205,7 @@ class AdminController extends Controller
         if ($aktivitas) {
             try {
                 Aktivitas::where('id_aktivitas', $id)->delete();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.aktivitas')->with('success', 'Berhasil menghapus aktivitas '.$aktivitas->kategori_aktivitas->nama);
             } catch (\Exception $e) {
@@ -239,7 +239,7 @@ class AdminController extends Controller
                 $data->deskripsi = $request->deskripsi;
                 $data->video = $request->link_video;
                 $data->save();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.aktivitas')->with('success', 'Berhasil merubah aktivitas '.$aktivitas->kategori_aktivitas->nama);
             } catch (\Exception $e) {
@@ -283,7 +283,7 @@ class AdminController extends Controller
         ],[
             'penanganan.required' => 'Kolom penanganan wajib diisi.',
         ]);
-        
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
@@ -299,7 +299,7 @@ class AdminController extends Controller
         if ($penanganan) {
             try {
                 Penanganan::where('id_penanganan', $id)->delete();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.penanganan')->with('success', 'Berhasil menghapus penanganan '.$penanganan->kategori_penanganan->nama);
             } catch (\Exception $e) {
@@ -333,7 +333,7 @@ class AdminController extends Controller
                 $data->deskripsi = $request->deskripsi;
                 $data->video = $request->link_video;
                 $data->save();
-                
+
                 // Eksekusi jika penghapusan berhasil
                 return redirect()->route('admin.penanganan')->with('success', 'Berhasil merubah penanganan '.$penanganan->kategori_penanganan->nama);
             } catch (\Exception $e) {

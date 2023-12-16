@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_log_treatment');
             $table->unsignedBigInteger('id_user');
             // Menambahkan foreign key constraint
-            $table->foreign('id_user')->references('id_user')->on('users');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->unsignedBigInteger('id_treatment');
             // Menambahkan foreign key constraint
             $table->foreign('id_treatment')->references('id_treatment')->on('treatment');

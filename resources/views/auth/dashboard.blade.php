@@ -102,6 +102,7 @@
                 </div>
             </div>
             <div class="card-pasien mt-5">
+
                 @if (count($pasien) > 0)
                     <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
                         @foreach ($pasien as $item)
@@ -170,10 +171,16 @@
     </div>
 
     <div class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[100px]">
+
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
+        <select id="selectPasien" class="border p-2 rounded-md">
+            @foreach ($pasien as $item)
+                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+            @endforeach
+        </select>
         <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-scroll">
             <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
                 <button class="aktivitas-button" onclick="toggleParent('aktivitas')">
@@ -208,7 +215,8 @@
 
                 </div>
                 <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
-                <div id="content{{ $i }}" class="detail-task-aktivitas text-white">
+                <div id="content{{ $i }}" class="detail-task-aktivitas text-white"
+                    data-pasien="{{ $item->id }}">
                     <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
                         <div class="flex justify-center gap-10 p-2 items-center">
                             <div class="text-sm lg:text-lg">
@@ -243,6 +251,7 @@
                         </div>
                         <div class="deskripsi">
                             <div class="judul text-sm lg:text-lg">
+
                                 <h1>Penanganan</h1>
                             </div>
                             <div class="kategori text-sm lg:text-lg">
@@ -257,7 +266,8 @@
 
                 </div>
                 <hr class="mt-1 border-1 border-solid mx-auto w-[80%]">
-                <div id="content{{ $i }}" class="detail-task-penanganan text-white">
+                <div id="content{{ $i }}" class="detail-task-penanganan text-white"
+                    data-pasien="{{ $item->id }}">
                     <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
                         <div class="flex justify-center gap-10 p-2 items-center">
                             <div class="text-sm lg:text-lg">
@@ -288,7 +298,7 @@
     <div class="berita lg:w-[80%] mx-auto px-3 mt-3">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
-            <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
+            <a href="{{ route('artikel') }}" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
         @for ($i = 0; $i < 5; $i++)
             <div
@@ -433,7 +443,28 @@
             // Mengaktifkan konten yang sesuai dengan indeks slider
             contents[index].classList.add('active');
         });
+
+        document.getElementById('selectPasien').addEventListener('change', function() {
+            var selectedPasienId = this.value;
+
+            // Menyembunyikan semua detail task
+            var allDetails = document.querySelectorAll('.detail-task-aktivitas, .detail-task-penanganan');
+            allDetails.forEach(function(detail) {
+                detail.classList.remove('active');
+            });
+
+            // Menampilkan detail task sesuai dengan pasien yang dipilih
+            var selectedDetails = document.querySelectorAll('.detail-task-aktivitas[data-pasien="' +
+                selectedPasienId + '"], .detail-task-penanganan[data-pasien="' + selectedPasienId + '"]');
+            selectedDetails.forEach(function(detail) {
+                detail.classList.add('active');
+            });
+        });
     </script>
+
+
+
+
 </body>
 
 </html>

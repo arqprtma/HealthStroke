@@ -182,7 +182,7 @@ class UserController extends Controller
             ->whereIn('id_pemicu', $selectedPemicu)
             ->get();
 
-        dd($aktivitas);
+        // dd($aktivitas);
         // Data untuk treatment
         $data_treatment = [
             'id_aktivitas' => $request->id_aktivitas,

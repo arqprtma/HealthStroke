@@ -146,14 +146,14 @@
 
 {{-- ALERT --}}
     @if(session()->has('error'))
-    <script>
-        var pesan = "{{ session('error') }}"
-        
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: pesan
-        });
+        <script>
+            var pesan = "{{ session('error') }}"
+            
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: pesan
+            });
         </script>
     @endif
     @if(session()->has('success'))

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Pasien;
 use App\Models\Aktivitas;
-
+use App\Models\Penanganan;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -144,7 +145,7 @@ class UserController extends Controller
     public function pasien_store(Request $request) {
         // Validasi input
         $validation = Validator::make($request->all(), [
-            'nama' => ['required', 'string', 'max:100', 'regex:/^[^\d]+$/'],
+            'nama' => ['required', 'string', 'max:100'],
             'gender' => 'required',
             'umur' => 'required|numeric|max:100|min:1',
             'pemicu' => 'required|array|min:1|max:2',
@@ -155,7 +156,6 @@ class UserController extends Controller
             'nama.required' => 'Kolom nama wajib diisi.',
             'nama.string' => 'Kolom nama harus berupa teks.',
             'nama.max' => 'Kolom nama tidak boleh lebih dari 100 karakter.',
-            'nama.regex' => 'Kolom nama tidak boleh mengandung angka.',
             'gender.required' => 'Kolom gender wajib diisi.',
             'umur.required' => 'Kolom umur wajib diisi.',
             'umur.numeric' => 'Kolom umur harus berupa angka.',
@@ -170,7 +170,7 @@ class UserController extends Controller
 
         // Jika validasi gagal
         if ($validation->fails()) {
-            return redirect()->back()->withErrors($validation)->withInput()->with('error', 'Gagal tambah data pasien');
+            return redirect()->back()->withErrors($validation)->withInput();
         }
 
         // Ambil data pemicu dan komplikasi yang dipilih
@@ -181,13 +181,13 @@ class UserController extends Controller
         $aktivitas = Aktivitas::whereIn('id_komplikasi', $selectedKomplikasi)
             ->whereIn('id_pemicu', $selectedPemicu)
             ->get();
+        $aktivitasId = $aktivitas->pluck('id_aktivitas');
+        $penanganan = Penanganan::whereIn('id_komplikasi', $selectedKomplikasi)
+            ->whereIn('id_pemicu', $selectedPemicu)
+            ->get();
+        $penangananId = $penanganan->pluck('id_penanganan');
 
-        dd($aktivitas);
-        // Data untuk treatment
-        $data_treatment = [
-            'id_aktivitas' => $request->id_aktivitas,
-            'id_penanganan' => $request->id_penanganan,
-        ];
+        // dd($request->all(),$aktivitas, $penanganan);
 
         // Data untuk request pasien
         $data_request = [
@@ -200,7 +200,15 @@ class UserController extends Controller
         ];
 
         // Simpan data pasien
-        Pasien::create($data_request);
+        $pasien = Pasien::create($data_request);
+        // Data untuk treatment
+        $data_treatment = [
+            'id_aktivitas' => $aktivitasId,
+            'id_penanganan' => $penangananId,
+            'id_pasien' => $pasien->id,
+        ];
+        // Simpan data treatment
+        Treatment::create($data_treatment);
 
         return redirect()->route('pasien')->with('success', 'Berhasil tambah data pasien');
     }

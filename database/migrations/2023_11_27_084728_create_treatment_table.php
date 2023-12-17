@@ -13,14 +13,9 @@ return new class extends Migration
     {
         Schema::create('treatment', function (Blueprint $table) {
             $table->id('id_treatment');
-            $table->unsignedBigInteger('id_aktivitas');
-            // Menambahkan foreign key constraint
-            $table->foreign('id_aktivitas')->references('id_aktivitas')->on('aktivitas');
-            $table->unsignedBigInteger('id_penanganan');
-            // Menambahkan foreign key constraint
-            $table->foreign('id_penanganan')->references('id_penanganan')->on('penanganan');
+            $table->text('id_aktivitas');
+            $table->text('id_penanganan');
             $table->unsignedBigInteger('id_pasien');
-            // Menambahkan foreign key constraint
             $table->foreign('id_pasien')->references('id')->on('pasien');
             $table->timestamps();
         });

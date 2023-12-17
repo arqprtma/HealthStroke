@@ -42,55 +42,40 @@
               </tr>
             </thead>
             <tbody>
-                @foreach ($aktivitas as $key => $data)
-                    <tr class="{{ ($key % 2 == 1) ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
-                        <td class="border text-center p-3">{{ $key+1 }}</td>
-                        <td class="border w-auto p-3">{{ $data->kategori_aktivitas->nama }}</td>
-                        <td class="border w-auto p-3">{{ $data->pemicu->nama }}</td>
-                        <td class="border w-auto p-3">{{ $data->komplikasi->nama }}</td>
-                        <td class="border w-full p-3">{{ $data->deskripsi }}</td>
-                        <td class="border w-auto p-3">{{ $data->video ? $data->video : '-' }}</td>
-                        <td class="border w-auto min-w-[130px] p-3 text-center">
-                            <a href="{{ route('admin.aktivitas.edit', $data->id_aktivitas) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $data->id_aktivitas }}')" class="text-red-500 inline-block">Hapus</a>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($aktivitas->isNotEmpty())
-                        @foreach ($aktivitas as $key => $data)
-                            <tr class="{{ $key % 2 == 1 ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
-                                <td class="border text-center p-3">{{ $key + 1 }}</td>
-                                <td class="border w-full min-w-[200px] p-3">{{ $data->kategori_aktivitas->nama }}</td>
-                                <td class="border w-full min-w-[200px] p-3">{{ $data->pemicu->nama }}</td>
-                                <td class="border w-full min-w-[200px] p-3">{{ $data->komplikasi->nama }}</td>
-                                <td class="border w-full min-w-[200px] p-3">{{ strip_tags($data->deskripsi) }}</td>
-                                <td class="border w-full min-w-[200px] p-3">{{ $data->video ? $data->video : '-' }}
-                                </td>
-                                <td class="border w-full min-w-[130px] p-3 text-center">
-                                    <a href="{{ route('admin.aktivitas.edit', $data->id_aktivitas) }}"
-                                        class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)"
-                                        onclick="ConfirmDelete('{{ $data->id_aktivitas }}')"
-                                        class="text-red-500 inline-block">Hapus</a>
-                                </td>
-                            </tr>
-                            <!-- Form untuk metode DELETE -->
-                            <form class="hidden" id="deleteForm{{ $data->id_aktivitas }}"
-                                action="{{ route('admin.aktivitas.delete', ['id' => $data->id_aktivitas]) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                            </form>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="7"
-                                class="text-center text-base font-medium border w-full min-w-[200px] p-3 text-red-500">
-                                Data masih kosong</td>
+                @if ($aktivitas->isNotEmpty())
+                    @foreach ($aktivitas as $key => $data)
+                        <tr class="{{ $key % 2 == 1 ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
+                            <td class="border text-center p-3">{{ $key + 1 }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->kategori_aktivitas->nama }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->pemicu->nama }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->komplikasi->nama }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ strip_tags($data->deskripsi) }}</td>
+                            <td class="border w-full min-w-[200px] p-3">{{ $data->video ? $data->video : '-' }}
+                            </td>
+                            <td class="border w-full min-w-[130px] p-3 text-center">
+                                <a href="{{ route('admin.aktivitas.edit', $data->id_aktivitas) }}"
+                                    class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)"
+                                    onclick="ConfirmDelete('{{ $data->id_aktivitas }}')"
+                                    class="text-red-500 inline-block">Hapus</a>
+                            </td>
                         </tr>
-                    @endif
-
-                </tbody>
-            </table>
+                        <!-- Form untuk metode DELETE -->
+                        <form class="hidden" id="deleteForm{{ $data->id_aktivitas }}"
+                            action="{{ route('admin.aktivitas.delete', ['id' => $data->id_aktivitas]) }}"
+                            method="POST">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="7"
+                            class="text-center text-base font-medium border w-full min-w-[200px] p-3 text-red-500">
+                            Data masih kosong</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
         </div>
     </div>
 

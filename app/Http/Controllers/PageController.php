@@ -11,6 +11,8 @@ use App\Models\Komplikasi;
 use App\Models\Pasien;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
+use App\Models\Treatment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth; // Make sure to include this
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -53,14 +55,71 @@ class PageController extends Controller
         $userId = Auth::id();
 
         $pasien = Pasien::with('user')
-        ->where('id_user', $userId) // Apply the condition
-        ->get();
+        ->where('id_user', $userId);
+
+        $pasien = $pasien->get();
+        $pasien_aktif = $pasien->where('status', 'aktif')->first();
+
+        // Get Artikel
+        $artikel = Artikel::get();
+
+        // Get Kategori Aktivitas
+        $kat_aktivitas = Kategori_aktivitas::get();
+        $kat_penanganan = Kategori_penanganan::get();
+
+        $treatment = null;
+        $aktivitas = null;
+        $penanganan = null;
+        $aktivitasId = [];
+        $penangananId = [];
+        $list_aktivitas = [];
+        $list_penanganan = [];
+
+        if($pasien_aktif){
+            $treatment = Treatment::where('id_pasien', $pasien_aktif->id_pasien)->first();
+            $aktivitasId = json_decode($treatment->id_aktivitas);
+            $penangananId = json_decode($treatment->id_penanganan);
+
+            // Get Aktivitas Data
+            $aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->get();
+            $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->get();
+
+            // Menggabungkan data Aktivitas berdasarkan kategori aktivitas
+            $list_aktivitas = [];
+            foreach($kat_aktivitas as $key => $data_kategori){
+                foreach ($aktivitas as $jkey => $data_aktivitas) {
+                    if($data_kategori->id_kat_aktivitas == $data_aktivitas->id_kat_aktivitas){
+                        $list_aktivitas[$data_kategori->id_kat_aktivitas][] = $data_aktivitas; 
+                    }
+                }
+            }
+            // Menggabungkan data penanganan berdasarkan kategori penanganan
+            $list_penanganan = [];
+            foreach($kat_penanganan as $key => $data_kategori){
+                foreach ($penanganan as $jkey => $data_penanganan) {
+                    if($data_kategori->id_kat_penanganan == $data_penanganan->id_kat_penanganan){
+                        $list_penanganan[$data_kategori->id_kat_penanganan][] = $data_penanganan; 
+                    }
+                }
+            }
+        }
 
         $data = [
             'title' => 'Dashboard | StrokeCare',
-            'pasien' => $pasien
+            'treatment' => $treatment,
+            'aktivitas' => $aktivitas,
+            'aktivitasId' => $aktivitasId,
+            'kat_aktivitas' => $kat_aktivitas,
+            'list_aktivitas' => $list_aktivitas,
+            'penanganan' => $penanganan,
+            'penangananId' => $penangananId,
+            'kat_penanganan' => $kat_penanganan,
+            'list_penanganan' => $list_penanganan,
+            'pasien_aktif' => $pasien_aktif,
+            'pasien' => $pasien,
+            'artikel' => $artikel
         ];
-        // dd(auth()->user());
+        // dd($data);
         return view('auth.dashboard', $data);
     }
 
@@ -132,8 +191,13 @@ class PageController extends Controller
             return view('auth.admin.login', $data);
         }
         public function admin_dashboard() {
+            $users = User::get();
+            $pasien = Pasien::get();
+
             $data = [
                 'title' => 'Dashboard Admin | StrokeCare',
+                'users' => $users,
+                'pasien' => $pasien,
             ];
 
             return view('auth.admin.index', $data);

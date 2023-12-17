@@ -35,12 +35,12 @@
             <div class="flex align-items-center flex-nowrap flex-row">
                 <div
                     class="w-[50%] h-auto lg:py-12 py-7 mx-1 bg-[#15ADA7] shadow-md flex items-center justify-center flex-col rounded">
-                    <h3 class="text-center lg:text-4xl text-xl font-bold text-white">130</h3>
+                    <h3 class="text-center lg:text-4xl text-xl font-bold text-white">{{ count($users) }}</h3>
                     <span class="text-center lg:text-lg text-sm font-medium text-white">Pengguna</span>
                 </div>
                 <div
                     class="w-[50%] h-auto lg:py-12 py-7 mx-1 bg-[#2296D1] shadow-md flex items-center justify-center flex-col rounded">
-                    <h3 class="text-center lg:text-4xl text-xl font-bold text-white">120</h3>
+                    <h3 class="text-center lg:text-4xl text-xl font-bold text-white">{{ count($pasien) }}</h3>
                     <span class="text-center lg:text-lg text-sm font-medium text-white">Pasien Stroke</span>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                 <a href="{{ route('admin.komplikasi') }}" class="w-full">
                     <button
                         class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Pemicu.png') }}"
+                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
                             alt="Pemicu"> Komplikasi
                     </button>
                 </a>

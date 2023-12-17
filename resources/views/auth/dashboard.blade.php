@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="card-pasien mt-5">
-                @if (count($pasien) > 0)
+                @if ($pasien->isNotEmpty())
                     <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
                         @foreach ($pasien as $item)
                             <div
@@ -137,7 +137,7 @@
                                             </h3>
                                             <div
                                                 class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                                3/4
+                                                0/{{ $aktivitasId ? count($aktivitasId) : 0 }}
                                             </div>
                                             <div
                                                 class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
@@ -148,7 +148,7 @@
                                             <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
                                             <div
                                                 class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                                3/4
+                                                0/{{ $penangananId ? count($penangananId) : 0 }}
                                             </div>
                                             <div
                                                 class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
@@ -186,102 +186,94 @@
                         class="border-penanganan border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px] inactive">
                 </button>
             </div>
-            <?php for ($i=1; $i < 5; $i++) { ?>
-            <div class="parent-aktivitas">
-                <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
-                    <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                        <div class="gambar">
-                            <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
-                        </div>
-                        <div class="deskripsi">
-                            <div class="judul text-sm lg:text-lg">
-                                <h1>Aktivitas</h1>
+            @foreach ($kat_aktivitas as $key => $data_kategori)
+                <div class="parent-aktivitas">
+                    @if (!empty($list_aktivitas))
+                        @if(isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
+                            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
+                                <div class="flex gap-5 w-[100%] mx-auto pt-5">
+                                    <div class="gambar">
+                                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
+                                    </div>
+                                    <div class="deskripsi">
+                                        <div class="judul text-sm lg:text-lg">
+                                            <h1>Aktivitas</h1>
+                                        </div>
+                                        <div class="kategori text-sm lg:text-lg">
+                                            <h3>{{ $data_kategori->nama }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="toggle-button text-sm lg:text-lg" onclick="toggleContent('aktivitas', {{ $key }})">Tampilkan Konten {{ $key }}</button>
                             </div>
-                            <div class="kategori text-sm lg:text-lg">
-                                <h3>Makanan dan Minuman</h3>
-                            </div>
+                            <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
+                        @endif
+                        <div id="content{{ $key }}" class="detail-task-aktivitas text-white">
+                            @if(isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
+                                @foreach ($list_aktivitas[$data_kategori->id_kat_aktivitas] as $jkey => $data_aktivitas)
+                                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
+                                        <div class="flex justify-left gap-10 p-2 items-center">
+                                            <div class="text-sm lg:text-lg">
+                                                {{ $jkey+1 }}
+                                            </div>
+                                            <div class="deskripsi text-sm lg:text-lg">
+                                                {!! $data_aktivitas->deskripsi !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
-                    </div>
-                    <button class="toggle-button text-sm lg:text-lg"
-                        onclick="toggleContent('aktivitas', <?= $i - 1 ?>)">Tampilkan Konten
-                        <?= $i ?></button>
-
+                    @else
+                        <div class="text-center py-10"><span class="text-center text-red-500">Data masih kosong</span></div>
+                        @break
+                    @endif
                 </div>
-                <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
-                <div id="content{{ $i }}" class="detail-task-aktivitas text-white">
-                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
-                        <div class="flex justify-center gap-10 p-2 items-center">
-                            <div class="text-sm lg:text-lg">
-                                1
+            @endforeach
+            
+            @foreach ($kat_penanganan as $key => $data_kategori)
+                <div class="parent-penanganan">
+                    @if (!empty($list_penanganan))
+                        @if(isset($list_penanganan[$data_kategori->id_kat_penanganan]))
+                            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
+                                <div class="flex gap-5 w-[100%] mx-auto pt-5">
+                                    <div class="gambar">
+                                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
+                                    </div>
+                                    <div class="deskripsi">
+                                        <div class="judul text-sm lg:text-lg">
+                                            <h1>Penanganan</h1>
+                                        </div>
+                                        <div class="kategori text-sm lg:text-lg">
+                                            <h3>Makanan dan Minuman</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="toggle-button text-sm lg:text-lg" onclick="toggleContent('penanganan', {{ $key }})">Tampilkan Konten {{ $key }}</button>
                             </div>
-                            <div class="deskripsi text-sm lg:text-lg">
-                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
-                            </div>
+                            <hr class="mt-1 border-1 border-solid mx-auto w-[80%]">
+                        @endif
+                        <div id="content{{ $key }}" class="detail-task-penanganan text-white">
+                            @if(isset($list_penanganan[$data_kategori->id_kat_penanganan]))
+                                @foreach ($list_penanganan[$data_kategori->id_kat_penanganan] as $jkey => $data_penanganan)
+                                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
+                                        <div class="flex justify-left gap-10 p-2 items-center">
+                                            <div class="text-sm lg:text-lg">
+                                                {{ $jkey+1 }}
+                                            </div>
+                                            <div class="deskripsi text-sm lg:text-lg">
+                                                {!! $data_penanganan->deskripsi !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
-                    </div>
-                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#2296D1]">
-                        <div class="flex justify-center gap-10 p-2 items-center">
-                            <div class="text-sm lg:text-lg">
-                                2
-                            </div>
-                            <div class="deskripsi text-sm lg:text-lg">
-                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
-                            </div>
-                        </div>
-                    </div>
+                    @else
+                        <div class="text-center py-10"><span class="text-center text-red-500">Data masih kosong</span></div>
+                    @endif
                 </div>
-            </div>
-            <?php } ?>
-
-
-            <?php for ($i=1; $i < 25; $i++) { ?>
-            <div class="parent-penanganan">
-                <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
-                    <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                        <div class="gambar">
-                            <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
-                        </div>
-                        <div class="deskripsi">
-                            <div class="judul text-sm lg:text-lg">
-                                <h1>Penanganan</h1>
-                            </div>
-                            <div class="kategori text-sm lg:text-lg">
-                                <h3>Makanan dan Minuman</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="toggle-button text-sm lg:text-lg"
-                        onclick="toggleContent('penanganan', <?= $i - 1 ?>)">Tampilkan
-                        Konten <?= $i ?></button>
-
-
-                </div>
-                <hr class="mt-1 border-1 border-solid mx-auto w-[80%]">
-                <div id="content{{ $i }}" class="detail-task-penanganan text-white">
-                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
-                        <div class="flex justify-center gap-10 p-2 items-center">
-                            <div class="text-sm lg:text-lg">
-                                1
-                            </div>
-                            <div class="deskripsi text-sm lg:text-lg">
-                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#2296D1]">
-                        <div class="flex justify-center gap-10 p-2 items-center">
-                            <div class="text-sm lg:text-lg">
-                                2
-                            </div>
-                            <div class="deskripsi text-sm lg:text-lg">
-                                Latihan kekuatan kaki dengan mengangkat kaki saat duduk di kursi
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php } ?>
-
+            @endforeach
 
         </div>
     </div>
@@ -290,32 +282,27 @@
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
-        @for ($i = 0; $i < 5; $i++)
-            <div
-                class=" w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
-                <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
-                    <img src="/images/Logo-apps.png" alt=""
-                        class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]">
+        @foreach ($artikel as $data)
+            <a href="{{ route('detail-artikel') }}" class=" w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
+                <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-center bg-cover" style="background-image: url({{ asset(Storage::url('public/artikel/cover/'.$data->cover)) }})">
+                    {{-- <img src="{{ asset(Storage::url("public/artikel/cover/$data->cover")) }}" alt="Cover {{ $data->id }}"
+                        class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]"> --}}
                 </div>
                 <div class="deskripsi flex-1 text-sm ">
                     <div class="konten">
                         <h1 class="font-bold ms-5 mt-5 lg:ms-10 lg:mt-7 text-lg text-[#15ADA7]">
-                            Tanda dan Gejala
+                            {{ $data->judul }}
                         </h1>
-                        <p class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur veritatis id at
-                            mollitia,
-                            vero natus veniam temporibus, illo sapiente minima molestiae placeat nostrum voluptatum
-                            magnam
-                            delectus itaque possimus? Beatae!
-                        </p>
-                        <p class="ms-5 mt-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, 20 Nov 2023</p>
+                        <div class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
+                            {!! $data->deskripsi !!}
+                        </div>
+                        <p class="ms-5 mt-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, {{ Carbon\Carbon::parse($data->create_at)->format("d M Y") }}</p>
                     </div>
 
                 </div>
 
-            </div>
-        @endfor
+            </a>
+        @endforeach
 
     </div>
     <nav class="nav-bottom md:hidden w-[100%] h-[60px] bottom-[0.8rem] fixed z-10 ">

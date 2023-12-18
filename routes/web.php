@@ -37,7 +37,7 @@ Route::middleware(['CheckAuth'])->group(function () {
     Route::any('/profile/{id}', [UserController::class, 'profile'])->name('setting-profile');
     Route::get('/detail-aktivitas', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
-    Route::get('/detail-artikel', [PageController::class, 'show_artikel'])->name('detail-artikel');
+    Route::get('/detail-artikel/{id}', [PageController::class, 'show_artikel'])->name('detail-artikel');
 
     // Admin
     Route::middleware(['AdminCheck'])->group(function () {

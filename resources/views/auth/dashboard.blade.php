@@ -277,26 +277,27 @@
 
         </div>
     </div>
-    <div class="berita lg:w-[80%] mx-auto px-3 mt-3">
+    <div class="container berita lg:w-[80%] mx-auto px-3 mt-3">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
         @foreach ($artikel as $data)
-            <a href="{{ route('detail-artikel') }}" class=" w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
-                <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-center bg-cover" style="background-image: url({{ asset(Storage::url('public/artikel/cover/'.$data->cover)) }})">
+            <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class=" w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg">
+                <div class="avatar w-[35%] lg:w-[30%] p-3">
+                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available;background-image: url({{ asset(Storage::url('public/artikel/cover/'.$data->cover)) }})"></div>
                     {{-- <img src="{{ asset(Storage::url("public/artikel/cover/$data->cover")) }}" alt="Cover {{ $data->id }}"
                         class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]"> --}}
                 </div>
-                <div class="deskripsi flex-1 text-sm ">
+                <div class="deskripsi flex-1 text-sm lg:ps-4 ps-2 lg:py-5 py-2">
                     <div class="konten">
-                        <h1 class="font-bold ms-5 mt-5 lg:ms-10 lg:mt-7 text-lg text-[#15ADA7]">
+                        <h1 class="font-bold text-lg text-[#15ADA7]">
                             {{ $data->judul }}
                         </h1>
-                        <div class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
+                        <div class="text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
                             {!! $data->deskripsi !!}
                         </div>
-                        <p class="ms-5 mt-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, {{ Carbon\Carbon::parse($data->create_at)->format("d M Y") }}</p>
+                        <p class="text-gray-500">Admin, {{ Carbon\Carbon::parse($data->create_at)->format("d M Y") }}</p>
                     </div>
 
                 </div>

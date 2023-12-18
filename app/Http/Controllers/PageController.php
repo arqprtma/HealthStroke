@@ -144,9 +144,14 @@ class PageController extends Controller
         return view('auth.user.artikel.artikel', $data);
     }
 
-    public function show_artikel(Request $request) {
+    public function show_artikel(Request $request, $id = null) {
+        if($id == null){
+            return back()->with('error', 'Artikel belum tersedia');
+        }
+        $artikel  = Artikel::with('kategori_artikel')->where('id', $id)->first();
         $data = [
             'title' => 'Overview Artikel | StrokeCare',
+            'artikel' => $artikel,
         ];
         return view('auth.user.artikel.detail-artikel', $data);
     }

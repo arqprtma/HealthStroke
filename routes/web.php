@@ -31,11 +31,13 @@ Route::middleware(['CheckAuth'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/pasien', [PageController::class, 'pasien'])->name('pasien');
     Route::get('/pasien/{id}', [PageController::class, 'pasien_id'])->name('pasien.update');
+    Route::post('/pasien/{id}/update', [UserController::class, 'pasien_update'])->name('setting-pasien');
     Route::post('/pasien', [UserController::class, 'pasien_store'])->name('pasien.post');
-    Route::post('/setting-pasien/{id}', [UserController::class, 'pasien_update'])->name('setting-pasien');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
     Route::any('/profile/{id}', [UserController::class, 'profile'])->name('setting-profile');
-    Route::get('/detail-aktivitas', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
+    Route::get('/detail-aktivitas/{id}', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
+    Route::get('/detail-penanganan/{id}', [PageController::class, 'show_penanganan'])->name('detail-penanganan');
+
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel/{id}', [PageController::class, 'show_artikel'])->name('detail-artikel');
 
@@ -62,7 +64,7 @@ Route::middleware(['CheckAuth'])->group(function () {
             Route::put('/admin/aktivitas/edit/{id?}', [AdminController::class, 'update_aktivitas'])->name('aktivitas.update');
             Route::post('/admin/aktivitas/store', [AdminController::class, 'admin_store_aktivitas'])->name('aktivitas.store');
             Route::delete('/admin/aktivitas/{id?}', [AdminController::class, 'destroy_aktivitas'])->name('aktivitas.delete');
-            
+
             Route::get('/admin/penanganan', [PageController::class, 'admin_penanganan'])->name('penanganan');
             Route::get('/admin/penanganan/tambah', [PageController::class, 'admin_tambah_penanganan'])->name('penanganan.tambah');
             Route::get('/admin/penanganan/kategori/tambah', [PageController::class, 'admin_tambah_kategori_penanganan'])->name('penanganan.kategori.tambah');
@@ -71,7 +73,7 @@ Route::middleware(['CheckAuth'])->group(function () {
             Route::put('/admin/penanganan/edit/{id?}', [AdminController::class, 'update_penanganan'])->name('penanganan.update');
             Route::post('/admin/penanganan/store', [AdminController::class, 'admin_store_penanganan'])->name('penanganan.store');
             Route::delete('/admin/penanganan/{id?}', [AdminController::class, 'destroy_penanganan'])->name('penanganan.delete');
-            
+
             // Artikel
             Route::get('/admin/artikel', [PageController::class, 'admin_artikel'])->name('artikel');
             Route::get('/admin/artikel/tambah', [PageController::class, 'admin_tambah_artikel'])->name('artikel.tambah');

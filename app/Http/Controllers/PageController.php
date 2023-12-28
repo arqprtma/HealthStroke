@@ -89,7 +89,7 @@ class PageController extends Controller
             foreach($kat_aktivitas as $key => $data_kategori){
                 foreach ($aktivitas as $jkey => $data_aktivitas) {
                     if($data_kategori->id_kat_aktivitas == $data_aktivitas->id_kat_aktivitas){
-                        $list_aktivitas[$data_kategori->id_kat_aktivitas][] = $data_aktivitas; 
+                        $list_aktivitas[$data_kategori->id_kat_aktivitas][] = $data_aktivitas;
                     }
                 }
             }
@@ -98,7 +98,7 @@ class PageController extends Controller
             foreach($kat_penanganan as $key => $data_kategori){
                 foreach ($penanganan as $jkey => $data_penanganan) {
                     if($data_kategori->id_kat_penanganan == $data_penanganan->id_kat_penanganan){
-                        $list_penanganan[$data_kategori->id_kat_penanganan][] = $data_penanganan; 
+                        $list_penanganan[$data_kategori->id_kat_penanganan][] = $data_penanganan;
                     }
                 }
             }
@@ -130,11 +130,24 @@ class PageController extends Controller
         return view('auth.profile-user', $data);
     }
 
-    public function show_aktivitas(Request $request) {
+    public function show_aktivitas(Request $request, $id) {
+        $aktivitas  = Aktivitas::with('kategori_aktivitas')->where('id_aktivitas', $id)->first();
+
         $data = [
-            'title' => 'Profile Settings | StrokeCare',
+            'title' => 'Detail Aktivitas | StrokeCare',
+            'aktivitas' => $aktivitas
         ];
         return view('auth.user.pasien.detail-aktivitas', $data);
+    }
+
+    public function show_penanganan(Request $request, $id) {
+        $penanganan  = Penanganan::where('id_penanganan', $id)->first();
+
+        $data = [
+            'title' => 'Detail penanganan | StrokeCare',
+            'penanganan' => $penanganan
+        ];
+        return view('auth.user.pasien.detail-penanganan', $data);
     }
 
     public function artikel(Request $request) {
@@ -166,22 +179,21 @@ class PageController extends Controller
             'pemicu' => $pemicu,
             'komplikasi' => $komplikasi,
         ];
-        return view('auth.user.pasien.profile-pasien', $data);
+        return view('auth.user.pasien.tambah-pasien', $data);
     }
 
     public function pasien_id(Request $request) {
         $userId = $request->id;
-        $pasien = Pasien::where('id', $userId)->get();
+        $pasien = Pasien::where('id_pasien', $userId)->first();
         $pemicu = Pemicu::all();
         $komplikasi = Komplikasi::all();
-        // dd($pasien);
         $data = [
             'title' => 'Pasien | StrokeCare',
             'pasien' => $pasien,
             'pemicu' => $pemicu,
             'komplikasi' => $komplikasi,
         ];
-        return view('auth.user.pasien.profile-pasien', $data);
+        return view('auth.user.pasien.update-pasien', $data);
     }
 
 
@@ -314,7 +326,7 @@ class PageController extends Controller
             $kat_penanganan = Kategori_penanganan::select('id_kat_penanganan','nama')->get();
             $pemicu = Pemicu::select('id_pemicu','nama')->get();
             $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
-            
+
             $data = [
                 'title' => 'Edit Penanganan | StrokeCare',
                 'penanganan' => $penanganan,
@@ -331,7 +343,7 @@ class PageController extends Controller
                 'title' => 'Artikel Admin | StrokeCare',
                 'artikel' => $artikel,
             ];
-            
+
             return view('auth.admin.artikel.index', $data);
         }
         public function admin_tambah_artikel() {
@@ -341,22 +353,21 @@ class PageController extends Controller
                 'title' => 'Tambah penanganan | StrokeCare',
                 'kat_artikel' => $kat_artikel,
             ];
-            
+
             return view('auth.admin.artikel.artikel', $data);
         }
         public function admin_edit_artikel($id) {
             $artikel = Artikel::where('id', $id)->first();
-    
+
             $kat_artikel = Kategori_artikel::select('id_kat_artikel','nama')->get();
-            
+
             $data = [
                 'title' => 'Edit Artikel | StrokeCare',
                 'artikel' => $artikel,
                 'kat_artikel' => $kat_artikel,
             ];
-            
+
             return view('auth.admin.artikel.edit_artikel', $data);
         }
         // End Admin
     }
-    

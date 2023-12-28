@@ -188,7 +188,7 @@ class UserController extends Controller
         $penangananId = $penanganan->pluck('id_penanganan');
 
         // dd($request->all(),$aktivitas, $penanganan);
-        
+
         $dataPasien = Pasien::select('id_pasien','status')->where('id_user',auth()->user()->id)->first();
 
         // Data untuk request pasien
@@ -247,8 +247,9 @@ class UserController extends Controller
 
         if ($validation->fails()) {
             // Handle kesalahan validasi
-            return redirect()->back()->withErrors($validation)->withInput()->with('error', 'Gagal merubah data pasien');
+            return redirect()->back()->withErrors($validation)->withInput();
         }
+
 
         $data = Pasien::findOrFail($id);
         $data->nama = $request->nama;
@@ -257,6 +258,7 @@ class UserController extends Controller
         $data->umur = $request->umur;
         $data->pemicu = $request->input('pemicu', []);
         $data->komplikasi = $request->input('komplikasi',[]);
+
 
         $data->save();
 

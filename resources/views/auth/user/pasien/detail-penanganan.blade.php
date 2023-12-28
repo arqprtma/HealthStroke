@@ -12,7 +12,7 @@
 </head>
 
 <body class="bg-[#F8F8FF]">
-    {{-- {{ dd($aktivitas) }} --}}
+    {{-- {{ dd($penanganan) }} --}}
     <div class="container mx-auto">
         <div class="back w-[50px] relative top-[50px]  h-[50px] left-[40px] lg:left-[120px]">
             <a href={{ '/dashboard' }}>
@@ -20,10 +20,10 @@
             </a>
         </div>
         <div class="content relative top-[50px] lg:top-[50px] w-[80%] mx-auto">
-            <h1 class="font-bold mt-5 mb-5 text-[14px] lg:text-[24px]">{{ $aktivitas->kategori_aktivitas->nama }}</h1>
+            <h1 class="font-bold mt-5 mb-5 text-[14px] lg:text-[24px]">Aktivitas Kehidupan Sehari - Hari</h1>
             <img src="images/aktivitas1.jpg" alt="" class="w-[100%] object-fit mx-auto">
             <h2 class="mt-5 mb-5 text-sm lg:text-lg">Deskripsi : </h2>
-            <p class=" mx-auto text-sm lg:text-lg">{{ $aktivitas->deskripsi }}</p>
+            <p class=" mx-auto text-sm lg:text-lg">{{ $penanganan->deskripsi }}</p>
             <h2 class="mt-5 mb-5">Video Aktivitas Treatment : </h2>
             <iframe class="w-[100%] h-[315px] mt-5 mb-10" {{ $code = 'vjVkXlxsO8Q' }}
                 src="https://www.youtube.com/embed/{{ $code }}" title="YouTube video player" frameborder="0"

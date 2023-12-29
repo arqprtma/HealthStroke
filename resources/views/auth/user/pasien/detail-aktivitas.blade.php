@@ -23,26 +23,31 @@
             <h1 class="font-bold mt-5 mb-5 text-[14px] lg:text-[24px]">{{ $aktivitas->kategori_aktivitas->nama }}</h1>
             <img src="images/aktivitas1.jpg" alt="" class="w-[100%] object-fit mx-auto">
             <h2 class="mt-5 mb-5 text-sm lg:text-lg">Deskripsi : </h2>
-            <p class=" mx-auto text-sm lg:text-lg">{{ $aktivitas->deskripsi }}</p>
-            <h2 class="mt-5 mb-5">Video Aktivitas Treatment : </h2>
-            <iframe class="w-[100%] h-[315px] mt-5 mb-10" {{ $code = 'vjVkXlxsO8Q' }}
-                src="https://www.youtube.com/embed/{{ $code }}" title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
+            <div class=" mx-auto text-sm lg:text-base">{!! $aktivitas->deskripsi !!}</div>
+            @if($aktivitas->video)
+                <h5 class="mt-5 text-sm lg:text-base">Video Aktivitas Treatment : </h5>
+                <iframe class="w-[100%] h-[315px] mt-5 mb-10" src="https://www.youtube.com/embed/{{ $aktivitas->video }}" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            @endif
 
-            <h3 class="text-[14px] font-bold lg:text-lg">Aktivitas Lainnya</h3>
-            @for ($i = 1; $i < 6; $i++)
-                <div class="container w-[100%] mx-auto mt-2  rounded-sm bg-[#FFFF] rounded-lg p-5">
+            <h5 class="text-sm font-bold lg:text-lg mt-12">Aktivitas Lainnya</h5>
+            @foreach ($list_aktivitas as $key => $list)
+                <div class="container w-[100%] mx-auto mt-2  rounded-sm bg-[#FFFF] rounded-lg p-3">
                     <div class="deskripsi mx-auto">
-                        <h1 class="text-sm lg:text-lg">{{ $i }}. Latihan Kekuatan kaki dengan mengangkat kaki
-                            saat duduk
-                            dikursi. Lorem
-                            ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis, neque?
-                        </h1>
+                        <div class="flex justify-left gap-10 p-2 items-center">
+                            <div class="text-sm lg:text-base">
+                                {{ $key + 1 }}
+                            </div>
+                            <div class="deskripsi text-sm lg:text-base">
+                                {!! Str::limit($list->deskripsi, 60, '...') !!}
+                            </div>
+                        </div>
+                        {{-- <h1 class="text-sm lg:text-lg">{{ $key+1 }}. {!! $list->deskripsi !!}</h1> --}}
                     </div>
                 </div>
-            @endfor
+            @endforeach
 
             <div class="text-center mt-7 pb-10">
                 <button

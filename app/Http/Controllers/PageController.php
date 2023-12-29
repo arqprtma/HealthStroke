@@ -55,10 +55,7 @@ class PageController extends Controller
         $userId = Auth::id();
 
         $pasien = Pasien::with('user')
-        ->where('id_user', $userId);
-
-        $pasien = $pasien->get();
-        $pasien_aktif = $pasien->where('status', 'aktif')->first();
+            ->where('id_user', $userId)->first();
 
         // Get Artikel
         $artikel = Artikel::get();
@@ -75,31 +72,29 @@ class PageController extends Controller
         $list_aktivitas = [];
         $list_penanganan = [];
 
-        if($pasien_aktif){
-            $treatment = Treatment::where('id_pasien', $pasien_aktif->id_pasien)->first();
-            $aktivitasId = json_decode($treatment->id_aktivitas);
-            $penangananId = json_decode($treatment->id_penanganan);
+        $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
+        $aktivitasId = json_decode($treatment->id_aktivitas);
+        $penangananId = json_decode($treatment->id_penanganan);
 
-            // Get Aktivitas Data
-            $aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->get();
-            $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->get();
+        // Get Aktivitas Data
+        $aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->get();
+        $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->get();
 
-            // Menggabungkan data Aktivitas berdasarkan kategori aktivitas
-            $list_aktivitas = [];
-            foreach($kat_aktivitas as $key => $data_kategori){
-                foreach ($aktivitas as $jkey => $data_aktivitas) {
-                    if($data_kategori->id_kat_aktivitas == $data_aktivitas->id_kat_aktivitas){
-                        $list_aktivitas[$data_kategori->id_kat_aktivitas][] = $data_aktivitas;
-                    }
+        // Menggabungkan data Aktivitas berdasarkan kategori aktivitas
+        $list_aktivitas = [];
+        foreach($kat_aktivitas as $key => $data_kategori){
+            foreach ($aktivitas as $jkey => $data_aktivitas) {
+                if($data_kategori->id_kat_aktivitas == $data_aktivitas->id_kat_aktivitas){
+                    $list_aktivitas[$data_kategori->id_kat_aktivitas][] = $data_aktivitas;
                 }
             }
-            // Menggabungkan data penanganan berdasarkan kategori penanganan
-            $list_penanganan = [];
-            foreach($kat_penanganan as $key => $data_kategori){
-                foreach ($penanganan as $jkey => $data_penanganan) {
-                    if($data_kategori->id_kat_penanganan == $data_penanganan->id_kat_penanganan){
-                        $list_penanganan[$data_kategori->id_kat_penanganan][] = $data_penanganan;
-                    }
+        }
+        // Menggabungkan data penanganan berdasarkan kategori penanganan
+        $list_penanganan = [];
+        foreach($kat_penanganan as $key => $data_kategori){
+            foreach ($penanganan as $jkey => $data_penanganan) {
+                if($data_kategori->id_kat_penanganan == $data_penanganan->id_kat_penanganan){
+                    $list_penanganan[$data_kategori->id_kat_penanganan][] = $data_penanganan;
                 }
             }
         }
@@ -115,7 +110,6 @@ class PageController extends Controller
             'penangananId' => $penangananId,
             'kat_penanganan' => $kat_penanganan,
             'list_penanganan' => $list_penanganan,
-            'pasien_aktif' => $pasien_aktif,
             'pasien' => $pasien,
             'artikel' => $artikel
         ];
@@ -133,9 +127,23 @@ class PageController extends Controller
     public function show_aktivitas(Request $request, $id) {
         $aktivitas  = Aktivitas::with('kategori_aktivitas')->where('id_aktivitas', $id)->first();
 
+        // Get the current user's ID
+        $userId = Auth::id();
+        $pasien = Pasien::with('user')->where('id_user', $userId)->first();
+        $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
+        $aktivitasId = json_decode($treatment->id_aktivitas);
+        // $penangananId = json_decode($treatment->id_penanganan);
+
+        // Get Aktivitas Data
+        $list_aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->whereNotIn('id_aktivitas', [$id])->get()->take(5);
+        // $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->get();
+        // $list_aktivitas = Aktivitas::with('kategori_aktivitas')->whereNotIn('id_aktivitas', [$id])->get();
+        // dd($list_aktivitas);
+
         $data = [
             'title' => 'Detail Aktivitas | StrokeCare',
-            'aktivitas' => $aktivitas
+            'aktivitas' => $aktivitas,
+            'list_aktivitas' => $list_aktivitas,
         ];
         return view('auth.user.pasien.detail-aktivitas', $data);
     }

@@ -100,64 +100,61 @@
                 </div>
             </div>
             <div class="card-pasien mt-5">
-                @if ($pasien->isNotEmpty())
+                @if ($pasien)
                     <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
-                        @foreach ($pasien as $item)
+                        <div class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
                             <div
-                                class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
-                                <div
-                                    class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
-                                    <img src="/images/Logo-apps.png" alt=""
-                                        class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
-                                </div>
-                                <div class="deskripsi flex-1 text-sm">
-                                    <a href={{ route('pasien.update', $item->id_pasien) }}
-                                        class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
-                                    </a>
-                                    <div class="nama flex mt-2 ">
-                                        <p
-                                            class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
-                                            {{ $item->nama }}
-
-                                        </p>
-                                        @if ($item->gender == 'L')
-                                            <img src="images/male.png" alt=""
-                                                class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
-                                        @elseif ($item->gender == 'P')
-                                            <img src="images/female.png" alt=""
-                                                class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
-                                        @endif
-
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="bar-aktivitas">
-                                            <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment
-                                            </h3>
-                                            <div
-                                                class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                                0/{{ $aktivitasId ? count($aktivitasId) : 0 }}
-                                            </div>
-                                            <div
-                                                class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                                <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="bar-penanganan mt-1 lg:mt-2">
-                                            <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
-                                            <div
-                                                class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                                0/{{ $penangananId ? count($penangananId) : 0 }}
-                                            </div>
-                                            <div
-                                                class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                                <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
+                                <img src="/images/Logo-apps.png" alt=""
+                                    class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] ">
                             </div>
-                        @endforeach
+                            <div class="deskripsi flex-1 text-sm">
+                                <a href={{ route('pasien.update', $pasien->id_pasien) }}
+                                    class="bg-[#2296D1] lg:w-[70px] lg:h-[30px] float-right mt-2 me-3 text-white lg:rounded-lg lg:text-lg text-center text-[12px] rounded ps-2 pe-2">Edit
+                                </a>
+                                <div class="nama flex mt-2 ">
+                                    <p
+                                        class=" text-[12px] h-[20px] lg:h-[35px] lg:text-xl font-bold mt-10 ms-2 lg:ms-10 overflow-hidden">
+                                        {{ $pasien->nama }}
+
+                                    </p>
+                                    @if ($pasien->gender == 'L')
+                                        <img src="images/male.png" alt=""
+                                            class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
+                                    @elseif ($pasien->gender == 'P')
+                                        <img src="images/female.png" alt=""
+                                            class="w-[10px] h-[10px] lg:w-[20px] lg:h-[20px] ms-1 lg:ms-2 mt-10 lg:mt-8">
+                                    @endif
+
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="bar-aktivitas">
+                                        <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment
+                                        </h3>
+                                        <div
+                                            class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                            0/{{ $aktivitasId ? count($aktivitasId) : 0 }}
+                                        </div>
+                                        <div
+                                            class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bar-penanganan mt-1 lg:mt-2">
+                                        <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
+                                        <div
+                                            class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
+                                            0/{{ $penangananId ? count($penangananId) : 0 }}
+                                        </div>
+                                        <div
+                                            class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 @else
                     <img src="images/pasien/empty.svg" alt="" class="width-[150px] h-[150px] mx-auto mt-10">
@@ -189,7 +186,7 @@
                 <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
                 <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
             </div>
-            <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-scroll">
+            <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-auto">
                 <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
                     <button class="aktivitas-button" onclick="toggleParent('aktivitas')">
                         <h1 class="text-center">Aktivitas</h1>
@@ -202,10 +199,10 @@
                     </button>
                 </div>
                 @foreach ($kat_aktivitas as $key => $data_kategori)
-                    <div class="parent-aktivitas">
+                    <div class="parent-aktivitas cursor-pointer" onclick="toggleContent('aktivitas', {{ $key }})">
                         @if (!empty($list_aktivitas))
                             @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
-                                <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
+                                <div class="task flex mx-auto px-20 justify-evenly mt-2">
                                     <div class="flex gap-5 w-[100%] mx-auto pt-5">
                                         <div class="gambar">
                                             <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
@@ -219,9 +216,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="toggle-button text-sm lg:text-lg"
-                                        onclick="toggleContent('aktivitas', {{ $key }})">Tampilkan Konten
-                                        {{ $key }}</button>
+                                    <button class="toggle-button text-sm lg:text-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg>                                          
+                                    </button>
                                 </div>
                                 <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
                             @endif
@@ -259,7 +258,7 @@
                 <div class="parent-penanganan">
                     @if (!empty($list_penanganan))
                         @if (isset($list_penanganan[$data_kategori->id_kat_penanganan]))
-                            <div class="task flex w-[80%] mx-auto justify-evenly mt-2">
+                            <div class="task flex mx-auto px-20 justify-evenly mt-2">
                                 <div class="flex gap-5 w-[100%] mx-auto pt-5">
                                     <div class="gambar">
                                         <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
@@ -313,7 +312,7 @@
     {{-- end tasks --}}
 
 
-    <div class="container lg:w-[80%] w-[95%] berita mx-auto mt-3">
+    <div class="container lg:w-[80%] berita mx-auto mt-3">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
             <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>

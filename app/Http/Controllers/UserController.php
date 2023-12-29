@@ -187,10 +187,6 @@ class UserController extends Controller
             ->get();
         $penangananId = $penanganan->pluck('id_penanganan');
 
-        // dd($request->all(),$aktivitas, $penanganan);
-
-        $dataPasien = Pasien::select('id_pasien','status')->where('id_user',auth()->user()->id)->first();
-
         // Data untuk request pasien
         $data_request = [
             'nama' => $request->nama,
@@ -200,9 +196,6 @@ class UserController extends Controller
             'pemicu' => $selectedPemicu,
             'komplikasi' => $selectedKomplikasi,
         ];
-        if(!$dataPasien){
-            $data_request['status'] = 'aktif';
-        }
 
         // Simpan data pasien
         $pasien = Pasien::create($data_request);
@@ -215,7 +208,7 @@ class UserController extends Controller
         // Simpan data treatment
         Treatment::create($data_treatment);
 
-        return redirect()->route('pasien')->with('success', 'Berhasil tambah data pasien');
+        return redirect()->route('dashboard')->with('success', 'Berhasil tambah data pasien');
     }
 
 

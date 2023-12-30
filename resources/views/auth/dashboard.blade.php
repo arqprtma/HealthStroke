@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="/path/to/flickity.css" media="screen">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <title>{{ $title }}</title>
     <style>
@@ -81,14 +82,27 @@
                     <h1 class="font-bold">Hi, </h1><span>{{ auth()->user()->nama }}</span>
                 </div>
                 <div class="logo box-border cursor-pointer" id="profile">
-                    <img src="/images/Logo-apps.png" alt="logo" class="w-[50px] h-[50px] mt-[-15px]">
+                    @if (auth()->user()->gender == 'L')
+                        <div class="mx-auto">
+                            <img src="images/pasien/man.png" alt="Laki-Laki" class="w-[50px] h-[50px] mt-[-15px]">
+                        </div>
+                    @elseif (auth()->user()->gender == 'P')
+                        <div class="mx-auto">
+                            <img src="images/pasien/woman.png" alt="Perempuan" class="w-[50px] h-[50px] mt-[-15px]">
+                        </div>
+                    @endif
                 </div>
             </div>
             <div
                 class="dropdown-profile lg:w-[10vw] w-[22vw] h-auto bg-white absolute lg:right-40 right-5 top-20 rounded shadow-lg py-2 px-4 inactive">
-                <ul>
-                    <li onclick="logout()" class="cursor-pointer font-bold text-red-500">Logout</li>
+                <ul class="mb-2">
+                    <li onclick="profile()" class="uil uil-user cursor-pointer font-bold text-green-500"><span class="ps-4">Profile</span></li>
                 </ul>
+                <hr>
+                <ul class="mt-2">
+                    <li onclick="logout()" class="uil uil-sign-out-alt cursor-pointer font-bold text-red-500"><span class="ps-4">Logout</span></li>
+                </ul>
+
             </div>
         </div>
         <div class="pasien container lg:w-[80%]  mx-auto px-4 pt-10">
@@ -449,9 +463,6 @@
         filterDate();
     </script>
 
-
-
-
     <script>
         if ($(window).width() < 768) {
             $('#bg-blub').css('background-image', 'url("/images/bg-mobile.png")');
@@ -476,10 +487,26 @@
             dropdownProfile.classList.toggle('inactive');
         });
 
-
-        // LOGOUT
         function logout() {
-            window.location.href = '/logout';
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Jangan lupa untuk kembali lagi",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Keluar!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/logout';
+                }
+            });
+        }
+
+
+        function profile() {
+            window.location.href = '/profile';
         }
 
         function toggleParent(type) {

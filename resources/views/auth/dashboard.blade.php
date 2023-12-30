@@ -94,13 +94,13 @@
                 </div>
             </div>
             <div
-                class="dropdown-profile lg:w-[10vw] w-[22vw] h-auto bg-white absolute lg:right-40 right-5 top-20 rounded shadow-lg py-2 px-4 inactive">
+                class="dropdown-profile lg:w-[10vw] w-[35vw] h-auto bg-white absolute lg:right-40 right-6 top-20 rounded shadow-lg py-2 px-4 inactive">
                 <ul class="mb-2">
-                    <li onclick="profile()" class="uil uil-user cursor-pointer font-bold text-green-500"><span class="ps-4">Profile</span></li>
+                    <li onclick="profile()" class="uil uil-user cursor-pointer font-bold text-green-500"><span class="ms-3 text-sm lg:text-lg">Profile</span></li>
                 </ul>
                 <hr>
                 <ul class="mt-2">
-                    <li onclick="logout()" class="uil uil-sign-out-alt cursor-pointer font-bold text-red-500"><span class="ps-4">Logout</span></li>
+                    <li onclick="logout()" class="uil uil-sign-out-alt cursor-pointer font-bold text-red-500"><span class="ms-3 text-sm lg:text-lg">Logout</span></li>
                 </ul>
 
             </div>

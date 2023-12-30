@@ -84,11 +84,11 @@
                 <div class="logo box-border cursor-pointer" id="profile">
                     @if (auth()->user()->gender == 'L')
                         <div class="mx-auto">
-                            <img src="images/pasien/man.png" alt="Laki-Laki" class="w-[50px] h-[50px] mt-[-15px]">
+                            <img src="images/pasien/man.png" alt="Laki-Laki" class="w-[50px] h-[50px] mt-[-15px] ">
                         </div>
                     @elseif (auth()->user()->gender == 'P')
                         <div class="mx-auto">
-                            <img src="images/pasien/woman.png" alt="Perempuan" class="w-[50px] h-[50px] mt-[-15px]">
+                            <img src="images/pasien/woman.png" alt="Perempuan" class="w-[50px] h-[50px] mt-[-15px] ">
                         </div>
                     @endif
                 </div>
@@ -190,8 +190,8 @@
                 </div>
                 <canvas id="myChart" class="lg:w-[100%] h-[50%]"></canvas>
                 <h3>Hasil </h3>
-                <p>Total treatment : 42 </p>
-                <p>Total yang dikerjakan : 35 </p>
+                <p>Total treatment : {{ count($aktivitasId) + count($penangananId) }} </p>
+                <p>Total yang dikerjakan : ... </p>
             </div>
         </div>
 
@@ -327,7 +327,7 @@
     {{-- end tasks --}}
 
 
-    <div class="container lg:w-[80%] berita mx-auto mt-3">
+    <div class="container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
             <a href="{{route('artikel')}}" class="text-sm lg:text-lg">Lihat Lainnya</a>

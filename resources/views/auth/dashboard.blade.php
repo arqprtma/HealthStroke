@@ -165,7 +165,7 @@
         </div>
 
 
-        <div class="deskripsi container lg:w-[80%] mx-auto px-4 mb-10 mt-[50px]">
+        <div id="deskripsi" class="deskripsi container lg:w-[80%] mx-auto px-4 mb-10 mt-[50px]">
             <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil treatment yang dikerjakan</h1>
             <div class="lg:w-[100%] w-[100%] mx-auto top-12 p-5 bg-[#FFFF] rounded-lg text-sm">
                 <div class="float-right">
@@ -181,7 +181,7 @@
             </div>
         </div>
 
-        <div class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
+        <div id="tasks" class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
             <div class="judul flex justify-between">
                 <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
                 <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
@@ -219,7 +219,7 @@
                                     <button class="toggle-button text-sm lg:text-lg">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                                        </svg>                                          
+                                        </svg>
                                     </button>
                                 </div>
                                 <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
@@ -347,24 +347,28 @@
 
     </div>
     <nav class="nav-bottom md:hidden w-[100%] h-[60px] bottom-[0.8rem] fixed z-10 ">
-        <ul class="flex justify-center items-center h-[60px] bottom-menu">
+        <ul class="flex justify-evenly items-center h-[60px] bottom-menu">
             <li>
-                <a href="" class="me-10">
+                <a href="{{route('dashboard')}}" class="me-10">
                     <i class="uil uil-estate text-[30px] text-black"></i>
                 </a>
             </li>
             <li>
-                <a type="button" class="me-10 cursor-pointer" data-modal-target="profileModal"
+                <a href="#deskripsi" class="me-10 cursor-pointer" data-modal-target="profileModal"
                     data-modal-toggle="profileModal">
-                    <i class="uil uil-user text-[30px] text-black"></i>
-                </a>
-            </li>
-            <li>
-                <a href="" class="">
                     <i class="uil uil-chart-bar text-[30px] text-black"></i>
                 </a>
             </li>
-
+            <li>
+                <a href="#tasks" class="me-10">
+                    <i class="uil uil-calendar-alt text-[30px] text-black"></i>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('artikel')}}" class="">
+                    <i class="uil uil-newspaper text-[30px] text-black"></i>
+                </a>
+            </li>
         </ul>
     </nav>
 

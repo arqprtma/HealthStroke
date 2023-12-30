@@ -9,6 +9,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <title>Artikel - Health Stroke</title>
+
+    <style>
+        .active {
+            display: block;
+        }
+
+        .inactive {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -18,27 +28,23 @@
                 <img src="images/arrow-back.png" alt="">
             </a>
         </div>
-        <div class="content relative top-[50px] lg:top-[50px] w-[80%] mx-auto">
-            <h1 class="font-bold mt-5 mb-5 text-[14px] lg:text-[24px]">Artikel untuk kamu</h1>
+        <div class="content relative top-[50px] lg:top-[50px] w-[95%] lg:w-[80%] mx-auto">
+            <h1 class="ms-10 font-bold mt-5 mb-2 lg:mb-5 text-[14px] lg:text-[24px]">Artikel untuk kamu</h1>
             <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
-                <a href="#" class="click-pemahaman">
-                    <h1 class="text-center">Pemahaman</h1>
-                    <hr class="border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px]">
-                </a>
-                <a href="#" class="click-pertolonganpertama">
-                    <h1>Pertolongan Pertama</h1>
-                    {{-- <hr class="border-2 border-solid border-[#15ADA7]"> --}}
-                </a>
-                <a href="#" class="click-tanda-gejala">
-                    <h1>Tanda dan Gejala</h1>
-                    {{-- <hr class="border-2 border-solid border-[#15ADA7]"> --}}
-                </a>
+                <div class="click-pemahaman cursor-pointer">
+                    <h1 class="text-sm lg:text-lg text-center">Pemahaman</h1>
+                    <hr class="border-pemahaman border-2 border-solid border-[#15ADA7] w-[100px] lg:w-[120px]">
+                </div>
+                <div class="click-pertolonganpertama cursor-pointer">
+                    <h1 class="text-sm lg:text-lg">Pertolongan Pertama</h1>
+                    <hr class="border-pertolongan border-2 border-solid border-[#15ADA7]">
+                </div>
+                <div class="click-tanda-gejala cursor-pointer">
+                    <h1 class="text-sm lg:text-lg">Tanda dan Gejala</h1>
+                    <hr class="border-gejala border-2 border-solid border-[#15ADA7]">
+                </div>
             </div>
             <div class="berita lg:w-[100%] mx-auto px-10 mt-3">
-                <div class="judul flex justify-between">
-
-                    <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
-                </div>
                 @for ($i = 0; $i < 5; $i++)
                     <div class="gejala w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg"
                         style="display: flex">
@@ -136,21 +142,85 @@
 </body>
 
 <script>
-    let clickPemahaman = document.querySelector(".click-pemahaman");
-    let clickGejala = document.querySelector(".click-gejala");
+    document.addEventListener('DOMContentLoaded', function() {
+        let clickPemahaman = document.querySelector(".click-pemahaman");
+        let clickPertolonganPertama = document.querySelector(".click-pertolonganpertama");
+        let clickTandaGejala = document.querySelector(".click-tanda-gejala");
 
-    let pemahaman = document.querySelector(".pemahaman");
-    let pertolongan = document.querySelector(".pertolongan");
-    let gejala = document.querySelector(".gejala");
+        let pemahaman = document.querySelectorAll(".pemahaman");
+        let pertolongan = document.querySelectorAll(".pertolongan");
+        let gejala = document.querySelectorAll(".gejala");
 
-    clickPemahaman.addEventListener("click", function() {
-        if (pertolongan.style.display === 'flex') {
-            pertolongan.style.display = 'none';
-        } else {
-            pertolongan.style.display = 'none';
+        let borderPemahaman = document.querySelector(".border-pemahaman");
+        let borderPertolongan = document.querySelector(".border-pertolongan");
+        let borderGejala = document.querySelector(".border-gejala");
+
+        // Tampilkan class pemahaman secara default
+        showCategory(pemahaman);
+        hideCategory(pertolongan);
+        hideCategory(gejala);
+
+        showBorder(borderPemahaman);
+        hideBorder(borderPertolongan);
+        hideBorder(borderGejala);
+
+        clickPemahaman.addEventListener("click", function() {
+            showCategory(pemahaman);
+            hideCategory(pertolongan);
+            hideCategory(gejala);
+
+            // Tampilkan hr pemahaman dan sembunyikan yang lain
+            showBorder(borderPemahaman);
+            hideBorder(borderPertolongan);
+            hideBorder(borderGejala);
+        });
+
+        clickPertolonganPertama.addEventListener("click", function() {
+            hideCategory(pemahaman);
+            showCategory(pertolongan);
+            hideCategory(gejala);
+
+            // Tampilkan hr pertolongan dan sembunyikan yang lain
+            hideBorder(borderPemahaman);
+            showBorder(borderPertolongan);
+            hideBorder(borderGejala);
+        });
+
+        clickTandaGejala.addEventListener("click", function() {
+            hideCategory(pemahaman);
+            hideCategory(pertolongan);
+            showCategory(gejala);
+
+            // Tampilkan hr gejala dan sembunyikan yang lain
+            hideBorder(borderPemahaman);
+            hideBorder(borderPertolongan);
+            showBorder(borderGejala);
+        });
+
+        function showCategory(category) {
+            category.forEach(item => {
+                item.style.display = 'flex';
+            });
         }
 
-    })
+        function hideCategory(category) {
+            category.forEach(item => {
+                item.style.display = 'none';
+            });
+        }
+
+        function showBorder(border) {
+            border.style.display = 'block';
+        }
+
+        function hideBorder(border) {
+            border.style.display = 'none';
+        }
+    });
 </script>
+
+
+
+
 
 </html>

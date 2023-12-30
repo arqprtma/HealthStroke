@@ -198,7 +198,6 @@
         <div id="tasks" class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
             <div class="judul flex justify-between">
                 <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
-                <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
             </div>
             <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-auto">
                 <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
@@ -269,7 +268,7 @@
                 </div>
             @endforeach
             @foreach ($kat_penanganan as $key => $data_kategori)
-                <div class="parent-penanganan">
+                <div class="parent-penanganan cursor-pointer" onclick="toggleContent('penanganan', {{ $key }})">
                     @if (!empty($list_penanganan))
                         @if (isset($list_penanganan[$data_kategori->id_kat_penanganan]))
                             <div class="task flex mx-auto px-20 justify-evenly mt-2">
@@ -286,9 +285,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="toggle-button text-sm lg:text-lg"
-                                    onclick="toggleContent('penanganan', {{ $key }})">Tampilkan Konten
-                                    {{ $key }}</button>
+                                <button class="toggle-button text-sm lg:text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </button>
                             </div>
                             <hr class="mt-1 border-1 border-solid mx-auto w-[80%]">
                         @endif
@@ -329,35 +330,26 @@
     <div class="container lg:w-[80%] berita mx-auto mt-3">
         <div class="judul flex justify-between">
             <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
-            <a href="" class="text-sm lg:text-lg">Lihat Lainnya</a>
+            <a href="{{route('artikel')}}" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
         @foreach ($artikel as $data)
-            <a href="{{ route('detail-artikel', ['id' => $data->id]) }}"
-                class=" w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg">
+            <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class="w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg">
                 <div class="avatar w-[35%] lg:w-[30%] p-3">
-                    <div class="w-full bg-center bg-cover"
-                        style="height: -webkit-fill-available;background-image: url({{ asset(Storage::url('public/artikel/cover/' . $data->cover)) }})">
+                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("images/artikel/cover/$data->cover")) }}')">
                     </div>
-                    {{-- <img src="{{ asset(Storage::url("public/artikel/cover/$data->cover")) }}" alt="Cover {{ $data->id }}"
-                        class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]"> --}}
                 </div>
                 <div class="deskripsi flex-1 text-sm lg:ps-4 ps-2 lg:py-5 py-2">
                     <div class="konten">
-                        <h1 class="font-bold text-lg text-[#15ADA7]">
-                            {{ $data->judul }}
-                        </h1>
+                        <h1 class="font-bold text-lg text-[#15ADA7]">{{ $data->judul }}</h1>
                         <div class="text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
                             {!! $data->deskripsi !!}
                         </div>
-                        <p class="text-gray-500">Admin,
-                            {{ Carbon\Carbon::parse($data->create_at)->format('d M Y') }}
-                        </p>
+                        <p class="text-gray-500">Admin, {{ Carbon\Carbon::parse($data->created_at)->format('d M Y') }}</p>
                     </div>
-
                 </div>
-
             </a>
         @endforeach
+
 
     </div>
     <nav class="nav-bottom md:hidden w-[100%] h-[60px] bottom-[0.8rem] fixed z-10 ">

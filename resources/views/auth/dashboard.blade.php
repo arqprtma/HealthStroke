@@ -142,27 +142,31 @@
 
                                 </div>
                                 <div class="progress-bar">
+                                    @php
+                                        $percent_aktivitas = count($log_aktivitas) / ($aktivitasId ? count($aktivitasId) : 0) * 100;
+                                        $percent_penanganan = count($log_penanganan) / ($penangananId ? count($penangananId) : 0) * 100;
+                                    @endphp
                                     <div class="bar-aktivitas">
                                         <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment
                                         </h3>
                                         <div
                                             class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                            0/{{ $aktivitasId ? count($aktivitasId) : 0 }}
+                                            {{ count($log_aktivitas) }}/{{ $aktivitasId ? count($aktivitasId) : 0 }}
                                         </div>
                                         <div
                                             class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 45%"></div>
+                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: {{ $percent_aktivitas }}%"></div>
                                         </div>
                                     </div>
                                     <div class="bar-penanganan mt-1 lg:mt-2">
                                         <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Penanganan</h3>
                                         <div
                                             class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
-                                            0/{{ $penangananId ? count($penangananId) : 0 }}
+                                            {{ count($log_penanganan) }}/{{ $penangananId ? count($penangananId) : 0 }}
                                         </div>
                                         <div
                                             class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: 55%"></div>
+                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: {{ $percent_penanganan }}%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -212,10 +216,10 @@
                     </button>
                 </div>
                 @foreach ($kat_aktivitas as $key => $data_kategori)
-                    <div class="parent-aktivitas cursor-pointer" onclick="toggleContent('aktivitas', {{ $key }})">
+                    <div class="parent-aktivitas cursor-pointer">
                         @if (!empty($list_aktivitas))
                             @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
-                                <div class="task flex mx-auto px-20 justify-evenly mt-2">
+                                <div class="task flex mx-auto px-20 justify-evenly mt-2" onclick="toggleContent('aktivitas', {{ $key }})">
                                     <div class="flex gap-5 w-[100%] mx-auto pt-5">
                                         <div class="gambar">
                                             <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
@@ -243,7 +247,7 @@
                                     @foreach ($list_aktivitas[$data_kategori->id_kat_aktivitas] as $jkey => $data_aktivitas)
                                         <a
                                             href="{{ route('detail-aktivitas', ['id' => $data_aktivitas->id_aktivitas]) }}">
-                                            <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
+                                            <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm {{ (in_array($data_aktivitas->id_aktivitas, $log_aktivitas)) ? 'bg-[#2296D1]' : 'bg-[#15ADA7]' }}">
                                                 <div class="flex justify-left gap-10 p-2 items-center">
                                                     <div class="text-sm lg:text-lg">
                                                         {{ $jkey + 1 }}
@@ -268,10 +272,10 @@
                 </div>
             @endforeach
             @foreach ($kat_penanganan as $key => $data_kategori)
-                <div class="parent-penanganan cursor-pointer" onclick="toggleContent('penanganan', {{ $key }})">
+                <div class="parent-penanganan cursor-pointer">
                     @if (!empty($list_penanganan))
                         @if (isset($list_penanganan[$data_kategori->id_kat_penanganan]))
-                            <div class="task flex mx-auto px-20 justify-evenly mt-2">
+                            <div class="task flex mx-auto px-20 justify-evenly mt-2" onclick="toggleContent('penanganan', {{ $key }})">
                                 <div class="flex gap-5 w-[100%] mx-auto pt-5">
                                     <div class="gambar">
                                         <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
@@ -281,7 +285,7 @@
                                             <h1>Penanganan</h1>
                                         </div>
                                         <div class="kategori text-sm lg:text-lg">
-                                            <h3>Makanan dan Minuman</h3>
+                                            <h3>{{ $data_kategori->nama }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -296,19 +300,20 @@
                         <div id="content{{ $key }}" class="detail-task-penanganan text-white">
                             @if (isset($list_penanganan[$data_kategori->id_kat_penanganan]))
                                 @foreach ($list_penanganan[$data_kategori->id_kat_penanganan] as $jkey => $data_penanganan)
-                                    <a
-                                        href="{{ route('detail-penanganan', ['id' => $data_penanganan->id_penanganan]) }}">
-                                        <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm bg-[#15ADA7]">
-                                            <div class="flex justify-left gap-10 p-2 items-center">
-                                                <div class="text-sm lg:text-lg">
-                                                    {{ $jkey + 1 }}
-                                                </div>
-                                                <div class="deskripsi text-sm lg:text-lg">
-                                                    {!! $data_penanganan->deskripsi !!}
+                                    {{-- @if(!in_array($data_penanganan->id_penanganan, $log_penanganan)) --}}
+                                        <a href="{{ route('detail-penanganan', ['id' => $data_penanganan->id_penanganan]) }}">
+                                            <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm {{ (in_array($data_penanganan->id_penanganan, $log_penanganan)) ? 'bg-[#2296D1]' : 'bg-[#15ADA7]' }}">
+                                                <div class="flex justify-left gap-10 p-2 items-center">
+                                                    <div class="text-sm lg:text-lg">
+                                                        {{ $jkey + 1 }}
+                                                    </div>
+                                                    <div class="deskripsi text-sm lg:text-lg">
+                                                        {!! $data_penanganan->deskripsi !!}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    {{-- @endif --}}
                                 @endforeach
                             @endif
                         </div>
@@ -333,9 +338,9 @@
             <a href="{{route('artikel')}}" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
         @foreach ($artikel as $data)
-            <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class="w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg">
+            <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class="w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg relative">
                 <div class="avatar w-[35%] lg:w-[30%] p-3">
-                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("images/artikel/cover/$data->cover")) }}')">
+                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("/artikel/cover/$data->cover")) }}')">
                     </div>
                 </div>
                 <div class="deskripsi flex-1 text-sm lg:ps-4 ps-2 lg:py-5 py-2">
@@ -344,7 +349,7 @@
                         <div class="text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
                             {!! $data->deskripsi !!}
                         </div>
-                        <p class="text-gray-500">Admin, {{ Carbon\Carbon::parse($data->created_at)->format('d M Y') }}</p>
+                        <p class="text-gray-500 absolute bottom-5">Admin, {{ Carbon\Carbon::parse($data->created_at)->format('d M Y') }}</p>
                     </div>
                 </div>
             </a>

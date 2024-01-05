@@ -361,15 +361,15 @@ class AdminController extends Controller
         if ($request->hasFile('fileInput')) {
             $file = $request->file('fileInput');
             // Enkripsi nama file
-            $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
+            // $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
             // $decryptedFileName = Crypt::decryptString($uploadedFile->filename); //Cara nampilin file     
             // $imageUrl = asset(Storage::url("public/artikel/cover/{$decryptedFileName}")); //untuk nampilin image
     
             // Simpan file ke direktori yang diinginkan
-            $file->storeAs('public/artikel/cover', $encryptedFileName);
+            $file->storeAs('public/artikel/cover', $file->getClientOriginalName());
             $data = [
                 'judul' => $request->judul,
-                'cover' => $encryptedFileName,
+                'cover' => $file->getClientOriginalName(),
                 'kategori' => $request->kat_artikel,
                 'deskripsi' => $request->deskripsi
             ];
@@ -407,17 +407,17 @@ class AdminController extends Controller
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
                 // Enkripsi nama file
-                $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
+                // $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
                 // $decryptedFileName = Crypt::decryptString($uploadedFile->filename); //Cara nampilin file     
                 // $imageUrl = asset(Storage::url("public/artikel/cover/{$decryptedFileName}")); //untuk nampilin image
         
                 // Simpan file ke direktori yang diinginkan
-                $file->storeAs('public/artikel/cover', $encryptedFileName);
+                $file->storeAs('public/artikel/cover', $file->getClientOriginalName());
 
                 try {
                     $data = Artikel::findOrFail($id);
                     $data->judul = $request->judul;
-                    $data->cover = $encryptedFileName;
+                    $data->cover = $file->getClientOriginalName();
                     $data->kategori = $request->kat_artikel;
                     $data->deskripsi = $request->deskripsi;
                     $data->save();

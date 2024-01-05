@@ -42,15 +42,12 @@
             <tbody>
                 @if($artikel->isNotEmpty())
                     @foreach ($artikel as $key => $data)
-                        @php
-                            $decryptedFileName = Crypt::decryptString($data->cover); 
-                        @endphp
                         <tr class="{{ ($key % 2 == 1) ? 'bg-[#8DD67A] bg-opacity-30' : '' }}">
                             <td class="border text-center p-3">{{ $key+1 }}</td>
                             <td class="border w-auto p-3">{{ $data->judul }}</td>
-                            <td class="border w-auto p-3">{{ $decryptedFileName }}</td>
+                            <td class="border w-auto p-3">{{ $data->cover }}</td>
                             <td class="border w-auto p-3">{{ $data->kategori_artikel->nama }}</td>
-                            <td class="border w-full p-3">{{ $data->deskripsi }}</td>
+                            <td class="border w-[500px] p-3">{!! substr($data->deskripsi, 0, 100) !!}...</td>
                             <td class="border w-auto min-w-[130px] p-3 text-center">
                                 <a href="{{ route('admin.artikel.edit', $data->id) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $data->id }}')" class="text-red-500 inline-block">Hapus</a>
                             </td>

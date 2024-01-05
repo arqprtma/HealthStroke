@@ -37,6 +37,8 @@ Route::middleware(['CheckAuth'])->group(function () {
     Route::any('/profile/{id}', [UserController::class, 'profile'])->name('setting-profile');
     Route::get('/detail-aktivitas/{id}', [PageController::class, 'show_aktivitas'])->name('detail-aktivitas');
     Route::get('/detail-penanganan/{id}', [PageController::class, 'show_penanganan'])->name('detail-penanganan');
+    Route::get('/detail-aktivitas/{id}/proses', [UserController::class, 'add_log_aktivitas'])->name('add-log-aktivitas');
+    Route::get('/detail-penanganan/{id}/proses', [UserController::class, 'add_log_penanganan'])->name('add-log-penanganan');
 
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel/{id}', [PageController::class, 'show_artikel'])->name('detail-artikel');

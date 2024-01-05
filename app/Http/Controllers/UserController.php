@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Pasien;
 use App\Models\Aktivitas;
+use App\Models\Log_treatment;
 use App\Models\Penanganan;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
@@ -257,5 +258,29 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil merubah data pasien');
 
+    }
+
+    public function add_log_penanganan(Request $request, $id) {
+        $id_user = auth()->user()->id;
+        $pasien = Pasien::select('id_pasien')->where('id_user',$id_user)->first();
+        $data = [
+            'id_pasien' => $pasien->id_pasien,
+            'id_penanganan' => $id,
+            'id_aktivitas' => null,
+        ];
+        $data = Log_treatment::create($data);
+        return redirect()->route('dashboard');
+    }
+    
+    public function add_log_aktivitas(Request $request, $id) {
+        $id_user = auth()->user()->id;
+        $pasien = Pasien::select('id_pasien')->where('id_user',$id_user)->first();
+        $data = [
+            'id_pasien' => $pasien->id_pasien,
+            'id_penanganan' => null,
+            'id_aktivitas' => $id,
+        ];
+        $data = Log_treatment::create($data);
+        return redirect()->route('dashboard');
     }
 }

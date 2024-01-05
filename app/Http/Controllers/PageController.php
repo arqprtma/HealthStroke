@@ -8,11 +8,13 @@ use App\Models\Kategori_aktivitas;
 use App\Models\Kategori_artikel;
 use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
+use App\Models\Log_treatment;
 use App\Models\Pasien;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
 use App\Models\Treatment;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; // Make sure to include this
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -62,6 +64,19 @@ class PageController extends Controller
 
         // Get Kategori Aktivitas
         $kat_aktivitas = Kategori_aktivitas::get();
+
+        // log treatment
+        $today = Carbon::today();
+        $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
+        $log_penanganan = [];
+        $log_aktivitas = [];
+        foreach ($log_treatment as $key => $data) {
+            if($data->id_penanganan != null){
+                $log_penanganan[] = $data->id_penanganan;
+            }else{
+                $log_aktivitas[] = $data->id_aktivitas;
+            }
+        }
         $kat_penanganan = Kategori_penanganan::get();
 
         $treatment = null;
@@ -110,6 +125,8 @@ class PageController extends Controller
             'penangananId' => $penangananId,
             'kat_penanganan' => $kat_penanganan,
             'list_penanganan' => $list_penanganan,
+            'log_penanganan' => $log_penanganan,
+            'log_aktivitas' => $log_aktivitas,
             'pasien' => $pasien,
             'artikel' => $artikel
         ];
@@ -136,14 +153,15 @@ class PageController extends Controller
 
         // Get Aktivitas Data
         $list_aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->whereNotIn('id_aktivitas', [$id])->get()->take(5);
-        // $penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->get();
-        // $list_aktivitas = Aktivitas::with('kategori_aktivitas')->whereNotIn('id_aktivitas', [$id])->get();
-        // dd($list_aktivitas);
+
+        $today = Carbon::today();
+        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
 
         $data = [
             'title' => 'Detail Aktivitas | StrokeCare',
             'aktivitas' => $aktivitas,
             'list_aktivitas' => $list_aktivitas,
+            'log_treatment' => $log_treatment,
         ];
         return view('auth.user.pasien.detail-aktivitas', $data);
     }
@@ -151,9 +169,24 @@ class PageController extends Controller
     public function show_penanganan(Request $request, $id) {
         $penanganan  = Penanganan::where('id_penanganan', $id)->first();
 
+        // Get the current user's ID
+        $userId = Auth::id();
+        $pasien = Pasien::with('user')->where('id_user', $userId)->first();
+        $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
+        // $aktivitasId = json_decode($treatment->id_aktivitas);
+        $penangananId = json_decode($treatment->id_penanganan);
+
+        // Get Penanganan Data
+        $list_penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->whereNotIn('id_penanganan', [$id])->get()->take(5);
+
+        $today = Carbon::today();
+        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
+
         $data = [
             'title' => 'Detail penanganan | StrokeCare',
-            'penanganan' => $penanganan
+            'penanganan' => $penanganan,
+            'list_penanganan' => $list_penanganan,
+            'log_treatment' => $log_treatment
         ];
         return view('auth.user.pasien.detail-penanganan', $data);
     }
@@ -205,7 +238,6 @@ class PageController extends Controller
     }
 
 
-
     // Admin
         public function login_admin(Request $request) {
             $data = [
@@ -219,10 +251,29 @@ class PageController extends Controller
             $users = User::get();
             $pasien = Pasien::get();
 
+            $pasien = Pasien::get();
+            $arr_pemicu = [];
+            foreach ($pasien as $key => $data) {
+                // $arr_pemicu[] = $data->pemicu;
+                $arr_pemicu = array_merge($arr_pemicu, $data->pemicu);
+            }
+            $counts_arr_pemicu = array_count_values($arr_pemicu); //Menghitung setiap id pemicu yang di dapat
+
+            $total_pemicu = [];
+            foreach ($counts_arr_pemicu as $key => $data) {
+                $total_pemicu[] = $data;
+            }
+
+            $pemicu = Pemicu::get();
+            $list_pemicu = $pemicu->pluck('nama')->toArray();
+
             $data = [
                 'title' => 'Dashboard Admin | StrokeCare',
                 'users' => $users,
                 'pasien' => $pasien,
+                'counts_arr_pemicu' => $counts_arr_pemicu,
+                'total_pemicu' => $total_pemicu,
+                'list_pemicu' => $list_pemicu,
             ];
 
             return view('auth.admin.index', $data);

@@ -114,13 +114,14 @@
     <!-- Chart -->
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        var total_pemicu = '{{ implode(",", $total_pemicu) }}'
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Hipertensi', 'Cardio Vascular', 'Diabetes Melitus'],
                 datasets: [{
-                    label: 'Dataset Label',
-                    data: [10, 20, 30],
+                    label: ['Hasil Pemicu'],
+                    data: total_pemicu,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

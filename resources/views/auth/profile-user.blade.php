@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <title>{{ $title }}Stroke</title>
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-[#F8F8FF]">

@@ -14,6 +14,7 @@
     <script src="https://cdn.tiny.cloud/1/ludyq9wr79k1z0ws2xespmk6y4f1jlgd831wpurolamftdz8/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <title>{{ $title }}</title>
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-[#F8F8FF]">

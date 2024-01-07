@@ -8,7 +8,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap');
     </style>
 
-    <title>{{ $title }}</title>
+    <title>Strokecare | Melangkah Bersama ke Arah Kesembuhan</title>
+
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

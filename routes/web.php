@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/symlink', function () {
+    Artisan::call('storage:link');
+});
 
 Route::middleware(['middleware' => 'guest'])->group(function () {
     Route::get('/', [PageController::class, 'index'])->name('index');

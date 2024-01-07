@@ -24,6 +24,7 @@ Route::get('/symlink', function () {
 Route::middleware(['middleware' => 'guest'])->group(function () {
     Route::get('/', [PageController::class, 'index'])->name('index');
     Route::get('/login', [PageController::class, 'login'])->name('login');
+    Route::get('/forgot-password/proses', [UserController::class, 'kirimEmail'])->name('forgot-password-proses');
     Route::get('/register', [PageController::class, 'register'])->name('register');
     Route::get('/forgot-password', [PageController::class, 'forgotpass'])->name('forgot-password');
     // Backend

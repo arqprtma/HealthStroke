@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\mailverif;
 
 class UserController extends Controller
 {
@@ -237,7 +239,7 @@ class UserController extends Controller
             'komplikasi.required' => 'Minimal 1 checkbox komplikasi harus dicentang.',
             'komplikasi.*.required' => 'Checkbox komplikasi harus dicentang.',
         ]);
-        
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
@@ -269,7 +271,7 @@ class UserController extends Controller
         $data = Log_treatment::create($data);
         return redirect()->route('dashboard');
     }
-    
+
     public function add_log_aktivitas(Request $request, $id) {
         $id_user = auth()->user()->id;
         $pasien = Pasien::select('id_pasien')->where('id_user',$id_user)->first();
@@ -303,7 +305,7 @@ class UserController extends Controller
                 })
                 ->groupBy('created_at');
                 // dd($log_treatmentWeek);
-                
+
             $groupTreatment = [];
             // $no = 0;
             foreach ($log_treatmentWeek as $key => $time) { // Merubah Index emnjadi angka
@@ -343,5 +345,16 @@ class UserController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function kirimEmail(){
+    $data = [
+        'nama' => 'Nama Penerima',
+        'pesan' => 'Ini adalah pesan contoh.'
+    ];
+
+    Mail::to('ariqp63@email.com')->send(new mailverif($data));
+
+    return "Email telah dikirim!";
     }
 }

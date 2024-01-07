@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
     {{-- cdn tailwindcss --}}
@@ -340,7 +340,7 @@
         @foreach ($artikel as $data)
             <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class="w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg relative">
                 <div class="avatar w-[35%] lg:w-[30%] p-3">
-                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("/artikel/cover/$data->cover")) }}')">
+                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("artikel/cover/$data->cover")) }}')">
                     </div>
                 </div>
                 <div class="deskripsi flex-1 text-sm lg:ps-4 ps-2 lg:py-5 py-2">

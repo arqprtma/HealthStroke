@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <label for="cover" class="text-base d-block">Cover</label><br>
                 <input type="file" value="{{ $artikel->cover }}" id="fileInput" name="fileInput" class="mt-1 p-2 border border-gray-300 rounded-md d-block">  
-                <img src="{{ asset(Storage::url("public/artikel/cover/$artikel->cover")); }}" alt="Cover">
+                <img src="{{ asset(Storage::url("artikel/cover/$artikel->cover")); }}" alt="Cover">
             </div>    
             <div>
                 <label for="kat_artikel" class="text-base">Kategori</label>

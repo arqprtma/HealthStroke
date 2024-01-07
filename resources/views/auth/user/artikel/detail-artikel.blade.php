@@ -23,7 +23,7 @@
             <h1 class="font-bold mt-5 text-[14px] lg:text-[24px] mb-0">{{ $artikel->judul }}</h1>
             <h2 class="mb-5 text-sm lg:text-base">{{ $artikel->kategori_artikel->nama }}</h2>
             <h2 class="mt-5 mb-5 text-sm lg:text-base">Admin | {{ Carbon\Carbon::parse($artikel->created_at)->format('d M Y') }}</h2>
-            <img src="{{ asset(Storage::url("/artikel/cover/$artikel->cover")) }}" alt="Cover" class="w-[100%] object-fit mx-auto">
+            <img src="{{ asset(Storage::url("artikel/cover/$artikel->cover")) }}" alt="Cover" class="w-[100%] object-fit mx-auto">
             <h2 class="mt-5 text-sm lg:text-lg font-bold">Deskripsi : </h2>
             <div class=" mx-auto text-sm lg:text-base">{!! $artikel->deskripsi !!}</div>
         </div>

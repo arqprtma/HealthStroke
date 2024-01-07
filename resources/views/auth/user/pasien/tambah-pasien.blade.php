@@ -35,7 +35,7 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="nama" name="nama" type="text" placeholder="Masukan Nama Lengkap">
                     <input id="id_user" name="id_user" type="hidden" value="{{ auth()->user()->id }}">
-                    <input id="status" name="status" type="hidden" value="aktif">
+                    {{-- <input id="status" name="status" type="hidden" value="aktif"> --}}
 
                 </div>
                 <div class="flex justify-between gap-1">

@@ -216,13 +216,11 @@ class UserController extends Controller
 
     public function pasien_update(Request $request, $id){
         $validation = Validator::make($request->all(), [
-            'nama' => ['required', 'string', 'max:100', 'regex:/^[^\d]+$/'],
+            'nama' => ['required', 'string', 'max:100'],
             'gender' => 'required',
             'umur' => 'required|numeric|max:100|min:1',
-            'pemicu' => 'required|array|min:1|max:2',
-            'pemicu.*' => 'required|string',
-            'komplikasi' => 'required|array|min:1',
-            'komplikasi.*' => 'required|string',
+            'pemicu' => 'required|min:1|max:2',
+            'komplikasi' => 'required|min:1',
         ], [
             'nama.required' => 'Kolom nama wajib diisi.',
             'nama.string' => 'Kolom nama harus berupa teks.',
@@ -239,12 +237,11 @@ class UserController extends Controller
             'komplikasi.required' => 'Minimal 1 checkbox komplikasi harus dicentang.',
             'komplikasi.*.required' => 'Checkbox komplikasi harus dicentang.',
         ]);
-
+        
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
         }
-
 
         $data = Pasien::findOrFail($id);
         $data->nama = $request->nama;

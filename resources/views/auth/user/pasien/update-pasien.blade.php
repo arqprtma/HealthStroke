@@ -101,24 +101,21 @@
                 <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">Pemicu</h3>
                 <ul
                     class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    @foreach ($pemicu as $p)
-                        {{-- {{ dd($pemicu) }} --}}
-                        @php
 
+                    @foreach ($pemicu as $p)
+                        @php
                             $checked = in_array($p->id_pemicu, $pasien->pemicu);
                         @endphp
                         <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                             <div class="flex items-center ps-3">
-                                <input id="pemicu-{{ $p->id_pemicu }}" type="checkbox" name="pemicu[]"
-                                    value="{{ $p->id }}" {{ $checked ? 'checked' : '' }}
+                                <input id="{{ $p->id_pemicu }}-{{ $p->nama }}" type="checkbox" name="pemicu[]"
+                                    value="{{ $p->id_pemicu }}" {{ $checked ? 'checked' : '' }}
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="pemicu-{{ $p->id_pemicu }}"
+                                <label for="{{ $p->id_pemicu }}-{{ $p->nama }}"
                                     class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $p->nama }}</label>
                             </div>
                         </li>
                     @endforeach
-
-
                 </ul>
                 @error('pemicu')
                     <span class="text-red-700 text-xs">{{ $message }}</span>
@@ -127,19 +124,17 @@
                 <h3 class="mb-4 font-semibold text-gray-900 dark:text-white mt-5">Komplikasi</h3>
                 <ul
                     class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    @foreach ($komplikasi as $p)
-                        {{-- {{ dd($komplikasi) }} --}}
+                    @foreach ($komplikasi as $k)
                         @php
-
-                            $checked = in_array($p->id_komplikasi, $pasien->komplikasi);
+                            $checked = in_array($k->id_komplikasi, $pasien->komplikasi);
                         @endphp
                         <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                             <div class="flex items-center ps-3">
-                                <input id="komplikasi-{{ $p->id_komplikasi }}" type="checkbox" name="komplikasi[]"
-                                    value="{{ $p->id }}" {{ $checked ? 'checked' : '' }}
+                                <input id="{{ $k->id_komplikasi }}-{{ $k->nama }}" type="checkbox"
+                                    name="komplikasi[]" value="{{ $k->id_komplikasi }}" {{ $checked ? 'checked' : '' }}
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="komplikasi-{{ $p->id_komplikasi }}"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $p->nama }}</label>
+                                <label for="{{ $k->id_komplikasi }}-{{ $k->nama }}"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $k->nama }}</label>
                             </div>
                         </li>
                     @endforeach

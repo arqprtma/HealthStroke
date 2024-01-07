@@ -114,41 +114,39 @@
     <!-- Chart -->
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
-        var total_pemicu = '{{ implode(",", $total_pemicu) }}'
+        var total_pemicu = '{{ implode(",", $total_pemicu) }}';
+        var list_pemicu = '{{ implode(",", $list_pemicu) }}';
+
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Hipertensi', 'Cardio Vascular', 'Diabetes Melitus'],
+                labels: list_pemicu.split(','),
                 datasets: [{
-                    label: ['Hasil Pemicu'],
-                    data: total_pemicu,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                    ],
+                    label: 'Jumlah Pasien',
+                    data: total_pemicu.split(','),
+                    backgroundColor: 'rgba(34, 150, 209, 0.7)',
+                    borderColor: 'rgba(34, 150, 209, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
-                responsive: true, // membuat grafik responsif
-                maintainAspectRatio: false, // mempertahankan rasio aspek, terutama ketika lebar dan tinggi canvas diatur melalui HTML atau CSS
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     x: {
                         beginAtZero: true
                     },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1, // Jarak antar nilai pada sumbu y
+                            // max: 100 // Nilai maksimum pada sumbu y
+                        }
                     }
                 },
                 title: {
                     display: true,
-                    text: 'Grafik Contoh'
+                    text: 'Grafik Hasil Pemicu'
                 },
                 legend: {
                     display: true,

@@ -43,6 +43,10 @@ Route::middleware(['CheckAuth'])->group(function () {
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel/{id}', [PageController::class, 'show_artikel'])->name('detail-artikel');
 
+    // Get Filter Date for Chart
+    Route::get('/dashboard/get-data-for-chart', [UserController::class, 'getDataForChart'])->name('dashboard.filterDate');
+
+
     // Admin
     Route::middleware(['AdminCheck'])->group(function () {
         Route::name('admin.')->group(function () {

@@ -8,6 +8,7 @@ use App\Models\Aktivitas;
 use App\Models\Log_treatment;
 use App\Models\Penanganan;
 use App\Models\Treatment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -282,5 +283,68 @@ class UserController extends Controller
         ];
         $data = Log_treatment::create($data);
         return redirect()->route('dashboard');
+    }
+
+    public function getDataForChart(Request $request)
+    {
+        // Proses pembuatan Chart log
+            // log treatment
+            $today = $request->input('start_date');
+            $oneweekago = Carbon::parse($today)->subWeek();
+
+            // Konversi ke objek Carbon untuk memanipulasi tanggal
+            $startDate = Carbon::parse($today);
+
+            $id_pasien = $request->input('id_pasien');
+
+            $log_treatmentWeek = Log_treatment::where('id_pasien', $id_pasien)
+                ->whereBetween('created_at', [$oneweekago, $today])
+                ->get()
+                ->map(function ($log) { // Membuat Created_at menjadi tahun bulan tanggal, untuk jam akan default 00
+                    $log->created_at = Carbon::parse($log->created_at)->format('Y-m-d');
+                    return $log;
+                })
+                ->groupBy('created_at');
+                // dd($log_treatmentWeek);
+                
+            $groupTreatment = [];
+            // $no = 0;
+            foreach ($log_treatmentWeek as $key => $time) { // Merubah Index emnjadi angka
+                foreach ($time as $data) {
+                    $groupTreatment[$key][] = $data;
+                }
+                // $no++;
+            }
+            $dataTreatment = [];
+            $total_treatment = 0;
+            foreach ($groupTreatment as $key => $data) { //Menghitung total data treatment berdasarkan hari
+                $dataTreatment[$key] = count($data);
+                $total_treatment += count($data);
+            }
+            // Mendapatkan nama hari untuk satu minggu kebelakang
+            $weekDayNames = [];
+            $dataValues = [];
+            for ($i = 6; $i >= 0; $i--) {
+                $weekDayNames[] = $startDate->copy()->subDays($i)->format('l'); // Format 'l' untuk mendapatkan nama hari dalam bahasa Inggris
+                $currentDate[] = $startDate->copy()->subDays($i)->format('Y-m-d');
+                // $weekDayNames[$currentDate] = isset($weekDayData[$currentDate]) ? $weekDayData[$currentDate] : 0;
+                // // $weekDayNames[] = $currentDate; // Simpan tanggal saat ini sebagai label
+                // $dataValues[] = isset($dataTreatment[$currentDate]) ? $dataTreatment[$currentDate] : 0;
+            }
+            $weekDayValues = [];
+            foreach ($currentDate as $day) {
+                $formattedDate = Carbon::parse($day)->format('Y-m-d H:i:s');
+                $weekDayValues[] = isset($dataTreatment[$formattedDate]) ? $dataTreatment[$formattedDate] : 0;
+            }
+            // dd($weekDayValues->toArray());
+        // End Proses
+
+        $data = [
+            'weekDayNames' => $weekDayNames,
+            'weekDayValues' => $weekDayValues, // [0,0,2,0,0,0,4]
+            'total_treatment' => $total_treatment,
+        ];
+
+        return response()->json($data);
     }
 }

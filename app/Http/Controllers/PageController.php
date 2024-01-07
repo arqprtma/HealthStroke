@@ -65,8 +65,8 @@ class PageController extends Controller
         // Get Kategori Aktivitas
         $kat_aktivitas = Kategori_aktivitas::get();
 
-        // log treatment
-        $today = Carbon::today();
+        $today = Carbon::today(); // Get date now
+        $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
         $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
         $log_penanganan = [];
         $log_aktivitas = [];
@@ -114,6 +114,33 @@ class PageController extends Controller
             }
         }
 
+        // Proses pembuatan Chart log
+            // log treatment
+            // $oneweekago = Carbon::today()->subWeek();
+
+            // $log_treatmentWeek = Log_treatment::where('id_pasien', $pasien->id_pasien)
+            //     ->whereBetween('created_at', [$oneweekago, $today])
+            //     ->get()
+            //     ->map(function ($log) { // Membuat Created_at menjadi tahun bulan tanggal, untuk jam akan default 00
+            //         $log->created_at = Carbon::parse($log->created_at)->format('Y-m-d');
+            //         return $log;
+            //     })
+            //     ->groupBy('created_at');
+                
+            // $groupTreatment = [];
+            // $no = 0;
+            // foreach ($log_treatmentWeek as $time) { // Merubah Index emnjadi angka
+            //     foreach ($time as $data) {
+            //         $groupTreatment[$no][] = $data;
+            //     }
+            //     $no++;
+            // }
+            // $dataTreatment = [];
+            // foreach ($groupTreatment as $key => $data) { //Menghitung total data treatment berdasarkan hari
+            //     $dataTreatment[] = count($data);
+            // }
+        // End Proses
+
         $data = [
             'title' => 'Dashboard | StrokeCare',
             'treatment' => $treatment,
@@ -127,6 +154,9 @@ class PageController extends Controller
             'list_penanganan' => $list_penanganan,
             'log_penanganan' => $log_penanganan,
             'log_aktivitas' => $log_aktivitas,
+            'all_log_treatment' => $all_log_treatment,
+            // 'log_treatmentWeek' => $log_treatmentWeek,
+            // 'dataTreatment' => $dataTreatment,
             'pasien' => $pasien,
             'artikel' => $artikel
         ];

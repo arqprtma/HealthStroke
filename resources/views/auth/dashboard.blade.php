@@ -189,13 +189,11 @@
                 <div class="float-right">
                     Filter per minggu : <input type="date" onchange="filterDate()" id="firstDate" name="firstDate"
                         class="lg:me-2 p-1 rounded-lg border-[#15ADA7] border-2">
-                    <input type="date" onchange="filterDate()" id="endDate" name="endDate"
-                        class="p-1 rounded-lg border-[#15ADA7] border-2 p-1">
                 </div>
                 <canvas id="myChart" class="lg:w-[100%] h-[50%]"></canvas>
-                <h3>Hasil </h3>
+                <h3 class="font-bold">Hasil </h3>
                 <p>Total treatment : {{ count($aktivitasId) + count($penangananId) }} </p>
-                <p>Total yang dikerjakan : ... </p>
+                <p>Total yang dikerjakan (1 Minggu) : <span id="total_treatment">...</span> </p>
             </div>
         </div>
 
@@ -395,69 +393,88 @@
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
     <script>
-        function filterDate() {
-            // Mendapatkan nilai dari input tanggal
-            var startDate = document.getElementById('firstDate').value;
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart;
+        var pasienId = '{{ $pasien->id_pasien }}'
 
-            // Mendapatkan nilai maksimal untuk endDate (7 hari setelah startDate, termasuk startDate)
-            var maxEndDate = new Date(startDate);
-            maxEndDate.setDate(maxEndDate.getDate() + 6); // 6 hari tambahan untuk total 7 hari
-            var endDateInput = document.getElementById('endDate');
-            endDateInput.max = maxEndDate.toISOString().slice(0, 10);
+        // Fungsi untuk berdasarkan filter Data
+        function fetchData(startDate) {
+            $.ajax({
+                url: '/dashboard/get-data-for-chart',
+                method: 'GET',
+                data: {
+                    start_date: startDate.toISOString(),
+                    id_pasien: pasienId
+                },
+                success: function (data) {
+                    // console.log(data.weekDayValues); // [0,0,2,0,0,0,0]
 
-            // Mendapatkan nilai dari input endDate
-            var endDate = endDateInput.value;
-
-            // Menghasilkan array hari sesuai dengan rentang waktu
-            var dayArray = getDays(startDate, endDate);
-
-            // Mengganti data pada chart dengan data baru
-            myChart.data.labels = dayArray;
-            myChart.update();
-        }
-
-        function getDays(startDate, endDate) {
-            var dayArray = [];
-            var currentDate = new Date(startDate);
-            var endDateObj = new Date(endDate);
-
-            while (currentDate <= endDateObj) {
-                // Menggunakan moment.js untuk mendapatkan nama hari dalam Bahasa Indonesia
-                var dayName = moment(currentDate).locale('id').format('dddd');
-
-                // Menambahkan nama hari ke dalam array
-                dayArray.push(dayName);
-
-                // Melanjutkan ke hari berikutnya
-                currentDate.setDate(currentDate.getDate() + 1);
-            }
-
-            return dayArray;
-        }
-
-        // Inisialisasi Chart
-        const ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [], // Label awal kosong
-                datasets: [{
-                    label: 'Riwayat treatment pasien mingguan',
-                    data: [6, 4, 2, 4, 3, 2, 5],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+                    // Hancurkan objek Chart jika sudah ada
+                    if (myChart) {
+                        myChart.destroy();
                     }
-                }
-            }
-        });
 
-        // Set nilai maksimal awal saat halaman dimuat
-        filterDate();
+                    // Buat objek Chart yang baru
+                    myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.weekDayNames,
+                            datasets: [{
+                                label: 'Jumlah Treatment Selesai',
+                                data: data.weekDayValues,
+                                backgroundColor: 'rgba(34, 150, 209, 0.7)',
+                                borderColor: 'rgba(34, 150, 209, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                x: {
+                                    beginAtZero: true
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Grafik Histori Treatment'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltips: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        }
+                    });
+
+                    $('#total_treatment').html(data.total_treatment)
+                    // console.log(data.total_treatment);
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        // Event listener for filter button click
+        function filterDate(){
+            var startDate = new Date($('#firstDate').val());
+            
+            // Fetch data for the selected week
+            fetchData(startDate);
+        };
+
+        fetchData(new Date());
+
     </script>
 
     <script>

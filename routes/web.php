@@ -1,10 +1,19 @@
 <?php
 
+namespace App\Models;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Password;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +30,16 @@ Route::get('/symlink', function () {
     Artisan::call('storage:link');
 });
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
 Route::middleware(['middleware' => 'guest'])->group(function () {
     Route::get('/', [PageController::class, 'index'])->name('index');
     Route::get('/login', [PageController::class, 'login'])->name('login');
@@ -30,9 +49,20 @@ Route::middleware(['middleware' => 'guest'])->group(function () {
     // Backend
         Route::post('/register/proses', [UserController::class, 'register'])->name('regiter.proses');
         Route::post('/login/proses', [UserController::class, 'login'])->name('login.proses');
+        Route::post('/forgot-password', function (Request $request) {
+            $request->validate(['email' => 'required|email']);
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+            return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => __($status)])
+                : back()->withErrors(['email' => __($status)]);
+        })->middleware('guest')->name('password.email');
+
+
     // END Backend
 });
-Route::middleware(['CheckAuth'])->group(function () {
+Route::middleware(['CheckAuth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/pasien', [PageController::class, 'pasien'])->name('pasien');

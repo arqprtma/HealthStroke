@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\mailverif;
+use Illuminate\Auth\Events\Registered;
+
 
 class UserController extends Controller
 {
@@ -51,9 +52,13 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ];
 
-        User::create($data_request);
+       $user = User::create($data_request);
 
-        return redirect()->route('login');
+       event(new Registered($user));
+
+       Auth::login($user);
+
+        return redirect()->route('verification.notice');
     }
 
     public function login(Request $request) {

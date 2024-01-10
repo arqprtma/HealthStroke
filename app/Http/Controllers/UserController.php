@@ -256,6 +256,21 @@ class UserController extends Controller
         }
 
 
+        // Ambil data pemicu dan komplikasi yang dipilih
+        $selectedPemicu = $request->input('pemicu', []);
+        $selectedKomplikasi = $request->input('komplikasi', []);
+
+        // Ambil aktivitas berdasarkan pemicu dan komplikasi yang dipilih
+        $aktivitas = Aktivitas::whereIn('id_komplikasi', $selectedKomplikasi)
+            ->whereIn('id_pemicu', $selectedPemicu)
+            ->get();
+        $aktivitasId = $aktivitas->pluck('id_aktivitas');
+        $penanganan = Penanganan::whereIn('id_komplikasi', $selectedKomplikasi)
+            ->whereIn('id_pemicu', $selectedPemicu)
+            ->get();
+        $penangananId = $penanganan->pluck('id_penanganan');
+
+
         $data = Pasien::findOrFail($id);
         $data->nama = $request->nama;
         $data->id_user = $request->id_user;
@@ -263,9 +278,21 @@ class UserController extends Controller
         $data->umur = $request->umur;
         $data->pemicu = $request->input('pemicu', []);
         $data->komplikasi = $request->input('komplikasi',[]);
-
-
         $data->save();
+
+        // Data untuk treatment
+        $data_treatment = [
+            'id_aktivitas' => $aktivitasId,
+            'id_penanganan' => $penangananId,
+            'id_pasien' => $id,
+        ];
+        // Kriteria untuk operasi update (berdasarkan id_pasien, misalnya)
+        $conditions = [
+            'id_pasien' => $id,
+        ];
+
+        // Update data treatment jika sudah ada, atau tambahkan data baru jika belum ada
+        Treatment::updateOrInsert($conditions, $data_treatment);
 
         return redirect()->back()->with('success', 'Berhasil merubah data pasien');
 
@@ -307,6 +334,10 @@ class UserController extends Controller
 
             $id_pasien = $request->input('id_pasien');
 
+            $list_id_treatment = Treatment::select('id_penanganan','id_aktivitas')->where('id_pasien', $id_pasien)->first();
+            $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas,true);
+            $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
+
             $log_treatmentWeek = Log_treatment::where('id_pasien', $id_pasien)
                 ->whereBetween('created_at', [$oneweekago, $today])
                 ->get()
@@ -315,16 +346,28 @@ class UserController extends Controller
                     return $log;
                 })
                 ->groupBy('created_at');
+
                 // dd($log_treatmentWeek);
 
             $groupTreatment = [];
             // $no = 0;
             foreach ($log_treatmentWeek as $key => $time) { // Merubah Index emnjadi angka
+
+              
                 foreach ($time as $data) {
-                    $groupTreatment[$key][] = $data;
+                    if($data->id_penanganan != null){
+                        if(in_array($data->id_penanganan, $list_id_penanganan)){
+                            $arr_penanganan[$key][] = $data;
+                        }
+                    }else{
+                        if(in_array($data->id_aktivitas, $list_id_aktivitas)){
+                            $arr_aktivitas[$key][] = $data;
+                        }
+                    }
                 }
-                // $no++;
             }
+            $groupTreatment = array_merge($arr_aktivitas, $arr_penanganan);
+
             $dataTreatment = [];
             $total_treatment = 0;
             foreach ($groupTreatment as $key => $data) { //Menghitung total data treatment berdasarkan hari

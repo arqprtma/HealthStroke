@@ -15,8 +15,17 @@
     <link rel="stylesheet" href="/path/to/flickity.css" media="screen">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+
 
     <style>
+        *{
+             font-family: 'mulish','sans-serif';
+         }
         .carousel-cell {
             width: 66%;
             margin-right: 10px;

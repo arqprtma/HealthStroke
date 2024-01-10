@@ -22,24 +22,25 @@ use Illuminate\Notifications\Messages\MailMessage;
 class UserController extends Controller
 {
     public function register(Request $request) {
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'nama' => 'required|string|max:100',
-            'email' => 'required|string|email|max:100',
+            'email' => 'required|string|email|max:100|unique:users,email', // Add unique rule here
             'gender' => 'required',
             'umur' => 'required',
             'username' => 'required|string|max:50',
             'password' => 'required|string|min:8',
-        ],[
+        ], [
             'nama.required' => 'Kolom nama wajib diisi.',
             'email.required' => 'Kolom email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
+            'email.unique' => 'Email sudah terdaftar.', // Customize unique rule message
             'gender.required' => 'Kolom gender wajib diisi.',
             'umur.required' => 'Kolom umur wajib diisi.',
             'username.required' => 'Kolom username wajib diisi.',
             'password.required' => 'Kolom password wajib diisi.',
             'password.min' => 'Password minimal harus 8 karakter.',
         ]);
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();

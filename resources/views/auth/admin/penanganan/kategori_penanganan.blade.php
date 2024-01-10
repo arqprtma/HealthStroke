@@ -12,6 +12,16 @@
 
     <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+     <style>
+         *{
+             font-family: 'mulish','sans-serif';
+         }
+     </style>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -34,7 +44,7 @@
                 <label for="penanganan" class="text-base">Nama Penanganan</label>
                 <div class="relative inline-block w-full mt-1 mb-2">
                     <input type="text" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm mt-2" name="penanganan" id="penanganan" placeholder="Masukan kategori penanganan">
-                </div>  
+                </div>
             </div>
         </div>
         <div class=""><button type="submit" class="px-10 py-2 bg-[#15ADA7] hover:bg-[#13A29C] text-white rounded mx-auto block mt-5">Tambah</button></div>
@@ -62,7 +72,7 @@
     @if(session()->has('error'))
     <script>
         var pesan = "{{ session('error') }}"
-        
+
         Swal.fire({
             icon: "error",
             title: "Oops...",

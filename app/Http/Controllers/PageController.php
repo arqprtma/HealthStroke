@@ -79,7 +79,7 @@ class PageController extends Controller
             $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
             $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
             $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
-        }
+        } 
 
         $log_penanganan = [];
         $log_aktivitas = [];

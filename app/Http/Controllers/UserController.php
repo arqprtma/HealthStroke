@@ -254,6 +254,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
+<<<<<<<<< Temporary merge branch 1
         // Ambil data pemicu dan komplikasi yang dipilih
         $selectedPemicu = $request->input('pemicu', []);
         $selectedKomplikasi = $request->input('komplikasi', []);
@@ -267,6 +268,8 @@ class UserController extends Controller
             ->whereIn('id_pemicu', $selectedPemicu)
             ->get();
         $penangananId = $penanganan->pluck('id_penanganan');
+=========
+>>>>>>>>> Temporary merge branch 2
 
         $data = Pasien::findOrFail($id);
         $data->nama = $request->nama;
@@ -343,10 +346,18 @@ class UserController extends Controller
                     return $log;
                 })
                 ->groupBy('created_at');
+<<<<<<<<< Temporary merge branch 1
                 
             $arr_aktivitas = [];
             $arr_penanganan = [];
             foreach ($log_treatmentWeek as $key => $time) { 
+=========
+                // dd($log_treatmentWeek);
+
+            $groupTreatment = [];
+            // $no = 0;
+            foreach ($log_treatmentWeek as $key => $time) { // Merubah Index emnjadi angka
+>>>>>>>>> Temporary merge branch 2
                 foreach ($time as $data) {
                     if($data->id_penanganan != null){
                         if(in_array($data->id_penanganan, $list_id_penanganan)){

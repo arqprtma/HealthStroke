@@ -67,9 +67,16 @@ class PageController extends Controller
         $kat_aktivitas = Kategori_aktivitas::get();
 
         $today = Carbon::today(); // Get date now
+
+        
+        // $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
+        // $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
         $all_log_treatment = [];
         $log_treatment = [];
         if ($pasien) {
+            $list_id_treatment = Treatment::select('id_penanganan','id_aktivitas')->where('id_pasien', $pasien->id_pasien)->first();
+            $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas,true);
+            $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
             $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
             $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
         }
@@ -240,8 +247,13 @@ class PageController extends Controller
     }
 
     public function artikel(Request $request) {
+        $kategori_artikel = Kategori_artikel::get();
+        $list_artikel = Artikel::get();
+
         $data = [
             'title' => 'Artikel | StrokeCare',
+            'kategori_artikel' => $kategori_artikel,
+            'list_artikel' => $list_artikel,
         ];
         return view('auth.user.artikel.artikel', $data);
     }

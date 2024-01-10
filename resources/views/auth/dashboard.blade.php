@@ -199,21 +199,21 @@
                 @endif
             </div>
         </div>
-
-
-        <div id="deskripsi" class="deskripsi container lg:w-[80%] mx-auto px-4 mb-10 mt-[50px]">
-            <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil treatment yang dikerjakan</h1>
-            <div class="lg:w-[100%] w-[100%] mx-auto top-12 p-5 bg-[#FFFF] rounded-lg text-sm">
-                <div class="float-right">
-                    Filter per minggu : <input type="date" onchange="filterDate()" id="firstDate" name="firstDate"
-                        class="lg:me-2 p-1 rounded-lg border-[#15ADA7] border-2">
+        @if ($pasien)
+            <div id="deskripsi" class="deskripsi container lg:w-[80%] mx-auto px-4 mb-10 mt-[50px]">
+                <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil treatment yang dikerjakan</h1>
+                <div class="lg:w-[100%] w-[100%] mx-auto top-12 p-5 bg-[#FFFF] rounded-lg text-sm">
+                    <div class="float-right">
+                        Filter per minggu : <input type="date" onchange="filterDate()" id="firstDate" name="firstDate"
+                            class="lg:me-2 p-1 rounded-lg border-[#15ADA7] border-2">
+                    </div>
+                    <canvas id="myChart" class="lg:w-[100%] h-[50%]"></canvas>
+                    <h3 class="font-bold">Hasil </h3>
+                    <p>Total treatment : {{ count($aktivitasId) + count($penangananId) }} </p>
+                    <p>Total yang dikerjakan (1 Minggu) : <span id="total_treatment">...</span> </p>
                 </div>
-                <canvas id="myChart" class="lg:w-[100%] h-[50%]"></canvas>
-                <h3 class="font-bold">Hasil </h3>
-                <p>Total treatment : {{ count($aktivitasId) + count($penangananId) }} </p>
-                <p>Total yang dikerjakan (1 Minggu) : <span id="total_treatment">...</span> </p>
             </div>
-        </div>
+        @endif
 
         <div id="tasks" class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
             <div class="judul flex justify-between">
@@ -233,59 +233,62 @@
                 </div>
                 @foreach ($kat_aktivitas as $key => $data_kategori)
                     <div class="parent-aktivitas cursor-pointer">
-                        @if (!empty($list_aktivitas))
-                            @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
-                                <div class="task flex mx-auto px-20 justify-evenly mt-2" onclick="toggleContent('aktivitas', {{ $key }})">
-                                    <div class="flex gap-5 w-[100%] mx-auto pt-5">
-                                        <div class="gambar">
-                                            <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
+                    @if (!empty($list_aktivitas))
+                        @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
+                            <div class="task flex mx-auto px-20 justify-evenly mt-2" onclick="toggleContent('aktivitas', {{ $key }})">
+                                <div class="flex gap-5 w-[100%] mx-auto pt-5">
+                                    <div class="gambar">
+                                        <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
+                                    </div>
+                                    <div class="deskripsi">
+                                        <div class="judul text-sm lg:text-lg">
+                                            <h1>Aktivitas</h1>
                                         </div>
-                                        <div class="deskripsi">
-                                            <div class="judul text-sm lg:text-lg">
-                                                <h1>Aktivitas</h1>
-                                            </div>
-                                            <div class="kategori text-sm lg:text-lg">
-                                                <h3>{{ $data_kategori->nama }}</h3>
-                                            </div>
+                                        <div class="kategori text-sm lg:text-lg">
+                                            <h3>{{ $data_kategori->nama }}</h3>
                                         </div>
                                     </div>
-                                    <button class="toggle-button text-sm lg:text-lg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                                        </svg>
-                                    </button>
                                 </div>
-                                <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
-                            @endif
-                            <div id="content{{ $key }}"
-                                class="detail-task-aktivitas text-white cursor-pointer">
-                                @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
-                                    @foreach ($list_aktivitas[$data_kategori->id_kat_aktivitas] as $jkey => $data_aktivitas)
-                                        <a
-                                            href="{{ route('detail-aktivitas', ['id' => $data_aktivitas->id_aktivitas]) }}">
-                                            <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm {{ (in_array($data_aktivitas->id_aktivitas, $log_aktivitas)) ? 'bg-[#2296D1]' : 'bg-[#15ADA7]' }}">
-                                                <div class="flex justify-left gap-10 p-2 items-center">
-                                                    <div class="text-sm lg:text-lg">
-                                                        {{ $jkey + 1 }}
-                                                    </div>
-                                                    <div class="deskripsi text-sm lg:text-lg">
-                                                        {!! $data_aktivitas->deskripsi !!}
-                                                    </div>
+                                <button class="toggle-button text-sm lg:text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <hr class="mt-1 border-1 border-solid  mx-auto w-[80%]">
+                        @endif
+                        <div id="content{{ $key }}"
+                            class="detail-task-aktivitas text-white cursor-pointer">
+                            @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
+                                @foreach ($list_aktivitas[$data_kategori->id_kat_aktivitas] as $jkey => $data_aktivitas)
+                                    <a
+                                        href="{{ route('detail-aktivitas', ['id' => $data_aktivitas->id_aktivitas]) }}">
+                                        <div class="container p-1 w-[80%] mx-auto mt-2 rounded-sm {{ (in_array($data_aktivitas->id_aktivitas, $log_aktivitas)) ? 'bg-[#2296D1]' : 'bg-[#15ADA7]' }}">
+                                            <div class="flex justify-left gap-10 p-2 items-center">
+                                                <div class="text-sm lg:text-lg">
+                                                    {{ $jkey + 1 }}
+                                                </div>
+                                                <div class="deskripsi text-sm lg:text-lg">
+                                                    {!! $data_aktivitas->deskripsi !!}
                                                 </div>
                                             </div>
-                                        </a>
-                                    @endforeach
-                                @endif
-                            </div>
-                        @else
-                            <img src="images/pasien/empty.svg" alt=""
-                                class="width-[150px] h-[150px] mx-auto mt-10">
-                            <div class="text-center pt-5"><span class="text-center text-red-500">Data masih
-                                    kosong</span>
-                            </div>
-                        @break
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
+                        </div>
+                    @else
+                        <img src="images/pasien/empty.svg" alt=""
+                            class="width-[150px] h-[150px] mx-auto mt-10">
+                        <div class="text-center pt-5"><span class="text-center text-red-500">Data masih
+                                kosong</span>
+                        </div>
                     @endif
                 </div>
+                @if (!empty($list_aktivitas))
+                @else
+                 @break
+                @endif
             @endforeach
             @foreach ($kat_penanganan as $key => $data_kategori)
                 <div class="parent-penanganan cursor-pointer">
@@ -341,6 +344,10 @@
                         </div>
                     @endif
                 </div>
+                @if (!empty($list_penanganan))
+                @else
+                 @break
+                @endif
             @endforeach
         </div>
     </div>
@@ -356,8 +363,7 @@
         @foreach ($artikel as $data)
             <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class="w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg relative">
                 <div class="avatar w-[35%] lg:w-[30%] p-3">
-                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("artikel/cover/$data->cover")) }}')">
-                    </div>
+                    <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("artikel/cover/$data->cover")) }}')"></div>
                 </div>
                 <div class="deskripsi flex-1 text-sm lg:ps-4 ps-2 lg:py-5 py-2">
                     <div class="konten">
@@ -370,8 +376,6 @@
                 </div>
             </a>
         @endforeach
-
-
     </div>
     <nav class="nav-bottom md:hidden w-[100%] h-[60px] bottom-[0.8rem] fixed z-10 ">
         <ul class="flex justify-evenly items-center h-[60px] bottom-menu">
@@ -399,8 +403,7 @@
         </ul>
     </nav>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     {{-- <script src="/path/to/flickity.pkgd.min.js"></script> --}}

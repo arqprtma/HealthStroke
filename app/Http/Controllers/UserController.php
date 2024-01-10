@@ -22,18 +22,18 @@ use Illuminate\Notifications\Messages\MailMessage;
 class UserController extends Controller
 {
     public function register(Request $request) {
-        $validation = Validator::make($request->all(), [
+        $validation = Validator::make($request->all(),[
             'nama' => 'required|string|max:100',
-            'email' => 'required|string|email|max:100|unique:users,email', // Add unique rule here
+            'email' => 'required|string|email|max:100',
             'gender' => 'required',
             'umur' => 'required',
             'username' => 'required|string|max:50',
             'password' => 'required|string|min:8',
-        ], [
+        ],[
             'nama.required' => 'Kolom nama wajib diisi.',
             'email.required' => 'Kolom email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar.', // Customize unique rule message
+            'email.unique' => 'Email sudah digunakan.',
             'gender.required' => 'Kolom gender wajib diisi.',
             'umur.required' => 'Kolom umur wajib diisi.',
             'username.required' => 'Kolom username wajib diisi.',
@@ -55,11 +55,11 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ];
 
-       $user = User::create($data_request);
+        $user = User::create($data_request);
 
-       event(new Registered($user));
+        event(new Registered($user));
 
-       Auth::login($user);
+        Auth::login($user);
 
         return redirect()->route('verification.notice');
     }
@@ -226,7 +226,6 @@ class UserController extends Controller
 
 
     public function pasien_update(Request $request, $id){
-
         $validation = Validator::make($request->all(), [
             'nama' => ['required', 'string', 'max:100'],
             'gender' => 'required',
@@ -395,5 +394,14 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+    // public function kirimEmail(){
+    // $data = [
+    //     'nama' => 'Nama Penerima',
+    //     'pesan' => 'Ini adalah pesan contoh.'
+    // ];
 
+    // Mail::to('ariqp63@email.com')->send(new mailverif($data));
+
+    // return "Email telah dikirim!";
+    // }
 }

@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="berita lg:w-[100%] mx-auto px-10 mt-3">
-                @for ($i = 0; $i < 5; $i++)
+                @foreach($list_artikel as $artikel)
                     <div class="gejala w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg"
                         style="display: flex">
                         <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
@@ -81,8 +81,8 @@
                         </div>
 
                     </div>
-                @endfor
-                @for ($i = 0; $i < 5; $i++)
+                @endforeach
+                {{-- @for ($i = 0; $i < 5; $i++)
                     <div
                         class="pertolongan w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
                         <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
@@ -139,7 +139,7 @@
                         </div>
 
                     </div>
-                @endfor
+                @endfor --}}
 
 
 

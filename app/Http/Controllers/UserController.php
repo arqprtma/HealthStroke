@@ -254,10 +254,6 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 2527035d58462519f751568a16727167f13946e0
         // Ambil data pemicu dan komplikasi yang dipilih
         $selectedPemicu = $request->input('pemicu', []);
         $selectedKomplikasi = $request->input('komplikasi', []);
@@ -271,10 +267,6 @@ class UserController extends Controller
             ->whereIn('id_pemicu', $selectedPemicu)
             ->get();
         $penangananId = $penanganan->pluck('id_penanganan');
-<<<<<<< HEAD
-=======
-
->>>>>>> 2527035d58462519f751568a16727167f13946e0
 
         $data = Pasien::findOrFail($id);
         $data->nama = $request->nama;

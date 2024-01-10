@@ -15,12 +15,22 @@
 <body class="bg-[#F8F8FF]">
     <div class="container mx-auto">
         @if ($errors->any())
-        <h1>error</h1>
-        @endif
-        @if (session()->has('status'))
-            {{session()->get('status')}}
 
+        <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
+
+        @if (session()->has('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <div class="judul relative top-[150px] lg:top-[150px]">
             <h1 class="font-bold text-[14] text-center lg:text-[24px]">RESET PASSWORD</h1>
             <hr class="w-[100px] lg:w-[150px] mx-auto border-2 border-solid border-[#15ADA7]">

@@ -65,6 +65,18 @@
             </p>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan. Mohon periksa kembali isian Anda."
+        });
+    </script>
+    @endif
+
 </body>
 
 </html>

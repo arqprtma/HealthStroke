@@ -34,11 +34,13 @@
         <div class="relative top-[65px] lg:top-[65px] w-[70%] lg:w-[50%] mx-auto">
             <form action="{{ route('setting-profile', ['id' => auth()->user()->id]) }}" method="POST">
                 @csrf
-                <?php $nama = auth()->user()->nama;
+                <?php
+                $nama = auth()->user()->nama;
                 $namaArray = explode(' ', $nama);
 
-                $namaDepan = $namaArray[0];
-                $namaBelakang = $namaArray[1];
+                $namaDepan = isset($namaArray[0]) ? $namaArray[0] : '';
+                $namaBelakang = isset($namaArray[1]) ? $namaArray[1] : '';
+
                 ?>
                 <div class="mb-4">
                     <label class="text-gray-700 text-sm font-bold mb-2" for="nama">

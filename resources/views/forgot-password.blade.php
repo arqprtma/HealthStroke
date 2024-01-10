@@ -14,13 +14,6 @@
 
 <body class="bg-[#F8F8FF]">
     <div class="container mx-auto">
-        @if ($errors->any())
-        <h1>error</h1>
-        @endif
-        @if (session()->has('status'))
-            {{session()->get('status')}}
-
-        @endif
         <div class="judul relative top-[150px] lg:top-[150px]">
             <h1 class="font-bold text-[14] text-center lg:text-[24px]">FORGOT PASSWORD</h1>
             <hr class="w-[100px] lg:w-[150px] mx-auto border-2 border-solid border-[#15ADA7]">
@@ -48,6 +41,29 @@
         </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan. Mohon periksa kembali isian Anda."
+        });
+    </script>
+@endif
+
+@if (session()->has('status'))
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "Yeayy...",
+            text: "Kami telah mengirimkan tautan pengaturan ulang kata sandi Anda melalui email."
+        });
+    </script>
+
+@endif
+
 </body>
 
 </html>

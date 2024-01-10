@@ -145,9 +145,16 @@
                                 </div>
                                 <div class="progress-bar">
                                     @php
-                                        $percent_aktivitas = count($log_aktivitas) / ($aktivitasId ? count($aktivitasId) : 0) * 100;
-                                        $percent_penanganan = count($log_penanganan) / ($penangananId ? count($penangananId) : 0) * 100;
-                                    @endphp
+                                    $countAktivitasId = $aktivitasId ? count($aktivitasId) : 0;
+                                    $countPenangananId = $penangananId ? count($penangananId) : 0;
+
+                                    // Check if $countAktivitasId is not zero before performing the division
+                                    $percentAktivitas = $countAktivitasId !== 0 ? (count($log_aktivitas) / $countAktivitasId) * 100 : 0;
+
+                                    // Check if $countPenangananId is not zero before performing the division
+                                    $percentPenanganan = $countPenangananId !== 0 ? (count($log_penanganan) / $countPenangananId) * 100 : 0;
+                                @endphp
+
                                     <div class="bar-aktivitas">
                                         <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment
                                         </h3>
@@ -157,7 +164,7 @@
                                         </div>
                                         <div
                                             class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: {{ $percent_aktivitas }}%"></div>
+                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: {{ $percentAktivitas }}%"></div>
                                         </div>
                                     </div>
                                     <div class="bar-penanganan mt-1 lg:mt-2">
@@ -168,7 +175,7 @@
                                         </div>
                                         <div
                                             class="w-[80%] ms-2 lg:ms-10 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: {{ $percent_penanganan }}%"></div>
+                                            <div class="bg-[#15ADA7] h-2.5 rounded-full" style="width: {{ $percentPenanganan }}%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -394,9 +401,11 @@
     <!-- Tambahkan library moment.js -->
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
+    @if($pasien)
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart;
+
         var pasienId = '{{ $pasien->id_pasien }}'
 
         // Fungsi untuk berdasarkan filter Data
@@ -470,14 +479,15 @@
         // Event listener for filter button click
         function filterDate(){
             var startDate = new Date($('#firstDate').val());
-            
+
             // Fetch data for the selected week
             fetchData(startDate);
         };
 
         fetchData(new Date());
-
     </script>
+@endif
+
 
     <script>
         if ($(window).width() < 768) {

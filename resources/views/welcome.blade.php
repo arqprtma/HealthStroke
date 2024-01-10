@@ -22,8 +22,15 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    {{-- font mulish --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
 
     <style>
+        *{
+            font-family: 'mulish', sans-serif;
+        }
         .loader {
             margin: 150px auto;
             border: 5px solid #EAF0F6;

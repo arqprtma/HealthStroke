@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
+
 
 class UserController extends Controller
 {
@@ -35,6 +40,7 @@ class UserController extends Controller
             'password.required' => 'Kolom password wajib diisi.',
             'password.min' => 'Password minimal harus 8 karakter.',
         ]);
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
@@ -49,9 +55,13 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ];
 
-        User::create($data_request);
+        $user = User::create($data_request);
 
-        return redirect()->route('login');
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect()->route('verification.notice');
     }
 
     public function login(Request $request) {
@@ -90,7 +100,7 @@ class UserController extends Controller
         //     return redirect()->route('dashboard');
         // }
 
-        return back()->withErrors($credentials)->withInput();
+        return back()->withErrors(['errors' => $credentials])->withInput();
     }
 
     public function logout(Request $request)
@@ -205,8 +215,9 @@ class UserController extends Controller
         $data_treatment = [
             'id_aktivitas' => $aktivitasId,
             'id_penanganan' => $penangananId,
-            'id_pasien' => $pasien->id,
+            'id_pasien' => $pasien->id_pasien,
         ];
+
         // Simpan data treatment
         Treatment::create($data_treatment);
 
@@ -237,12 +248,16 @@ class UserController extends Controller
             'komplikasi.required' => 'Minimal 1 checkbox komplikasi harus dicentang.',
             'komplikasi.*.required' => 'Checkbox komplikasi harus dicentang.',
         ]);
-        
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2527035d58462519f751568a16727167f13946e0
         // Ambil data pemicu dan komplikasi yang dipilih
         $selectedPemicu = $request->input('pemicu', []);
         $selectedKomplikasi = $request->input('komplikasi', []);
@@ -256,6 +271,10 @@ class UserController extends Controller
             ->whereIn('id_pemicu', $selectedPemicu)
             ->get();
         $penangananId = $penanganan->pluck('id_penanganan');
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2527035d58462519f751568a16727167f13946e0
 
         $data = Pasien::findOrFail($id);
         $data->nama = $request->nama;
@@ -295,7 +314,7 @@ class UserController extends Controller
         $data = Log_treatment::create($data);
         return redirect()->route('dashboard');
     }
-    
+
     public function add_log_aktivitas(Request $request, $id) {
         $id_user = auth()->user()->id;
         $pasien = Pasien::select('id_pasien')->where('id_user',$id_user)->first();
@@ -382,4 +401,15 @@ class UserController extends Controller
 
         return response()->json($data);
     }
+
+    // public function kirimEmail(){
+    // $data = [
+    //     'nama' => 'Nama Penerima',
+    //     'pesan' => 'Ini adalah pesan contoh.'
+    // ];
+
+    // Mail::to('ariqp63@email.com')->send(new mailverif($data));
+
+    // return "Email telah dikirim!";
+    // }
 }

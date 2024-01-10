@@ -10,8 +10,15 @@
 
     <title>Artikel - Health Stroke</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+      {{-- font --}}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
 
     <style>
+        *{
+            font-family: 'mulish','sans-serif';
+        }
         .active {
             display: block;
         }
@@ -46,7 +53,7 @@
                 </div>
             </div>
             <div class="berita lg:w-[100%] mx-auto px-10 mt-3">
-                @for ($i = 0; $i < 5; $i++)
+                @foreach($list_artikel as $artikel)
                     <div class="gejala w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg"
                         style="display: flex">
                         <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
@@ -74,8 +81,8 @@
                         </div>
 
                     </div>
-                @endfor
-                @for ($i = 0; $i < 5; $i++)
+                @endforeach
+                {{-- @for ($i = 0; $i < 5; $i++)
                     <div
                         class="pertolongan w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
                         <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
@@ -132,7 +139,7 @@
                         </div>
 
                     </div>
-                @endfor
+                @endfor --}}
 
 
 

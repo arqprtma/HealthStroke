@@ -12,6 +12,16 @@
 
     <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+     <style>
+         *{
+             font-family: 'mulish','sans-serif';
+         }
+     </style>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -65,7 +75,7 @@
                     </tr>
                 @endif
             </tbody>
-        </table>  
+        </table>
         </div>
     </div>
 
@@ -91,7 +101,7 @@
     <script>
         $('#dropdown').on('click', function () {
             var data_target = $(this).data('target')
-            
+
             if($(data_target).hasClass('hidden')){
                 $(data_target).removeClass('animate__animated animate__flipOutX hidden')
                 $(data_target).addClass('animate__animated animate__flipInX')
@@ -146,7 +156,7 @@
     @if(session()->has('error'))
         <script>
             var pesan = "{{ session('error') }}"
-            
+
             Swal.fire({
                 icon: "error",
                 title: "Oops...",

@@ -66,15 +66,24 @@ class PageController extends Controller
         $kat_aktivitas = Kategori_aktivitas::get();
 
         $today = Carbon::today(); // Get date now
+
+        $list_id_treatment = Treatment::select('id_penanganan','id_aktivitas')->where('id_pasien', $pasien->id_pasien)->first();
+        $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas,true);
+        $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
+
         $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
         $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
         $log_penanganan = [];
         $log_aktivitas = [];
         foreach ($log_treatment as $key => $data) {
             if($data->id_penanganan != null){
-                $log_penanganan[] = $data->id_penanganan;
+                if(in_array($data->id_penanganan, $list_id_penanganan)){
+                    $log_penanganan[] = $data->id_penanganan;
+                }
             }else{
-                $log_aktivitas[] = $data->id_aktivitas;
+                if(in_array($data->id_aktivitas, $list_id_aktivitas)){
+                    $log_aktivitas[] = $data->id_aktivitas;
+                }
             }
         }
         $kat_penanganan = Kategori_penanganan::get();
@@ -113,7 +122,6 @@ class PageController extends Controller
                 }
             }
         }
-
         // Proses pembuatan Chart log
             // log treatment
             // $oneweekago = Carbon::today()->subWeek();

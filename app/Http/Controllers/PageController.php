@@ -59,6 +59,7 @@ class PageController extends Controller
         $pasien = Pasien::with('user')
             ->where('id_user', $userId)->first();
 
+
         // Get Artikel
         $artikel = Artikel::get();
 
@@ -66,13 +67,13 @@ class PageController extends Controller
         $kat_aktivitas = Kategori_aktivitas::get();
 
         $today = Carbon::today(); // Get date now
+        $all_log_treatment = [];
+        $log_treatment = [];
+        if ($pasien) {
+            $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
+            $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
+        }
 
-        $list_id_treatment = Treatment::select('id_penanganan','id_aktivitas')->where('id_pasien', $pasien->id_pasien)->first();
-        $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas,true);
-        $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
-
-        $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
-        $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
         $log_penanganan = [];
         $log_aktivitas = [];
         foreach ($log_treatment as $key => $data) {
@@ -86,6 +87,8 @@ class PageController extends Controller
                 }
             }
         }
+
+
         $kat_penanganan = Kategori_penanganan::get();
 
         $treatment = null;
@@ -95,10 +98,18 @@ class PageController extends Controller
         $penangananId = [];
         $list_aktivitas = [];
         $list_penanganan = [];
+        if ($pasien) {
+            $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
+            if ($treatment) {
+                $aktivitasId = json_decode($treatment->id_aktivitas);
+            }
+            if ($treatment) {
+                $penangananId = json_decode($treatment->id_penanganan);
+            }
 
-        $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
-        $aktivitasId = json_decode($treatment->id_aktivitas);
-        $penangananId = json_decode($treatment->id_penanganan);
+        }
+
+
 
         // Get Aktivitas Data
         $aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->get();
@@ -134,7 +145,7 @@ class PageController extends Controller
             //         return $log;
             //     })
             //     ->groupBy('created_at');
-                
+
             // $groupTreatment = [];
             // $no = 0;
             // foreach ($log_treatmentWeek as $time) { // Merubah Index emnjadi angka
@@ -168,7 +179,6 @@ class PageController extends Controller
             'pasien' => $pasien,
             'artikel' => $artikel
         ];
-        // dd($data);
         return view('auth.dashboard', $data);
     }
 
@@ -281,7 +291,7 @@ class PageController extends Controller
             $data = [
                 'title' => 'Login Admin | StrokeCare',
             ];
-            // dd('coba');
+
 
             return view('auth.admin.login', $data);
         }

@@ -15,6 +15,16 @@
 
     <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+     <style>
+         *{
+             font-family: 'mulish','sans-serif';
+         }
+     </style>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -47,8 +57,8 @@
                     <div class="pointer-events-none absolute top-1/2 right-0 transform -translate-x-1/2 translate-y-0 px-1">
                         <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.293 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0 0-1.414z"/></svg>
                     </div>
-                </div>  
-            </div>    
+                </div>
+            </div>
 
             <div>
                 <label for="pemicu" class="text-base">Pemicu</label>
@@ -65,7 +75,7 @@
                         <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.293 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0 0-1.414z"/></svg>
                     </div>
                 </div>
-            </div>   
+            </div>
 
             <div>
                 <label for="komplikasi" class="text-base">Komplikasi</label>
@@ -81,9 +91,9 @@
                     <div class="pointer-events-none absolute top-1/2 right-0 transform -translate-x-1/2 translate-y-0 px-1">
                         <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.293 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0 0-1.414z"/></svg>
                     </div>
-                </div> 
+                </div>
             </div>
-            <div>           
+            <div>
                 <label for="link_video" class="text-base">Upload Video (optional)</label>
                 <input type="text" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm mt-2" name="link_video" id="link_video" placeholder="iCwBadO1W0Q">
                 <span class="text-xs text-red-500">* Contoh : <strike>https://www.youtube.com/watch?v=</strike>&nbsp;<b>iCwBadO1W0Q</b></span>
@@ -138,7 +148,7 @@
     @if(session()->has('error'))
     <script>
         var pesan = "{{ session('error') }}"
-        
+
         Swal.fire({
             icon: "error",
             title: "Oops...",

@@ -15,6 +15,16 @@
 
     <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+     <style>
+         *{
+             font-family: 'mulish','sans-serif';
+         }
+     </style>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -32,15 +42,15 @@
         @csrf
         @method('PUT')
         <div class="lg:w-[80%] w-full rounded-md shadow-md bg-[#F2F2F2] p-3 lg:mx-auto">
-            <div class="mb-3">           
+            <div class="mb-3">
                 <label for="judul" class="text-base">Judul</label>
                 <input type="text" value="{{ $artikel->judul }}" name="judul" id="judul" placeholder="Masukan judul" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm mt-2">
             </div>
             <div class="mb-3">
                 <label for="cover" class="text-base d-block">Cover</label><br>
-                <input type="file" value="{{ $artikel->cover }}" id="fileInput" name="fileInput" class="mt-1 p-2 border border-gray-300 rounded-md d-block">  
+                <input type="file" value="{{ $artikel->cover }}" id="fileInput" name="fileInput" class="mt-1 p-2 border border-gray-300 rounded-md d-block">
                 <img src="{{ asset(Storage::url("artikel/cover/$artikel->cover")); }}" alt="Cover">
-            </div>    
+            </div>
             <div>
                 <label for="kat_artikel" class="text-base">Kategori</label>
                 <div class="relative inline-block w-full mt-1 mb-2" id="kat_artikel">
@@ -109,7 +119,7 @@
     @if(session()->has('error'))
     <script>
         var pesan = "{{ session('error') }}"
-        
+
         Swal.fire({
             icon: "error",
             title: "Oops...",

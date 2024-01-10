@@ -22,6 +22,16 @@
           }
         }
     </script>
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+     <style>
+         *{
+             font-family: 'mulish','sans-serif';
+         }
+     </style>
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -65,6 +75,18 @@
             </p>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan. Mohon periksa kembali isian Anda."
+        });
+    </script>
+    @endif
+
 </body>
 
 </html>

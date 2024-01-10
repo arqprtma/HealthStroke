@@ -15,6 +15,16 @@
         referrerpolicy="origin"></script>
 
     <title>{{ $title }}</title>
+     {{-- font --}}
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+
+     <style>
+         *{
+             font-family: 'mulish','sans-serif';
+         }
+     </style>
 </head>
 
 <body class="bg-[#F8F8FF]">

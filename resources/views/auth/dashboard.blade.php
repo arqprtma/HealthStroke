@@ -43,7 +43,7 @@
             font-size: 80px;
             color: white;
         }
-/* 
+/*
         .flickity-prev-next-button {
             display: none;
         } */
@@ -425,7 +425,7 @@
                     id_pasien: pasienId
                 },
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     // console.log(data.weekDayValues); // [0,0,2,0,0,0,0]
 
                     // Hancurkan objek Chart jika sudah ada

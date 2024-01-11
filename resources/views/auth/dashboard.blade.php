@@ -11,8 +11,6 @@
     {{-- cdn tailwindcss --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-    <link rel="stylesheet" href="/path/to/flickity.css" media="screen">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      {{-- font --}}
@@ -45,10 +43,10 @@
             font-size: 80px;
             color: white;
         }
-
+/* 
         .flickity-prev-next-button {
             display: none;
-        }
+        } */
 
         .bottom-menu {
             border-radius: 16px;
@@ -113,20 +111,20 @@
                 <ul class="mt-2">
                     <li onclick="logout()" class="uil uil-sign-out-alt cursor-pointer font-bold text-red-500"><span class="ms-3 text-sm lg:text-lg">Logout</span></li>
                 </ul>
-
             </div>
         </div>
         <div class="pasien container lg:w-[80%]  mx-auto px-4 pt-10">
             <div class="container-card-pasien mt-10">
                 <div class="components-pasien flex justify-between">
                     <h1 class="font-bold text-sm lg:text-lg ">Daftar Pasien</h1>
-                    <button
-                        class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7]">Tambah</button>
+                    @if(!$pasien)
+                        <a href="{{ route('pasien') }}" class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7] text-center">Tambah</a>
+                    @endif
                 </div>
             </div>
             <div class="card-pasien mt-5">
                 @if ($pasien)
-                    <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
+                    <div class="main-carousel">
                         <div class="carousel-pasien carousel-cell w-[100%] lg:w-[66%] lg:h-[200px] h-[150px] flex m-2 justify-evenly shadow-md ">
                             <div
                                 class="avatar w-[30%] lg:w-[30%] lg:w-[30%] bg-[#15ADA7] flex-1.2 flex justify-center items-center">
@@ -405,9 +403,6 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-    {{-- <script src="/path/to/flickity.pkgd.min.js"></script> --}}
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Tambahkan library moment.js -->
@@ -514,12 +509,12 @@
             $('#bg-blub').css('background-position', 'center -20px');
         }
 
-        const tambahPasien = document.querySelector('.tambah-pasien');
-        tambahPasien.addEventListener("click", function() {
-            window.location.href = '/pasien';
-        })
+        // const tambahPasien = document.querySelector('.tambah-pasien');
+        // tambahPasien.addEventListener("click", function() {
+        //     window.location.href = '/pasien';
+        // })
 
-        let logo = document.querySelector('.logo');
+        let logo = document.querySelector('#profile');
         let dropdownProfile = document.querySelector('.dropdown-profile');
 
         logo.addEventListener('click', function() {
@@ -597,15 +592,15 @@
         }
 
         // Menambahkan event listener untuk tombol pada carousel
-        $('.main-carousel').on('select.flickity', function(event, index) {
-            // Menonaktifkan semua konten ketika slider berpindah
-            contents.forEach(function(content) {
-                content.classList.remove('active');
-            });
+        // $('.main-carousel').on('select.flickity', function(event, index) {
+        //     // Menonaktifkan semua konten ketika slider berpindah
+        //     contents.forEach(function(content) {
+        //         content.classList.remove('active');
+        //     });
 
-            // Mengaktifkan konten yang sesuai dengan indeks slider
-            contents[index].classList.add('active');
-        });
+        //     // Mengaktifkan konten yang sesuai dengan indeks slider
+        //     contents[index].classList.add('active');
+        // });
     </script>
 </body>
 

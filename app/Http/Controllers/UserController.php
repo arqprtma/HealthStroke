@@ -123,21 +123,12 @@ class UserController extends Controller
 
         $validation = Validator::make($request->all(),[
             'nama' => 'required|string|max:100',
-            'email' => 'required|string|email|max:100',
             'gender' => 'required',
             'umur' => 'required',
-            'username' => 'required|string|max:50',
-            'password' => 'required|string|min:8',
         ],[
             'nama.required' => 'Kolom nama wajib diisi.',
-            'email.required' => 'Kolom email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
             'gender.required' => 'Kolom gender wajib diisi.',
             'umur.required' => 'Kolom umur wajib diisi.',
-            'username.required' => 'Kolom username wajib diisi.',
-            'password.required' => 'Kolom password wajib diisi.',
-            'password.min' => 'Password minimal harus 8 karakter.',
         ]);
         if ($validation->fails()) {
             // Handle kesalahan validasi
@@ -148,9 +139,9 @@ class UserController extends Controller
         $data->nama = $request->nama;
         $data->gender = $request->gender;
         $data->umur = $request->umur;
-        $data->email = $request->email;
-        $data->username = $request->username;
-        $data->password = Hash::make($request->password);
+        if($request->password != null){
+            $data->password = Hash::make($request->password);
+        }
         $data->save();
 
         return redirect()->route('profile')->with('success', 'Berhasil merubah profile');

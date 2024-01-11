@@ -57,10 +57,11 @@
 <body class="bg-[#F8F8FF] font-sans">
     <img src="images/Logo-apps.png" alt="" class="w-[230] h-[230] mx-auto relative top-[150px]">
     <div class="loader"></div>
-    <div class="absolute bottom-[10px] right-0 left-0 text-center opacity-50">
-        <p>Support By : </p>
-        <p>Agung Dwi Sahputra</p>
-        <p>Ariq Pratama</p>
+    <div class="absolute bottom-[25px] left-[50%] translate-x-[-50%] text-center opacity-50">
+        <p class="text-xs font-bold mb-[-10px]">Powered By : </p>
+        {{-- <p class="text-xs">Agung Dwi Sahputra</p>
+        <p class="text-xs">Ariq Pratama</p> --}}
+        <img src="{{ asset('images/esaunggul.png') }}" alt="Universitas Esa Unggul" width="150px">
     </div>
 </body>
 

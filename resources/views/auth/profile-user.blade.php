@@ -45,12 +45,11 @@
             <form action="{{ route('setting-profile', ['id' => auth()->user()->id]) }}" method="POST">
                 @csrf
                 <?php
-                $nama = auth()->user()->nama;
-                $namaArray = explode(' ', $nama);
+                // $nama = auth()->user()->nama;
+                // $namaArray = explode(' ', $nama);
 
-                $namaDepan = isset($namaArray[0]) ? $namaArray[0] : '';
-                $namaBelakang = isset($namaArray[1]) ? $namaArray[1] : '';
-
+                // $namaDepan = isset($namaArray[0]) ? $namaArray[0] : '';
+                // $namaBelakang = isset($namaArray[1]) ? $namaArray[1] : '';
                 ?>
                 <div class="mb-4">
                     <label class="text-gray-700 text-sm font-bold mb-2" for="nama">
@@ -58,7 +57,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="nama" name="nama" type="text" value="{{ $namaDepan . ' ' . $namaBelakang }}">
+                        id="nama" name="nama" type="text" value="{{ auth()->user()->nama }}">
                     @error('nama')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
@@ -71,9 +70,7 @@
                         <div>
                             <label for="gender" class="text-gray-700 text-sm font-bold">Jenis Kelamin</label>
                             <div class="relative inline-block w-full">
-                                <select id="gender" name="gender"
-                                    class="block appearance-none w-full bg-white  hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm">
-
+                                <select id="gender" name="gender" class="block appearance-none w-full bg-white borde hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm mt-2">
                                     @if (auth()->user()->gender == 'L')
                                         <option value="L" selected>Laki-Laki</option>
                                         <option value="P">Perempuan</option>
@@ -102,7 +99,7 @@
                             Umur
                         </label>
                         <input
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
                             id="umur" type="text" name="umur" value={{ auth()->user()->umur }}>
                         @error('umur')
                             <span class="text-red-700 text-xs">{{ $message }}</span>
@@ -115,7 +112,7 @@
                     </label>
                     <input
                         class=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="email" name="email" type="email" value={{ auth()->user()->email }}>
+                        id="email" name="email" type="email" value="{{ auth()->user()->email }}" readonly disabled>
                     @error('email')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
@@ -127,19 +124,19 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username" type="text" name="username" placeholder="Username"
-                        value={{ auth()->user()->username }}>
+                        value="{{ auth()->user()->username }}" readonly disabled>
                     @error('email')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label class="text-gray-700 text-sm font-bold mb-2" for="nama">
-                        Password
+                        Ubah Password
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="password" name="password" type="password" placeholder="Password"
-                        value={{ auth()->user()->password }}>
+                        id="password" name="password" type="password" placeholder="New Password">
+                    <span class="text-xs text-red-500">* Kosongkan bila tidak ingin merubah</span>
                     @error('password')
                         <span class="text-red-700 text-xs">{{ $message }}</span>
                     @enderror

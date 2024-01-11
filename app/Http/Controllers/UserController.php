@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $user_find = User::where('email', $request->email)->orWhere('username', $request->username)->first();
         if($user_find){
-            return redirect()->route('register')->with('error', 'Email atau USername sudah di gunakan')->withInput();;
+            return redirect()->route('register')->with('error', 'Email atau Username sudah di gunakan')->withInput();;
         }
 
         $data_request = [

@@ -130,16 +130,30 @@
             </p>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    @if ($errors->any())
+    {{-- ALERT --}}
+    @if(session()->has('error'))
     <script>
+        var pesan = "{{ session('error') }}"
+
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Terjadi kesalahan. Mohon periksa kembali isian Anda."
+            text: pesan
         });
-    </script>
+        </script>
+    @endif
+    @if(session()->has('success'))
+        <script>
+            var pesan = "{{ session('success') }}"
+            Swal.fire({
+                icon: "success",
+                title: "Yeayy...",
+                text: pesan
+            });
+        </script>
     @endif
 
 </body>

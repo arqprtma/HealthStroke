@@ -68,7 +68,7 @@ class PageController extends Controller
 
         $today = Carbon::today(); // Get date now
 
-        
+
         // $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
         // $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
         $all_log_treatment = [];
@@ -79,7 +79,7 @@ class PageController extends Controller
             $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
             $all_log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->get();
             $log_treatment = Log_treatment::where('id_pasien', $pasien->id_pasien)->whereDate('created_at', $today)->get();
-        } 
+        }
 
         $log_penanganan = [];
         $log_aktivitas = [];
@@ -210,7 +210,7 @@ class PageController extends Controller
         $list_aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->whereNotIn('id_aktivitas', [$id])->get()->take(5);
 
         $today = Carbon::today();
-        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
+        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_aktivitas' => $id])->whereDate('created_at', $today)->first();
 
         $data = [
             'title' => 'Detail Aktivitas | StrokeCare',

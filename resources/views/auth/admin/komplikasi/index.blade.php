@@ -48,7 +48,7 @@
     <div class="container lg:w-[80%] mx-auto pb-7 px-5 lg:-mt-5 mt-7">
         <div class="overflow-auto bg-white p-3 rounded shadow-md
         lg:max-h-[100vh] max-h-[50vh]">
-            <table class="table-fixed w-full">
+            <table class="w-full">
                 <thead>
                     <tr class="h-10">
                         <th class="border">No</th>

@@ -330,7 +330,6 @@ class UserController extends Controller
             $list_id_treatment = Treatment::select('id_penanganan','id_aktivitas')->where('id_pasien', $id_pasien)->first();
             $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas,true);
             $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
-
             $log_treatmentWeek = Log_treatment::where('id_pasien', $id_pasien)
                 ->whereBetween('created_at', [$oneweekago, $today])
                 ->get()
@@ -339,10 +338,10 @@ class UserController extends Controller
                     return $log;
                 })
                 ->groupBy('created_at');
-                
+
             $arr_aktivitas = [];
             $arr_penanganan = [];
-            foreach ($log_treatmentWeek as $key => $time) { 
+            foreach ($log_treatmentWeek as $key => $time) {
                 foreach ($time as $data) {
                     if($data->id_penanganan != null){
                         if(in_array($data->id_penanganan, $list_id_penanganan)){
@@ -355,14 +354,16 @@ class UserController extends Controller
                     }
                 }
             }
-            $groupTreatment = array_merge($arr_aktivitas, $arr_penanganan);
-
+            $groupTreatment = array_merge_recursive($arr_aktivitas, $arr_penanganan);
+            // dd($groupTreatment);
             $dataTreatment = [];
             $total_treatment = 0;
+
             foreach ($groupTreatment as $key => $data) { //Menghitung total data treatment berdasarkan hari
                 $dataTreatment[$key] = count($data);
                 $total_treatment += count($data);
             }
+            // dd($total_treatment);
             // Mendapatkan nama hari untuk satu minggu kebelakang
             $weekDayNames = [];
             $dataValues = [];

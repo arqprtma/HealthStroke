@@ -205,7 +205,7 @@
                         Filter per minggu : <input type="date" onchange="filterDate()" id="firstDate" name="firstDate"
                             class="lg:me-2 p-1 rounded-lg border-[#15ADA7] border-2">
                     </div>
-                    <canvas id="myChart" class="lg:w-[100%] h-[50%]"></canvas>
+                    <canvas id="myChart" width="400" height="400"></canvas>
                     <h3 class="font-bold">Hasil </h3>
                     <p>Total treatment : {{ count($aktivitasId) + count($penangananId) }} </p>
                     <p>Total yang dikerjakan (1 Minggu) : <span id="total_treatment">...</span> </p>
@@ -456,7 +456,8 @@
                                 y: {
                                     beginAtZero: true,
                                     ticks: {
-                                        stepSize: 1
+                                        stepSize: 1, // Jarak antar nilai pada sumbu y
+                                        // max: 100 // Nilai maksimum pada sumbu y
                                     }
                                 }
                             },

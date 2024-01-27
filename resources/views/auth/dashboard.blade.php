@@ -233,7 +233,7 @@
                     <div class="parent-aktivitas cursor-pointer">
                     @if (!empty($list_aktivitas))
                         @if (isset($list_aktivitas[$data_kategori->id_kat_aktivitas]))
-                            <div class="task flex mx-auto px-20 justify-evenly mt-2" onclick="toggleContent('aktivitas', {{ $key }})">
+                            <div class="task flex mx-auto px-10 lg:px-20 justify-evenly mt-2" onclick="toggleContent('aktivitas', {{ $key }})">
                                 <div class="flex gap-5 w-[100%] mx-auto pt-5">
                                     <div class="gambar">
                                         <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">
@@ -292,7 +292,7 @@
                 <div class="parent-penanganan cursor-pointer">
                     @if (!empty($list_penanganan))
                         @if (isset($list_penanganan[$data_kategori->id_kat_penanganan]))
-                            <div class="task flex mx-auto px-20 justify-evenly mt-2" onclick="toggleContent('penanganan', {{ $key }})">
+                            <div class="task flex mx-auto px-10 lg:px-20 justify-evenly mt-2" onclick="toggleContent('penanganan', {{ $key }})">
                                 <div class="flex gap-5 w-[100%] mx-auto pt-5">
                                     <div class="gambar">
                                         <img src="images/Logo-apps.png" alt="" class="w-[50px] h-[50px]">

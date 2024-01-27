@@ -82,7 +82,7 @@
     </style>
 </head>
 
-<body class="bg-[#F8F8FF] h-[200vh]">
+<body class="bg-[#F8F8FF] h-[210vh]">
     <div class="bg-auto bg-cover bg-left-top bg-no-repeat pt-10 lg:h-[356px] h-[350px]" id="bg-blub">
 
         <div class="navigasi container lg:w-[80%] mx-auto px-4">

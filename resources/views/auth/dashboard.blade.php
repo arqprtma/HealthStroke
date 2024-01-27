@@ -82,7 +82,7 @@
     </style>
 </head>
 
-<body class="bg-[#F8F8FF] h-[2500px]">
+<body class="bg-[#F8F8FF] h-[190vh]">
     <div class="bg-auto bg-cover bg-left-top bg-no-repeat pt-10 lg:h-[356px] h-[350px]" id="bg-blub">
 
         <div class="navigasi container lg:w-[80%] mx-auto px-4">
@@ -118,7 +118,7 @@
                 <div class="components-pasien flex justify-between">
                     <h1 class="font-bold text-sm lg:text-lg ">Daftar Pasien</h1>
                     @if(!$pasien)
-                        <a href="{{ route('pasien') }}" class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[70px] lg:w-[100px] h-[30px] text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7] text-center">Tambah</a>
+                        <a href="{{ route('pasien') }}" class="tambah-pasien bg-[#15ADA7] text-sm lg:text-lg rounded-md w-[80px] lg:w-[100px] h-[auto] py-1 text-white shadow-md hover:border-2 hover:border-[#15ADA7] hover:bg-[#FFFF] hover:text-[#15ADA7] text-center">Tambah</a>
                     @endif
                 </div>
             </div>

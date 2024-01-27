@@ -365,7 +365,7 @@
                 </div>
                 <div class="deskripsi flex-1 text-sm lg:ps-4 ps-2 lg:py-5 py-2">
                     <div class="konten">
-                        <h2 class="font-bold text-md lg:text-lg text-[#15ADA7] truncate w-[60vw]">{{ $data->judul }}</h2>
+                        <h2 class="font-bold text-base lg:text-lg text-[#15ADA7] truncate w-[60vw]">{{ $data->judul }}</h2>
                         <div class="text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
                             {!! $data->deskripsi !!}
                         </div>

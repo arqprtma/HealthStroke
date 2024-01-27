@@ -355,7 +355,7 @@
 
     <div class="container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
         <div class="judul flex justify-between">
-            <h1 class="font-bold text-sm lg:text-lg">Berita Terkini</h1>
+            <h1 class="font-bold text-sm lg:text-lg">Artikel</h1>
             <a href="{{route('artikel')}}" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
         @foreach ($artikel as $data)

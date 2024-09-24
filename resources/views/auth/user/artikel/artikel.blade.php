@@ -54,7 +54,24 @@
             </div>
             <div class="berita lg:w-[100%] mx-auto px-10 mt-3">
                 @foreach($list_artikel as $artikel)
-                    <div class="gejala w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg"
+                    @php
+                        if($artikel->kategori == '1'){
+                            $kategori = 'pemahaman';
+                            $kategori_title = 'Pemahaman';
+                        }elseif($artikel->kategori == '2'){
+                            $kategori = 'pertolongan';
+                            $kategori_title = 'Pertolongan Pertama';
+                        }elseif($artikel->kategori == '3'){
+                            $kategori = 'gejala';
+                            $kategori_title = 'Tanda dan Gejala';
+                        }else{
+                            $kategori = 'pemahaman';
+                            $kategori_title = 'Pemahaman';
+                        }
+
+                        $tanggal = date('d M Y', strtotime($artikel->created_at));
+                    @endphp
+                    <a href="{{ route('detail-artikel', ['id' => $artikel->id]) }}" class="{{ $kategori }} w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg"
                         style="display: flex">
                         <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
                             <img src="/images/Logo-apps.png" alt=""
@@ -62,87 +79,18 @@
                         </div>
                         <div class="deskripsi flex-1 text-sm ">
                             <div class="konten">
-                                <h1 class="font-bold ms-5 mt-5 lg:ms-10 lg:mt-7 text-lg text-[#15ADA7]">
-                                    Tanda dan Gejala
+                                <h1 class="font-bold truncate mx-5 mt-5 lg:ms-10 lg:mt-7 text-lg text-[#15ADA7]">
+                                    {{ $artikel->judul }}
                                 </h1>
-                                <p
-                                    class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur veritatis id
-                                    at
-                                    mollitia,
-                                    vero natus veniam temporibus, illo sapiente minima molestiae placeat nostrum
-                                    voluptatum
-                                    magnam
-                                    delectus itaque possimus? Beatae!
-                                </p>
-                                <p class="ms-5 mt-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, 20 Nov 2023</p>
+                                <div class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
+                                    {!! $artikel->deskripsi !!}
+                                </div>
+                                <p class="ms-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, {{ $tanggal }}</p>
                             </div>
 
                         </div>
-
-                    </div>
+                    </a>
                 @endforeach
-                {{-- @for ($i = 0; $i < 5; $i++)
-                    <div
-                        class="pertolongan w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
-                        <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
-                            <img src="/images/Logo-apps.png" alt=""
-                                class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]">
-                        </div>
-                        <div class="deskripsi flex-1 text-sm ">
-                            <div class="konten">
-                                <h1 class="font-bold ms-5 mt-5 lg:ms-10 lg:mt-7 text-lg text-[#15ADA7]">
-                                    Pertolongan
-                                </h1>
-                                <p
-                                    class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur veritatis id
-                                    at
-                                    mollitia,
-                                    vero natus veniam temporibus, illo sapiente minima molestiae placeat nostrum
-                                    voluptatum
-                                    magnam
-                                    delectus itaque possimus? Beatae!
-                                </p>
-                                <p class="ms-5 mt-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, 20 Nov 2023</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                @endfor
-                @for ($i = 0; $i < 5; $i++)
-                    <div
-                        class="pemahaman w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[150px] flex mt-3 justify-evenly shadow-lg">
-                        <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
-                            <img src="/images/Logo-apps.png" alt=""
-                                class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]">
-                        </div>
-                        <div class="deskripsi flex-1 text-sm ">
-                            <div class="konten">
-                                <h1 class="font-bold ms-5 mt-5 lg:ms-10 lg:mt-7 text-lg text-[#15ADA7]">
-                                    Pemahaman
-                                </h1>
-                                <p
-                                    class="ms-5 mt-1 lg:ms-10 lg:mt-1 text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur veritatis id
-                                    at
-                                    mollitia,
-                                    vero natus veniam temporibus, illo sapiente minima molestiae placeat nostrum
-                                    voluptatum
-                                    magnam
-                                    delectus itaque possimus? Beatae!
-                                </p>
-                                <p class="ms-5 mt-5 lg:ms-10 lg:mt-10 text-gray-500">Admin, 20 Nov 2023</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                @endfor --}}
-
-
-
             </div>
         </div>
 

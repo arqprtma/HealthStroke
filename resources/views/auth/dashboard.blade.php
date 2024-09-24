@@ -163,7 +163,7 @@
                                 @endphp
 
                                     <div class="bar-aktivitas">
-                                        <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas dan Treatment
+                                        <h3 class="text-[10px] lg:text-lg ms-2 lg:ms-10 ">Aktivitas
                                         </h3>
                                         <div
                                             class="step float-right mt-[-21px] lg:mt-[-25px] me-[40px] lg:me-[60px] text-[10px] lg:text-[14px]">
@@ -199,7 +199,7 @@
         </div>
         @if ($pasien)
             <div id="deskripsi" class="deskripsi container lg:w-[80%] mx-auto px-4 mb-10 mt-[50px]">
-                <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil treatment yang dikerjakan</h1>
+                <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil rehabilitas yang dikerjakan</h1>
                 <div class="lg:w-[100%] w-[100%] mx-auto top-12 p-5 bg-[#FFFF] rounded-lg text-sm">
                     <div class="float-right">
                         Filter per minggu : <input type="date" onchange="filterDate()" id="firstDate" name="firstDate"
@@ -207,7 +207,7 @@
                     </div>
                     <canvas id="myChart" width="400" height="400"></canvas>
                     <h3 class="font-bold">Hasil </h3>
-                    <p>Total treatment : {{ count($aktivitasId) + count($penangananId) }} </p>
+                    <p>Total rehabilitas : {{ count($aktivitasId) + count($penangananId) }} </p>
                     <p>Total yang dikerjakan (1 Minggu) : <span id="total_treatment">...</span> </p>
                 </div>
             </div>
@@ -215,7 +215,7 @@
 
         <div id="tasks" class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
             <div class="judul flex justify-between">
-                <h1 class="font-bold text-sm lg:text-lg">Aktivitas Penanganan</h1>
+                <h1 class="font-bold text-sm lg:text-lg">Rehabilitas</h1>
             </div>
             <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-auto">
                 <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
@@ -359,6 +359,9 @@
             <a href="{{route('artikel')}}" class="text-sm lg:text-lg">Lihat Lainnya</a>
         </div>
         @foreach ($artikel as $data)
+            @php
+                $tanggal = date('d M Y', strtotime($data->created_at));
+            @endphp
             <a href="{{ route('detail-artikel', ['id' => $data->id]) }}" class="w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg relative">
                 <div class="avatar w-[35%] lg:w-[30%] p-3">
                     <div class="w-full bg-center bg-cover" style="height: -webkit-fill-available; background-image: url('{{ asset(Storage::url("artikel/cover/$data->cover")) }}')"></div>
@@ -369,7 +372,7 @@
                         <div class="text-md w-[70%] h-[41px] lg:h-[60px] overflow-hidden">
                             {!! $data->deskripsi !!}
                         </div>
-                        <p class="text-gray-500 absolute bottom-5">Admin, {{ Carbon\Carbon::parse($data->created_at)->format('d M Y') }}</p>
+                        <p class="text-gray-500 absolute bottom-5">Admin, {{ $tanggal }}</p>
                     </div>
                 </div>
             </a>
@@ -434,12 +437,14 @@
                     }
 
                     // Buat objek Chart yang baru
+                    const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
                     myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: data.weekDayNames,
+                            labels: hariIndonesia, // Menggunakan nama hari dalam bahasa Indonesia
                             datasets: [{
-                                label: 'Jumlah Treatment Selesai',
+                                label: 'Jumlah Rehabilitas Selesai',
                                 data: data.weekDayValues,
                                 backgroundColor: 'rgba(34, 150, 209, 0.7)',
                                 borderColor: 'rgba(34, 150, 209, 1)',
@@ -456,14 +461,13 @@
                                 y: {
                                     beginAtZero: true,
                                     ticks: {
-                                        stepSize: 1, // Jarak antar nilai pada sumbu y
-                                        // max: 100 // Nilai maksimum pada sumbu y
+                                        stepSize: 1
                                     }
                                 }
                             },
                             title: {
                                 display: true,
-                                text: 'Grafik Histori Treatment'
+                                text: 'Grafik Histori Rehabilitas'
                             },
                             legend: {
                                 display: true,
@@ -475,6 +479,7 @@
                             }
                         }
                     });
+
 
                     $('#total_treatment').html(data.total_treatment)
                     // console.log(data.total_treatment);

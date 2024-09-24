@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <!-- Place the first <script> tag in your HTML's <head> -->
-    <script src="https://cdn.tiny.cloud/1/n5fwf9rl9zha92sitq4ifncibtnjo2h6y1mdfwew55yurj1x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/n5fwf9rl9zha92sitq4ifncibtnjo2h6y1mdfwew55yurj1x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> --}}
 
     <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
@@ -25,6 +25,9 @@
              font-family: 'mulish','sans-serif';
          }
      </style>
+
+    <!-- CSS CKEditor 5 -->
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css" />
 </head>
 
 <body class="bg-[#F8F8FF]">
@@ -136,6 +139,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @include('ckeditor.ckeditor5')
 
     <!-- Responsive background Image -->
     <script>

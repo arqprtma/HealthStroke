@@ -248,7 +248,7 @@ class PageController extends Controller
 
     public function artikel(Request $request) {
         $kategori_artikel = Kategori_artikel::get();
-        $list_artikel = Artikel::get();
+        $list_artikel = Artikel::with('kategori_artikel')->get();
 
         $data = [
             'title' => 'Artikel | StrokeCare',

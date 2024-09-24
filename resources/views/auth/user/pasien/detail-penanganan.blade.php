@@ -36,7 +36,7 @@
             <p class=" mx-auto text-sm lg:text-lg">{!! $penanganan->deskripsi !!}</p>
             @if($penanganan->video)
                 <h5 class="mt-5 text-sm lg:text-base">Video Penanganan Treatment : </h5>
-                <iframe class="w-[100%] h-[315px] mt-5 mb-10" src="https://www.youtube.com/embed/{{ $penanganan->video }}" title="YouTube video player" frameborder="0"
+                <iframe class="w-[100%] lg:h-[50vw] h-[300px] mt-5 mb-10" src="https://www.youtube.com/embed/{{ $penanganan->video }}" title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen>
                 </iframe>

@@ -70,14 +70,14 @@
                                     onclick="ConfirmDelete('{{ $data->id_aktivitas }}')"
                                     class="text-red-500 inline-block">Hapus</a>
                             </td>
+                            <!-- Form untuk metode DELETE -->
+                            <form class="hidden" id="deleteForm{{ $data->id_aktivitas }}"
+                                action="{{ route('admin.aktivitas.delete', ['id' => $data->id_aktivitas]) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </tr>
-                        <!-- Form untuk metode DELETE -->
-                        <form class="hidden" id="deleteForm{{ $data->id_aktivitas }}"
-                            action="{{ route('admin.aktivitas.delete', ['id' => $data->id_aktivitas]) }}"
-                            method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
                     @endforeach
                 @else
                     <tr>

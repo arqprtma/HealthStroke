@@ -16,6 +16,7 @@
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="//cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
 
      <style>
          *{
@@ -40,7 +41,7 @@
     </div>
     <div class="container lg:w-[80%] mx-auto pb-7 px-5 lg:-mt-5 mt-7">
         <div class="overflow-auto lg:max-h-[100vh] max-h-[50vh]">
-        <table class="table-fixed">
+        <table id="tables" class="table-fixed">
             <thead>
               <tr class="h-10">
                 <th class="border w-auto p-3">No</th>
@@ -94,6 +95,12 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+
+    <script>
+        // Datatables Proses
+        let table = new DataTable('#tables');
+    </script>
 
     <!-- Responsive background Image -->
     <script>

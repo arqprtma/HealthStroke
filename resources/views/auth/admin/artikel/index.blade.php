@@ -63,12 +63,12 @@
                             <td class="border w-auto min-w-[130px] p-3 text-center">
                                 <a href="{{ route('admin.artikel.edit', $data->id) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $data->id }}')" class="text-red-500 inline-block">Hapus</a>
                             </td>
+                            <!-- Form untuk metode DELETE -->
+                            <form class="hidden" id="deleteForm{{ $data->id }}" action="{{ route('admin.artikel.delete', ['id' => $data->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </tr>
-                        <!-- Form untuk metode DELETE -->
-                        <form class="hidden" id="deleteForm{{ $data->id }}" action="{{ route('admin.artikel.delete', ['id' => $data->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
                     @endforeach
                 @else
                     <tr>

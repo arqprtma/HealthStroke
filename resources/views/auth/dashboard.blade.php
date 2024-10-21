@@ -437,12 +437,12 @@
                     }
 
                     // Buat objek Chart yang baru
-                    const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                    // const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
                     myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: hariIndonesia, // Menggunakan nama hari dalam bahasa Indonesia
+                            labels: data.weekDayNames, // Menggunakan nama hari dalam bahasa Indonesia
                             datasets: [{
                                 label: 'Jumlah Rehabilitas Selesai',
                                 data: data.weekDayValues,

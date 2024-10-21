@@ -438,7 +438,6 @@
 
                     // Buat objek Chart yang baru
                     // const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-
                     myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {

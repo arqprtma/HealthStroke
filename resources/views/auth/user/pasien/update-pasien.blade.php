@@ -108,9 +108,9 @@
                     </div>
                 </div>
 
-                <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">Pemicu</h3>
+                <h3 class="mb-4 font-semibold text-gray-900">Pemicu</h3>
                 <ul
-                    class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600">
 
                     @foreach ($pemicu as $p)
                         @php
@@ -131,9 +131,9 @@
                     <span class="text-red-700 text-xs">{{ $message }}</span>
                 @enderror
 
-                <h3 class="mb-4 font-semibold text-gray-900 dark:text-white mt-5">Komplikasi</h3>
+                <h3 class="mb-4 font-semibold text-gray-900 mt-5">Komplikasi</h3>
                 <ul
-                    class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600">
                     @foreach ($komplikasi as $k)
                         @php
                             $checked = in_array($k->id_komplikasi, $pasien->komplikasi);

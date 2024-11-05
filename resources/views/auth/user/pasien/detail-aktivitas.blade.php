@@ -14,6 +14,11 @@
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+     <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
       <style>
           *{
@@ -60,11 +65,22 @@
             @endforeach
 
             <div class="text-center mt-7 pb-10">
-                @if($log_treatment == null)
-                    <a href="{{ route('add-log-aktivitas', ['id' => $aktivitas->id_aktivitas]) }}">
-                        <button class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-lg text-white">Sudah
-                        dilakukan
-                        </button>
+                <a href="{{ route('add-log-aktivitas', ['id' => $aktivitas->id_aktivitas]) }}">
+                    <button class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-lg text-white">Sudah
+                    dilakukan
+                    </button>
+               
+                    @if($log_treatment == $trigerAktivitas->jumlah )
+
+                    <script>
+                        // Menggunakan SweetAlert2 untuk menampilkan konten dari triggered activity
+                        Swal.fire({
+                            title: 'Informasi Aktivitas',
+                            text: '{{ strip_tags($trigerAktivitas->first()->konten) }}', // Menampilkan konten dari aktivitas pertama
+                            icon: 'info',
+                            confirmButtonText: 'OK'
+                        });
+                    </script>
                     </a>
                 @endif
             </div>

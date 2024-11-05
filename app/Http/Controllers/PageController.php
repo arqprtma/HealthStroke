@@ -13,6 +13,7 @@ use App\Models\Pasien;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
 use App\Models\Treatment;
+use App\Models\Trigered_Activity;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; // Make sure to include this
@@ -210,13 +211,15 @@ class PageController extends Controller
         $list_aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->whereNotIn('id_aktivitas', [$id])->get()->take(5);
 
         $today = Carbon::today();
-        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_aktivitas' => $id])->whereDate('created_at', $today)->first();
-
+        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_aktivitas' => $id])->count();
+    
+        $trigerAkitvitas = Trigered_Activity::where('id_aktivitas' , '=', $id)->first();
         $data = [
             'title' => 'Detail Aktivitas | StrokeCare',
             'aktivitas' => $aktivitas,
             'list_aktivitas' => $list_aktivitas,
             'log_treatment' => $log_treatment,
+            'trigerAktivitas' => $trigerAkitvitas
         ];
         return view('auth.user.pasien.detail-aktivitas', $data);
     }
@@ -236,7 +239,7 @@ class PageController extends Controller
 
         $today = Carbon::today();
         $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
-
+        
         $data = [
             'title' => 'Detail penanganan | StrokeCare',
             'penanganan' => $penanganan,
@@ -488,5 +491,49 @@ class PageController extends Controller
 
             return view('auth.admin.artikel.edit_artikel', $data);
         }
+
+        public function trigered_aktivitas(){
+            $trigeredAktivitas = Trigered_Activity::join('aktivitas', 'aktivitas.id_aktivitas', '=', 'trigered_aktivitas.id_aktivitas')
+            ->select('aktivitas.deskripsi', 'trigered_aktivitas.jumlah', 'trigered_aktivitas.konten', 'trigered_aktivitas.id_trigered_aktivitas')
+            ->get();
+                $data = [
+                    'title' => 'Tambah Trigered Aktivitas | StrokeCare',
+                'trigeredAktivitas' => $trigeredAktivitas
+            ];
+            return view('auth.admin.trigered_aktivitas.index',$data);
+        }
+
+        public function trigered_tambah_aktivitas(){
+            $aktivitas = Aktivitas::all();
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'Tambah Trigered Aktivitas | StrokeCare',
+                'aktivitas' => $aktivitas,
+                'pemicu' => $pemicu,
+                'komplikasi' => $komplikasi,
+            ];
+            return view('auth.admin.trigered_aktivitas.store', $data);
+        }
+
+        public function trigered_edit_aktivitas($id){
+            $trigeredAktivitas = Trigered_Activity::join('aktivitas', 'aktivitas.id_aktivitas', '=', 'trigered_aktivitas.id_aktivitas')
+            ->select('aktivitas.*', 'trigered_aktivitas.*')
+            ->where('trigered_aktivitas.id_trigered_aktivitas', $id)
+            ->first();
+
+            $aktivitas = Aktivitas::all();
+            // dd($trigeredAktivitas);
+            $data = [
+                'title' => 'Edit Trigered Aktivitas | StrokeCare',
+                'trigeredAktivitas' => $trigeredAktivitas,
+                'aktivitas' => $aktivitas
+            ];
+
+            return view('auth.admin.trigered_aktivitas.edit', $data);
+        }
+
+
         // End Admin
     }

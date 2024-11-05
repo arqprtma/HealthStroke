@@ -161,6 +161,15 @@ Route::middleware(['CheckAuth', 'verified'])->group(function () {
             Route::get('/admin/artikel/edit/{id?}', [PageController::class, 'admin_edit_artikel'])->name('artikel.edit');
             Route::put('/admin/artikel/edit/{id?}', [AdminController::class, 'update_artikel'])->name('artikel.update');
             Route::delete('/admin/artikel/{id?}', [AdminController::class, 'destroy_artikel'])->name('artikel.delete');
+
+            // trigered aktivitas
+            Route::get('/admin/trigered-aktivitas', [PageController::class, 'trigered_aktivitas'])->name('trigered.aktivitas');
+            Route::get('/admin/trigered-aktivitas/tambah', [PageController::class, 'trigered_tambah_aktivitas'])->name('trigered.aktivitas.tambah');
+            Route::post('/admin/trigered-aktivitas/tambah', [AdminController::class, 'trigered_store_aktivitas'])->name('trigered.aktivitas.store');
+            Route::get('/admin/trigered-aktivitas/edit/{id?}', [PageController::class, 'trigered_edit_aktivitas'])->name('trigered.aktivitas.edit');
+            Route::put('/admin/trigered-aktivitas/edit/{id?}', [AdminController::class, 'trigered_upload_aktivitas'])->name('trigered.aktivitas.update');
+            Route::delete('/admin/trigered-aktivitas/{id?}', [AdminController::class, 'trigered_destroy_aktivitas'])->name('trigered.aktivitas.delete');
+
         });
     });
 });

@@ -9,6 +9,7 @@ use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
+use App\Models\Trigered_Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -462,4 +463,45 @@ class AdminController extends Controller
             return redirect()->route('admin.artikel')->with('error', 'Data artikel tidak ditemukan');
         }
     }
+
+    public function trigered_store_aktivitas(Request $request){
+        $data = [
+            'id_aktivitas' => $request->id_aktivitas,
+            'jumlah' => $request->jumlah,
+            'konten' => $request->konten,
+        ];
+        Trigered_Activity::create($data);
+        return redirect()->route('admin.trigered.aktivitas')->with('success', 'Berhasil menambahkan trigered ');
+
+    }
+
+    public function trigered_upload_aktivitas(Request $request, $id)
+    {
+       
+        $data = Trigered_Activity::where('id_trigered_aktivitas', $id)->first();
+        if ($data) {
+            $data->id_aktivitas = $request->id_aktivitas;
+            $data->jumlah = $request->jumlah;
+            $data->konten = $request->konten;
+            $data->update();
+    
+            return redirect()->route('admin.trigered.aktivitas')->with('success', 'Berhasil menambahkan trigered');
+        } else {
+            return redirect()->route('admin.trigered.aktivitas')->with('error', 'Data tidak ditemukan');
+        }
+    }
+
+    public function trigered_destroy_aktivitas($id)
+    {
+        // Mencari aktivitas berdasarkan ID
+        $trigeredAktivitas = Trigered_Activity::findOrFail($id);
+    
+        // Menghapus aktivitas
+        $trigeredAktivitas->delete();
+    
+        // Mengalihkan kembali dengan pesan sukses
+        return redirect()->route('admin.trigered.aktivitas')->with('success', 'Aktivitas berhasil dihapus.');
+    }
+    
+    
 }

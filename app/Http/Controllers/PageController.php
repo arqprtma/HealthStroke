@@ -14,6 +14,7 @@ use App\Models\Pemicu;
 use App\Models\Penanganan;
 use App\Models\Treatment;
 use App\Models\Trigered_Activity;
+use App\Models\Trigered_Penanganan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; // Make sure to include this
@@ -238,13 +239,19 @@ class PageController extends Controller
         $list_penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->whereNotIn('id_penanganan', [$id])->get()->take(5);
 
         $today = Carbon::today();
-        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
+        // $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
+
+        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->count();
+    
+        $trigerpenanganan = Trigered_Penanganan::where('id_penanganan' , '=', $id)->first();
         
         $data = [
             'title' => 'Detail penanganan | StrokeCare',
             'penanganan' => $penanganan,
             'list_penanganan' => $list_penanganan,
-            'log_treatment' => $log_treatment
+            'log_treatment' => $log_treatment,
+            'trigerpenanganan' => $trigerpenanganan
+
         ];
         return view('auth.user.pasien.detail-penanganan', $data);
     }
@@ -532,6 +539,48 @@ class PageController extends Controller
             ];
 
             return view('auth.admin.trigered_aktivitas.edit', $data);
+        }
+
+        public function trigered_penanganan(){
+            $trigeredpenanganan = Trigered_Penanganan::join('penanganan', 'penanganan.id_penanganan', '=', 'trigered_penanganan.id_penanganan')
+            ->select('penanganan.deskripsi', 'trigered_penanganan.jumlah', 'trigered_penanganan.konten', 'trigered_penanganan.id_trigered_penanganan')
+            ->get();
+                $data = [
+                    'title' => 'Tambah Trigered penanganan | StrokeCare',
+                'trigeredpenanganan' => $trigeredpenanganan
+            ];
+            return view('auth.admin.trigered_penanganan.index',$data);
+        }
+
+        public function trigered_tambah_penanganan(){
+            $penanganan = penanganan::all();
+            $pemicu = Pemicu::select('id_pemicu','nama')->get();
+            $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
+
+            $data = [
+                'title' => 'Tambah Trigered penanganan | StrokeCare',
+                'penanganan' => $penanganan,
+                'pemicu' => $pemicu,
+                'komplikasi' => $komplikasi,
+            ];
+            return view('auth.admin.trigered_penanganan.store', $data);
+        }
+
+        public function trigered_edit_penanganan($id){
+            $trigeredpenanganan = Trigered_Penanganan::join('penanganan', 'penanganan.id_penanganan', '=', 'trigered_penanganan.id_penanganan')
+            ->select('penanganan.*', 'trigered_penanganan.*')
+            ->where('trigered_penanganan.id_trigered_penanganan', $id)
+            ->first();
+
+            $penanganan = penanganan::all();
+            // dd($trigeredpenanganan);
+            $data = [
+                'title' => 'Edit Trigered penanganan | StrokeCare',
+                'trigeredpenanganan' => $trigeredpenanganan,
+                'penanganan' => $penanganan
+            ];
+
+            return view('auth.admin.trigered_penanganan.edit', $data);
         }
 
 

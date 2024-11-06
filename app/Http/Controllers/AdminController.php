@@ -10,6 +10,7 @@ use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
 use App\Models\Trigered_Activity;
+use App\Models\Trigered_Penanganan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -501,6 +502,45 @@ class AdminController extends Controller
     
         // Mengalihkan kembali dengan pesan sukses
         return redirect()->route('admin.trigered.aktivitas')->with('success', 'Aktivitas berhasil dihapus.');
+    }
+
+    public function trigered_store_penanganan(Request $request){
+        $data = [
+            'id_penanganan' => $request->id_penanganan,
+            'jumlah' => $request->jumlah,
+            'konten' => $request->konten,
+        ];
+        Trigered_Penanganan::create($data);
+        return redirect()->route('admin.trigered.penanganan')->with('success', 'Berhasil menambahkan trigered ');
+
+    }
+
+    public function trigered_upload_penanganan(Request $request, $id)
+    {
+       
+        $data = Trigered_Penanganan::where('id_trigered_penanganan', $id)->first();
+        if ($data) {
+            $data->id_penanganan = $request->id_penanganan;
+            $data->jumlah = $request->jumlah;
+            $data->konten = $request->konten;
+            $data->update();
+    
+            return redirect()->route('admin.trigered.penanganan')->with('success', 'Berhasil menambahkan trigered');
+        } else {
+            return redirect()->route('admin.trigered.penanganan')->with('error', 'Data tidak ditemukan');
+        }
+    }
+
+    public function trigered_destroy_penanganan($id)
+    {
+        // Mencari penanganan berdasarkan ID
+        $trigeredpenanganan = Trigered_Penanganan::findOrFail($id);
+    
+        // Menghapus penanganan
+        $trigeredpenanganan->delete();
+    
+        // Mengalihkan kembali dengan pesan sukses
+        return redirect()->route('admin.trigered.penanganan')->with('success', 'penanganan berhasil dihapus.');
     }
     
     

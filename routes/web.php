@@ -170,6 +170,14 @@ Route::middleware(['CheckAuth', 'verified'])->group(function () {
             Route::put('/admin/trigered-aktivitas/edit/{id?}', [AdminController::class, 'trigered_upload_aktivitas'])->name('trigered.aktivitas.update');
             Route::delete('/admin/trigered-aktivitas/{id?}', [AdminController::class, 'trigered_destroy_aktivitas'])->name('trigered.aktivitas.delete');
 
+            // trigered penanganan
+            Route::get('/admin/trigered-penanganan', [PageController::class, 'trigered_penanganan'])->name('trigered.penanganan');
+            Route::get('/admin/trigered-penanganan/tambah', [PageController::class, 'trigered_tambah_penanganan'])->name('trigered.penanganan.tambah');
+            Route::post('/admin/trigered-penanganan/tambah', [AdminController::class, 'trigered_store_penanganan'])->name('trigered.penanganan.store');
+            Route::get('/admin/trigered-penanganan/edit/{id?}', [PageController::class, 'trigered_edit_penanganan'])->name('trigered.penanganan.edit');
+            Route::put('/admin/trigered-penanganan/edit/{id?}', [AdminController::class, 'trigered_upload_penanganan'])->name('trigered.penanganan.update');
+            Route::delete('/admin/trigered-penanganan/{id?}', [AdminController::class, 'trigered_destroy_penanganan'])->name('trigered.penanganan.delete');
+
         });
     });
 });

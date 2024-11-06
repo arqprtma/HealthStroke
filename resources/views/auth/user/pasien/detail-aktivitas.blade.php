@@ -70,7 +70,7 @@
                     dilakukan
                     </button>
                
-                    @if($log_treatment == $trigerAktivitas->jumlah )
+                @if((isset($trigerAktivitas->jumlah)) && $log_treatment == $trigerAktivitas->jumlah )
 
                     <script>
                         // Menggunakan SweetAlert2 untuk menampilkan konten dari triggered activity

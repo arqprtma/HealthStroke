@@ -74,7 +74,7 @@
                         dilakukan
                         </button>
                    
-                        @if((isset($trigerAktivitas->jumlah)) && $log_treatment == $trigerpenanganan->jumlah )
+                        @if((isset($trigerpenanganan)) && $log_treatment == $trigerpenanganan->jumlah )
                         <script>
                             // Menggunakan SweetAlert2 untuk menampilkan konten dari triggered activity
                             Swal.fire({

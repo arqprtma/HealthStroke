@@ -4,7 +4,66 @@
 
 
 @layer components {
+    *{
+        font-size: 0.875rem; /* 14px */
+        line-height: 1.25rem; /* 20px */
+    }
+    @media(max-width:768px){
+        *{
+            font-size: 0.75rem; /* 12px */
+            line-height: 1rem; /* 16px */
+        }
+    }
+
     .btn-primary {
         @apply bg-[#15ADA7];
     }
+
+    /* Batas Lines Text */
+    .one-lines, .two-lines, .three-lines, .four-lines{
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+    .one-lines{
+        -webkit-line-clamp: 1; /* Menampilkan dua baris */
+    }
+    .two-lines{
+        -webkit-line-clamp: 2; /* Menampilkan dua baris */
+    }
+    .three-lines{
+        -webkit-line-clamp: 3; /* Menampilkan dua baris */
+    }
+    .four-lines{
+        -webkit-line-clamp: 4; /* Menampilkan dua baris */
+    }
+    /* End Batas Lines Text */
+
+    /* Batas Column */
+    .one-column, .two-column, .three-column, .four-column{
+        width: 100%;
+        display: grid;
+        grid-template-rows: auto;
+        grid-auto-flow: row;
+        gap: 6px;
+    }
+    .one-column {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .two-column {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .three-column {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .four-column {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    /* End Batas Column */
+
+    /* Create Modal */
+        .modal {
+            display: none;
+        }
+    /* End Create Modal */
 }

@@ -8,6 +8,7 @@ use App\Models\Aktivitas;
 use App\Models\Log_treatment;
 use App\Models\Penanganan;
 use App\Models\Treatment;
+use App\Models\UserHealth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,15 +22,16 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class UserController extends Controller
 {
-    public function register(Request $request) {
-        $validation = Validator::make($request->all(),[
+    public function register(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
             'nama' => 'required|string|max:100',
             'email' => 'required|string|email|max:100',
             'gender' => 'required',
             'umur' => 'required',
             'username' => 'required|string|max:50',
             'password' => 'required|string|min:8',
-        ],[
+        ], [
             'nama.required' => 'Kolom nama wajib diisi.',
             'email.required' => 'Kolom email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
@@ -47,7 +49,7 @@ class UserController extends Controller
         }
 
         $user_find = User::where('email', $request->email)->orWhere('username', $request->username)->first();
-        if($user_find){
+        if ($user_find) {
             return redirect()->route('register')->with('error', 'Email atau Username sudah di gunakan')->withInput();;
         }
 
@@ -69,7 +71,8 @@ class UserController extends Controller
         return redirect()->route('verification.notice');
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         // $validation = Validator::make($request->all(),[
         //     'username' => 'required|string|max:50',
         //     'password' => 'required|string|min:8',
@@ -89,9 +92,9 @@ class UserController extends Controller
 
             $user = auth()->user();
 
-            if($user->role == 'user'){
+            if ($user->role == 'user') {
                 return redirect()->route('dashboard');
-            }else{
+            } else {
                 return redirect()->route('admin.index');
             }
         }
@@ -119,13 +122,14 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function profile(Request $request, $id){
+    public function profile(Request $request, $id)
+    {
 
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'nama' => 'required|string|max:100',
             'gender' => 'required',
             'umur' => 'required',
-        ],[
+        ], [
             'nama.required' => 'Kolom nama wajib diisi.',
             'gender.required' => 'Kolom gender wajib diisi.',
             'umur.required' => 'Kolom umur wajib diisi.',
@@ -139,18 +143,17 @@ class UserController extends Controller
         $data->nama = $request->nama;
         $data->gender = $request->gender;
         $data->umur = $request->umur;
-        if($request->password != null){
+        if ($request->password != null) {
             $data->password = Hash::make($request->password);
         }
         $data->save();
 
         return redirect()->route('profile')->with('success', 'Berhasil merubah profile');
-
-
     }
 
     // Pasien
-    public function pasien_store(Request $request) {
+    public function pasien_store(Request $request)
+    {
         // Validasi input
         $validation = Validator::make($request->all(), [
             'nama' => ['required', 'string', 'max:100'],
@@ -221,7 +224,8 @@ class UserController extends Controller
     }
 
 
-    public function pasien_update(Request $request, $id){
+    public function pasien_update(Request $request, $id)
+    {
         $validation = Validator::make($request->all(), [
             'nama' => ['required', 'string', 'max:100'],
             'gender' => 'required',
@@ -270,7 +274,7 @@ class UserController extends Controller
         $data->gender = $request->gender;
         $data->umur = $request->umur;
         $data->pemicu = $request->input('pemicu', []);
-        $data->komplikasi = $request->input('komplikasi',[]);
+        $data->komplikasi = $request->input('komplikasi', []);
         $data->save();
 
         // Data untuk treatment
@@ -288,98 +292,99 @@ class UserController extends Controller
         Treatment::updateOrInsert($conditions, $data_treatment);
 
         return redirect()->back()->with('success', 'Berhasil merubah data pasien');
-
     }
 
-    public function add_log_penanganan(Request $request, $id) {
+    public function add_log_penanganan(Request $request, $id)
+    {
         $id_user = auth()->user()->id;
-        $pasien = Pasien::select('id_pasien')->where('id_user',$id_user)->first();
+        $pasien = Pasien::select('id_pasien')->where('id_user', $id_user)->first();
         $data = [
             'id_pasien' => $pasien->id_pasien,
             'id_penanganan' => $id,
             'id_aktivitas' => null,
         ];
         $data = Log_treatment::create($data);
-        return redirect()->route('dashboard');
+        return back();
     }
 
-    public function add_log_aktivitas(Request $request, $id) {
+    public function add_log_aktivitas(Request $request, $id)
+    {
         $id_user = auth()->user()->id;
-        $pasien = Pasien::select('id_pasien')->where('id_user',$id_user)->first();
+        $pasien = Pasien::select('id_pasien')->where('id_user', $id_user)->first();
         $data = [
             'id_pasien' => $pasien->id_pasien,
             'id_penanganan' => null,
             'id_aktivitas' => $id,
         ];
         $data = Log_treatment::create($data);
-        return redirect()->route('dashboard');
+        return back();
     }
 
     public function getDataForChart(Request $request)
     {
         // Proses pembuatan Chart log
-            // log treatment
-            $today = $request->input('start_date');
-            $oneweekago = Carbon::parse($today)->subWeek();
+        // log treatment
+        $today = $request->input('start_date');
+        $oneweekago = Carbon::parse($today)->subWeek();
 
-            // Konversi ke objek Carbon untuk memanipulasi tanggal
-            $startDate = Carbon::parse($today);
+        // Konversi ke objek Carbon untuk memanipulasi tanggal
+        $startDate = Carbon::parse($today);
 
-            $id_pasien = $request->input('id_pasien');
+        $id_pasien = $request->input('id_pasien');
 
-            $list_id_treatment = Treatment::select('id_penanganan','id_aktivitas')->where('id_pasien', $id_pasien)->first();
-            $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas,true);
-            $list_id_penanganan = json_decode($list_id_treatment->id_penanganan,true);
-            $log_treatmentWeek = Log_treatment::where('id_pasien', $id_pasien)
-                ->whereBetween('created_at', [$oneweekago, $today])
-                ->get()
-                ->map(function ($log) { // Membuat Created_at menjadi tahun bulan tanggal, untuk jam akan default 00
-                    $log->created_at = Carbon::parse($log->created_at)->format('Y-m-d');
-                    return $log;
-                })
-                ->groupBy('created_at');
+        $list_id_treatment = Treatment::select('id_penanganan', 'id_aktivitas')->where('id_pasien', $id_pasien)->first();
+        $list_id_aktivitas = json_decode($list_id_treatment->id_aktivitas, true);
+        $list_id_penanganan = json_decode($list_id_treatment->id_penanganan, true);
+        $log_treatmentWeek = Log_treatment::where('id_pasien', $id_pasien)
+            ->whereBetween('created_at', [$oneweekago, $today])
+            ->get()
+            ->map(function ($log) { // Membuat Created_at menjadi tahun bulan tanggal, untuk jam akan default 00
+                $log->created_at = Carbon::parse($log->created_at)->format('Y-m-d');
+                return $log;
+            })
+            ->groupBy('created_at');
 
-            $arr_aktivitas = [];
-            $arr_penanganan = [];
-            foreach ($log_treatmentWeek as $key => $time) {
-                foreach ($time as $data) {
-                    if($data->id_penanganan != null){
-                        if(in_array($data->id_penanganan, $list_id_penanganan)){
-                            $arr_penanganan[$key][] = $data;
-                        }
-                    }else{
-                        if(in_array($data->id_aktivitas, $list_id_aktivitas)){
-                            $arr_aktivitas[$key][] = $data;
-                        }
+        $arr_aktivitas = [];
+        $arr_penanganan = [];
+        foreach ($log_treatmentWeek as $key => $time) {
+            foreach ($time as $data) {
+                if ($data->id_penanganan != null) {
+                    if (in_array($data->id_penanganan, $list_id_penanganan)) {
+                        $arr_penanganan[$key][] = $data;
+                    }
+                } else {
+                    if (in_array($data->id_aktivitas, $list_id_aktivitas)) {
+                        $arr_aktivitas[$key][] = $data;
                     }
                 }
             }
-            $groupTreatment = array_merge_recursive($arr_aktivitas, $arr_penanganan);
-            // dd($groupTreatment);
-            $dataTreatment = [];
-            $total_treatment = 0;
+        }
+        $groupTreatment = array_merge_recursive($arr_aktivitas, $arr_penanganan);
+        // dd($groupTreatment);
+        $dataTreatment = [];
+        $total_treatment = 0;
 
-            foreach ($groupTreatment as $key => $data) { //Menghitung total data treatment berdasarkan hari
-                $dataTreatment[$key] = count($data);
-                $total_treatment += count($data);
-            }
-            // dd($total_treatment);
-            // Mendapatkan nama hari untuk satu minggu kebelakang
-            $weekDayNames = [];
-            $dataValues = [];
-            for ($i = 6; $i >= 0; $i--) {
-                $weekDayNames[] = $startDate->copy()->subDays($i)->format('l'); // Format 'l' untuk mendapatkan nama hari dalam bahasa Inggris
-                $currentDate[] = $startDate->copy()->subDays($i)->format('Y-m-d');
-                // $weekDayNames[$currentDate] = isset($weekDayData[$currentDate]) ? $weekDayData[$currentDate] : 0;
-                // // $weekDayNames[] = $currentDate; // Simpan tanggal saat ini sebagai label
-                // $dataValues[] = isset($dataTreatment[$currentDate]) ? $dataTreatment[$currentDate] : 0;
-            }
-            $weekDayValues = [];
-            foreach ($currentDate as $day) {
-                $formattedDate = Carbon::parse($day)->format('Y-m-d H:i:s');
-                $weekDayValues[] = isset($dataTreatment[$formattedDate]) ? $dataTreatment[$formattedDate] : 0;
-            }
-            // dd($weekDayValues->toArray());
+        foreach ($groupTreatment as $key => $data) { //Menghitung total data treatment berdasarkan hari
+            $dataTreatment[$key] = count($data);
+            $total_treatment += count($data);
+        }
+        // dd($total_treatment);
+        // Mendapatkan nama hari untuk satu minggu kebelakang
+        $weekDayNames = [];
+        $dataValues = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $weekDayNames[] = $startDate->copy()->subDays($i)->format('l'); // Format 'l' untuk mendapatkan nama hari dalam bahasa Inggris
+            $currentDate[] = $startDate->copy()->subDays($i)->format('Y-m-d');
+            // $weekDayNames[$currentDate] = isset($weekDayData[$currentDate]) ? $weekDayData[$currentDate] : 0;
+            // // $weekDayNames[] = $currentDate; // Simpan tanggal saat ini sebagai label
+            // $dataValues[] = isset($dataTreatment[$currentDate]) ? $dataTreatment[$currentDate] : 0;
+        }
+        $weekDayValues = [];
+        foreach ($currentDate as $day) {
+            $formattedDate = Carbon::parse($day)->format('Y-m-d H:i:s');
+            $weekDayValues[] = isset($dataTreatment[$formattedDate]) ? $dataTreatment[$formattedDate] : 0;
+        }
+        // dd($weekDayValues->toArray());
         // End Proses
 
         $data = [
@@ -389,6 +394,52 @@ class UserController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function update_perkembangan_pasien(Request $request)
+    {
+        // validasi Decision harus di isi
+        $this->validate($request, [
+            'perubahan_decision' => 'required',
+        ]);
+
+        $id_pasien = base64_decode($request->id_pasien);
+        $id_treatment = base64_decode($request->id);
+        $type = base64_decode($request->jenis);
+        $level = $request->perubahan_decision;
+
+        // Create or Update data diatas ke dalam tabel user_health
+        $userHealth = UserHealth::where('id_pasien', $id_pasien)->where('id_treatment', $id_treatment)->first();
+        if ($userHealth) {
+            if($userHealth->level < $level){
+                $userHealth->update([
+                    'level' => $level,
+                    'type' => $type,
+                    'status' => 'kemajuan',
+                ]);
+            }else if($userHealth->level > $level){
+                $userHealth->update([
+                    'level' => $level,
+                    'type' => $type,
+                    'status' => 'kemunduran',
+                ]);
+            }else{
+                $userHealth->update([
+                    'level' => $level,
+                    'type' => $type,
+                    'status' => 'stagnasi',
+                ]);
+            }
+        } else {
+            $userHealth = new UserHealth();
+            $userHealth->id_pasien = $id_pasien;
+            $userHealth->id_treatment = $id_treatment;
+            $userHealth->level = $level;
+            $userHealth->type = $type;
+            $userHealth->status = 'stagnasi';
+            $userHealth->save();
+        }
+        return back();
     }
 
     // public function kirimEmail(){

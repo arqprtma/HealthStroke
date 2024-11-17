@@ -34,7 +34,7 @@
             </a>
         </div>
         <div class="container lg:w-[80%] mx-auto pb-7 px-5">
-            <h2 class="text-center font-bold text-black lg:text-2xl text-lg mb-10">Trigger Aktivitas</h2>
+            <h2 class="text-center font-bold text-black lg:text-2xl text-lg mb-10">Trigger aktivitas</h2>
             <a href="{{ route('admin.trigered.aktivitas.tambah') }}"><button
                     class="px-5 py-2 bg-[#8DD67A] hover:bg-[#85D470] text-white rounded ml-auto block"
                     id="dropdown">Tambah</button></a>
@@ -47,19 +47,25 @@
               <tr class="h-10">
                 <th class="border w-auto p-3">No</th>
                 <th class="border w-auto p-3">Aktivitas</th>
-                <th class="border w-auto p-3">Jumlah</th>
+                <th class="border w-auto p-3">Judul</th>
+                <th class="border w-auto p-3">Level</th>
                 <th class="border w-auto p-3">Konten</th>
+                <th class="border w-auto p-3">Kemajuan</th>
+                <th class="border w-auto p-3">kemunduran</th>
                 <th class="border w-auto p-3">Aksi</th>
               </tr>
             </thead>
             <tbody>
                 <?php $i = 1?>
-                @foreach ($trigeredAktivitas as $item)
+                @foreach ($trigeredaktivitas as $item)
                 <tr>
                     <td>{{$i}}</td>
                     <td class="border w-auto p-3">{{strip_tags($item->deskripsi)}}</td>
-                    <td class="border w-auto p-3">{{$item->jumlah}}</td>
+                    <td class="border w-auto p-3">{{$item->judul}}</td>
+                    <td class="border w-auto p-3">{{$item->level}}</td>
                     <td class="border w-auto p-3">{{strip_tags($item->konten) }}</td>
+                    <td class="border w-auto p-3">{{$item->kemajuan}}</td>
+                    <td class="border w-auto p-3">{{$item->kemunduran}}</td>
                     {{-- <td class="border w-auto p-3">edit | delete</td> --}}
                     <td class="border w-auto min-w-[130px] p-3 text-center">
                         <a href="{{ route('admin.trigered.aktivitas.edit', ['id' => $item->id_trigered_aktivitas]) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $item->id_trigered_aktivitas }}')" class="text-red-500 inline-block">Hapus</a>

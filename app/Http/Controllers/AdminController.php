@@ -9,7 +9,7 @@ use App\Models\Kategori_penanganan;
 use App\Models\Komplikasi;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
-use App\Models\Trigered_Activity;
+use App\Models\Trigered_Aktivitas;
 use App\Models\Trigered_Penanganan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -18,45 +18,47 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    public function store_pemicu(Request $request) {
+    public function store_pemicu(Request $request)
+    {
         try {
             Pemicu::create([
                 'nama' => $request->pemicu
             ]);
 
             // Eksekusi jika pembuatan berhasil
-            return redirect()->route('admin.pemicu')->with('success', 'Berhasil menyimpan pemicu '.$request->pemicu);
+            return redirect()->route('admin.pemicu')->with('success', 'Berhasil menyimpan pemicu ' . $request->pemicu);
         } catch (\Exception $e) {
             // Eksekusi jika terjadi kesalahan
-            return redirect()->route('admin.pemicu')->with('error', 'Gagal menyimpan pemicu '.$request->pemicu);
+            return redirect()->route('admin.pemicu')->with('error', 'Gagal menyimpan pemicu ' . $request->pemicu);
         }
-
     }
-    public function destroy_pemicu($id){
-        $pemicu = Pemicu::select('id_pemicu','nama')->where('id_pemicu', $id)->first();
+    public function destroy_pemicu($id)
+    {
+        $pemicu = Pemicu::select('id_pemicu', 'nama')->where('id_pemicu', $id)->first();
 
         if ($pemicu) {
             try {
                 Pemicu::where('id_pemicu', $id)->delete();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.pemicu')->with('success', 'Berhasil menghapus pemicu '.$pemicu->nama);
+                return redirect()->route('admin.pemicu')->with('success', 'Berhasil menghapus pemicu ' . $pemicu->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.pemicu')->with('error', 'Gagal menghapus pemicu '.$pemicu->nama);
+                return redirect()->route('admin.pemicu')->with('error', 'Gagal menghapus pemicu ' . $pemicu->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.pemicu')->with('error', 'Data pemicu tidak ditemukan');
         }
     }
-    public function update_pemicu(Request $request, $id) {
+    public function update_pemicu(Request $request, $id)
+    {
 
-        $pemicu = Pemicu::select('id_pemicu','nama')->where('id_pemicu', $id)->first();
+        $pemicu = Pemicu::select('id_pemicu', 'nama')->where('id_pemicu', $id)->first();
 
         $request->validate([
             'nama' => 'required|string|max:100',
-        ],[
+        ], [
             'nama.required' => 'Kolom nama wajib diisi.',
         ]);
 
@@ -67,7 +69,7 @@ class AdminController extends Controller
                 $data->save();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.pemicu')->with('success', 'Berhasil merubah pemicu '.$pemicu->nama);
+                return redirect()->route('admin.pemicu')->with('success', 'Berhasil merubah pemicu ' . $pemicu->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
                 return redirect()->route('admin.pemicu')->with('error', $e->getMessage());
@@ -77,45 +79,47 @@ class AdminController extends Controller
             return redirect()->route('admin.pemicu')->with('error', 'Data pemicu tidak ditemukan');
         }
     }
-    public function store_komplikasi(Request $request) {
+    public function store_komplikasi(Request $request)
+    {
         try {
             Komplikasi::create([
                 'nama' => $request->komplikasi
             ]);
 
             // Eksekusi jika pembuatan berhasil
-            return redirect()->route('admin.komplikasi')->with('success', 'Berhasil menyimpan komplikasi '.$request->komplikasi);
+            return redirect()->route('admin.komplikasi')->with('success', 'Berhasil menyimpan komplikasi ' . $request->komplikasi);
         } catch (\Exception $e) {
             // Eksekusi jika terjadi kesalahan
-            return redirect()->route('admin.komplikasi')->with('error', 'Gagal menyimpan komplikasi '.$request->komplikasi);
+            return redirect()->route('admin.komplikasi')->with('error', 'Gagal menyimpan komplikasi ' . $request->komplikasi);
         }
-
     }
-    public function destroy_komplikasi($id){
-        $komplikasi = komplikasi::select('id_komplikasi','nama')->where('id_komplikasi', $id)->first();
+    public function destroy_komplikasi($id)
+    {
+        $komplikasi = komplikasi::select('id_komplikasi', 'nama')->where('id_komplikasi', $id)->first();
 
         if ($komplikasi) {
             try {
                 Komplikasi::where('id_komplikasi', $id)->delete();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.komplikasi')->with('success', 'Berhasil menghapus komplikasi '.$komplikasi->nama);
+                return redirect()->route('admin.komplikasi')->with('success', 'Berhasil menghapus komplikasi ' . $komplikasi->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.komplikasi')->with('error', 'Gagal menghapus komplikasi '.$komplikasi->nama);
+                return redirect()->route('admin.komplikasi')->with('error', 'Gagal menghapus komplikasi ' . $komplikasi->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.komplikasi')->with('error', 'Data komplikasi tidak ditemukan');
         }
     }
-    public function update_komplikasi(Request $request, $id) {
+    public function update_komplikasi(Request $request, $id)
+    {
 
-        $komplikasi = Komplikasi::select('id_komplikasi','nama')->where('id_komplikasi', $id)->first();
+        $komplikasi = Komplikasi::select('id_komplikasi', 'nama')->where('id_komplikasi', $id)->first();
 
         $request->validate([
             'nama' => 'required|string|max:100',
-        ],[
+        ], [
             'nama.required' => 'Kolom nama wajib diisi.',
         ]);
 
@@ -126,21 +130,22 @@ class AdminController extends Controller
                 $data->save();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.komplikasi')->with('success', 'Berhasil merubah komplikasi '.$komplikasi->nama);
+                return redirect()->route('admin.komplikasi')->with('success', 'Berhasil merubah komplikasi ' . $komplikasi->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.komplikasi')->with('error', 'Gagal merubah komplikasi '.$komplikasi->nama);
+                return redirect()->route('admin.komplikasi')->with('error', 'Gagal merubah komplikasi ' . $komplikasi->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.komplikasi')->with('error', 'Data komplikasi tidak ditemukan');
         }
     }
-    public function admin_store_aktivitas(Request $request){
+    public function admin_store_aktivitas(Request $request)
+    {
         // Validasi request
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'deskripsi' => 'required',
-        ],[
+        ], [
             'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
         ]);
 
@@ -185,10 +190,11 @@ class AdminController extends Controller
         // // $imageFile = $this->saveImageFromDataUrl($imageDataUrl);
         // dd($deskripsi, $imageName, $imageUrl, $coba);
     }
-    public function admin_store_kategori_aktivitas(Request $request){
-        $validation = Validator::make($request->all(),[
+    public function admin_store_kategori_aktivitas(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
             'aktivitas' => 'required|string|max:100',
-        ],[
+        ], [
             'aktivitas.required' => 'Kolom aktivitas wajib diisi.',
         ]);
 
@@ -201,7 +207,8 @@ class AdminController extends Controller
 
         return redirect()->route('admin.aktivitas.kategori.tambah')->with('success', 'Berhasil menambah data kategori aktivitas');
     }
-    public function destroy_aktivitas($id){
+    public function destroy_aktivitas($id)
+    {
         $aktivitas = Aktivitas::with('kategori_aktivitas')->where('id_aktivitas', $id)->first();
 
         if ($aktivitas) {
@@ -209,20 +216,21 @@ class AdminController extends Controller
                 Aktivitas::where('id_aktivitas', $id)->delete();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.aktivitas')->with('success', 'Berhasil menghapus aktivitas '.$aktivitas->kategori_aktivitas->nama);
+                return redirect()->route('admin.aktivitas')->with('success', 'Berhasil menghapus aktivitas ' . $aktivitas->kategori_aktivitas->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.aktivitas')->with('error', 'Gagal menghapus aktivitas '.$aktivitas->kategori_aktivitas->nama);
+                return redirect()->route('admin.aktivitas')->with('error', 'Gagal menghapus aktivitas ' . $aktivitas->kategori_aktivitas->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.aktivitas')->with('error', 'Data aktivitas tidak ditemukan');
         }
     }
-    public function update_aktivitas(Request $request, $id) {
-        $validation = Validator::make($request->all(),[
+    public function update_aktivitas(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
             'deskripsi' => 'required',
-        ],[
+        ], [
             'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
         ]);
         if ($validation->fails()) {
@@ -243,7 +251,7 @@ class AdminController extends Controller
                 $data->save();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.aktivitas')->with('success', 'Berhasil merubah aktivitas '.$aktivitas->kategori_aktivitas->nama);
+                return redirect()->route('admin.aktivitas')->with('success', 'Berhasil merubah aktivitas ' . $aktivitas->kategori_aktivitas->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
                 return redirect()->route('admin.aktivitas')->with('error', $e->getMessage());
@@ -255,11 +263,12 @@ class AdminController extends Controller
     }
 
     // Penanganan
-    public function admin_store_penanganan(Request $request){
+    public function admin_store_penanganan(Request $request)
+    {
         // Validasi request
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'deskripsi' => 'required',
-        ],[
+        ], [
             'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
         ]);
 
@@ -279,10 +288,11 @@ class AdminController extends Controller
 
         return redirect()->route('admin.penanganan')->with('success', 'Berhasil menambahkan penanganan');
     }
-    public function admin_store_kategori_penanganan(Request $request){
-        $validation = Validator::make($request->all(),[
+    public function admin_store_kategori_penanganan(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
             'penanganan' => 'required|string|max:100',
-        ],[
+        ], [
             'penanganan.required' => 'Kolom penanganan wajib diisi.',
         ]);
 
@@ -295,7 +305,8 @@ class AdminController extends Controller
 
         return redirect()->route('admin.penanganan.kategori.tambah')->with('success', 'Berhasil menambah data kategori penanganan');
     }
-    public function destroy_penanganan($id){
+    public function destroy_penanganan($id)
+    {
         $penanganan = Penanganan::with('kategori_penanganan')->where('id_penanganan', $id)->first();
 
         if ($penanganan) {
@@ -303,20 +314,21 @@ class AdminController extends Controller
                 Penanganan::where('id_penanganan', $id)->delete();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.penanganan')->with('success', 'Berhasil menghapus penanganan '.$penanganan->kategori_penanganan->nama);
+                return redirect()->route('admin.penanganan')->with('success', 'Berhasil menghapus penanganan ' . $penanganan->kategori_penanganan->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.penanganan')->with('error', 'Gagal menghapus penanganan '.$penanganan->kategori_penanganan->nama);
+                return redirect()->route('admin.penanganan')->with('error', 'Gagal menghapus penanganan ' . $penanganan->kategori_penanganan->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
             return redirect()->route('admin.penanganan')->with('error', 'Data penanganan tidak ditemukan');
         }
     }
-    public function update_penanganan(Request $request, $id) {
-        $validation = Validator::make($request->all(),[
+    public function update_penanganan(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
             'deskripsi' => 'required',
-        ],[
+        ], [
             'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
         ]);
         if ($validation->fails()) {
@@ -337,7 +349,7 @@ class AdminController extends Controller
                 $data->save();
 
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.penanganan')->with('success', 'Berhasil merubah penanganan '.$penanganan->kategori_penanganan->nama);
+                return redirect()->route('admin.penanganan')->with('success', 'Berhasil merubah penanganan ' . $penanganan->kategori_penanganan->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
                 return redirect()->route('admin.penanganan')->with('error', $e->getMessage());
@@ -347,11 +359,12 @@ class AdminController extends Controller
             return redirect()->route('admin.penanganan')->with('error', 'Data penanganan tidak ditemukan');
         }
     }
-    public function admin_store_artikel(Request $request){
+    public function admin_store_artikel(Request $request)
+    {
         // Validasi request
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'fileInput' => 'file|mimes:jpeg,png|max:2048'
-        ],[
+        ], [
             'fileInput.mimes' => 'Kolom File hanya bisa untuk jpeg dan png wajib diisi.',
         ]);
 
@@ -366,7 +379,7 @@ class AdminController extends Controller
             // $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
             // $decryptedFileName = Crypt::decryptString($uploadedFile->filename); //Cara nampilin file     
             // $imageUrl = asset(Storage::url("public/artikel/cover/{$decryptedFileName}")); //untuk nampilin image
-    
+
             // Simpan file ke direktori yang diinginkan
             $file->storeAs('public/artikel/cover', $file->getClientOriginalName());
             $data = [
@@ -375,7 +388,7 @@ class AdminController extends Controller
                 'kategori' => $request->kat_artikel,
                 'deskripsi' => $request->deskripsi
             ];
-        }else{
+        } else {
             $data = [
                 'judul' => $request->judul,
                 'kategori' => $request->kat_artikel,
@@ -390,29 +403,30 @@ class AdminController extends Controller
         return redirect()->route('admin.artikel')->with('success', 'Berhasil menambahkan artikel');
     }
 
-    public function update_artikel(Request $request, $id) {
+    public function update_artikel(Request $request, $id)
+    {
         // Validasi request
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'fileInput' => 'mimes:jpeg,png,jpg'
-        ],[
+        ], [
             'fileInput.mimes' => 'Kolom File hanya bisa untuk jpg, jpeg dan png wajib diisi.',
         ]);
-        
+
         if ($validation->fails()) {
             // Handle kesalahan validasi
             return redirect()->back()->withErrors($validation)->withInput();
         }
-    
+
         $artikel = Artikel::where('id', $id)->first();
 
-        if($artikel){
+        if ($artikel) {
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
                 // Enkripsi nama file
                 // $encryptedFileName = Crypt::encryptString($file->getClientOriginalName());
                 // $decryptedFileName = Crypt::decryptString($uploadedFile->filename); //Cara nampilin file     
                 // $imageUrl = asset(Storage::url("public/artikel/cover/{$decryptedFileName}")); //untuk nampilin image
-        
+
                 // Simpan file ke direktori yang diinginkan
                 $file->storeAs('public/artikel/cover', $file->getClientOriginalName());
 
@@ -425,19 +439,19 @@ class AdminController extends Controller
                     $data->save();
 
                     // Eksekusi jika penghapusan berhasil
-                    return redirect()->route('admin.artikel')->with('success', 'Berhasil merubah Artikel '.$artikel->nama);
+                    return redirect()->route('admin.artikel')->with('success', 'Berhasil merubah Artikel ' . $artikel->nama);
                 } catch (\Exception $e) {
                     // Eksekusi jika terjadi kesalahan
                     return redirect()->route('admin.artikel')->with('error', $e->getMessage());
                 }
-            }else{
+            } else {
                 try {
                     $data = Artikel::findOrFail($id);
                     $data->judul = $request->judul;
                     $data->kategori = $request->kat_artikel;
                     $data->deskripsi = $request->deskripsi;
                     $data->save();
-                    return redirect()->route('admin.artikel')->with('success', 'Berhasil merubah Artikel '.$artikel->kategori_artikel->nama);
+                    return redirect()->route('admin.artikel')->with('success', 'Berhasil merubah Artikel ' . $artikel->kategori_artikel->nama);
                 } catch (\Exception $e) {
                     // Eksekusi jika terjadi kesalahan
                     return redirect()->route('admin.artikel')->with('error', $e->getMessage());
@@ -446,18 +460,19 @@ class AdminController extends Controller
         }
     }
 
-    public function destroy_artikel($id){
+    public function destroy_artikel($id)
+    {
         $artikel = Artikel::where('id', $id)->first();
 
         if ($artikel) {
             try {
                 Artikel::where('id', $id)->delete();
-                
+
                 // Eksekusi jika penghapusan berhasil
-                return redirect()->route('admin.artikel')->with('success', 'Berhasil menghapus artikel '.$artikel->nama);
+                return redirect()->route('admin.artikel')->with('success', 'Berhasil menghapus artikel ' . $artikel->nama);
             } catch (\Exception $e) {
                 // Eksekusi jika terjadi kesalahan
-                return redirect()->route('admin.artikel')->with('error', 'Gagal menghapus artikel '.$artikel->nama);
+                return redirect()->route('admin.artikel')->with('error', 'Gagal menghapus artikel ' . $artikel->nama);
             }
         } else {
             // Objek tidak ditemukan, mungkin hendak menanggapi dengan pesan atau log
@@ -465,29 +480,69 @@ class AdminController extends Controller
         }
     }
 
-    public function trigered_store_aktivitas(Request $request){
-        $data = [
-            'id_aktivitas' => $request->id_aktivitas,
-            'jumlah' => $request->jumlah,
-            'konten' => $request->konten,
-        ];
-        Trigered_Activity::create($data);
-        return redirect()->route('admin.trigered.aktivitas')->with('success', 'Berhasil menambahkan trigered ');
+    public function trigered_store_aktivitas(Request $request)
+    {
+        // Validasi tidak ada yang kosong
+        $this->validate($request, [
+            'aktivitas' => 'required',
+            'judul' => 'required',
+            'level' => 'required',
+            'konten' => 'required',
+            'kemajuan' => 'required',
+            'kemunduran' => 'required'
+        ]);
 
+        $trigerAktivitas = Trigered_Aktivitas::where(['id_aktivitas' => $request->aktivitas, 'level' => $request->level])->first();
+        if($trigerAktivitas == null){
+            $data = [
+                'id_aktivitas' => $request->aktivitas,
+                'judul' => $request->judul,
+                'level' => $request->level,
+                'konten' => $request->konten,
+                'kemajuan' => $request->kemajuan,
+                'kemunduran' => $request->kemunduran
+            ];
+    
+            // Proses Update data di table Trigered_Aktivitas dengan try Catch
+            try {
+                Trigered_Aktivitas::create($data);
+    
+                return redirect()->route('admin.trigered.aktivitas')->with('success', 'Berhasil nambah trigered');
+            } catch (\Exception $e) {
+                return redirect()->route('admin.trigered.aktivitas')->with('error', 'Data tidak ditemukan');
+            }
+        }
+        return redirect()->route('admin.trigered.aktivitas')->with('error', 'Data sudah ada');
     }
 
     public function trigered_upload_aktivitas(Request $request, $id)
     {
-       
-        $data = Trigered_Activity::where('id_trigered_aktivitas', $id)->first();
-        if ($data) {
-            $data->id_aktivitas = $request->id_aktivitas;
-            $data->jumlah = $request->jumlah;
-            $data->konten = $request->konten;
-            $data->update();
-    
-            return redirect()->route('admin.trigered.aktivitas')->with('success', 'Berhasil menambahkan trigered');
-        } else {
+        // Validasi tidak ada yang kosong
+        $this->validate($request, [
+            'aktivitas' => 'required',
+            'judul' => 'required',
+            'level' => 'required',
+            'konten' => 'required',
+            'kemajuan' => 'required',
+            'kemunduran' => 'required'
+        ]);
+
+        $data = [
+            'id_aktivitas' => $request->aktivitas,
+            'judul' => $request->judul,
+            'level' => $request->level,
+            'konten' => $request->konten,
+            'kemajuan' => $request->kemajuan,
+            'kemunduran' => $request->kemunduran
+        ];
+
+        // Proses Update data di table Trigered_Aktivitas dengan try Catch
+        try {
+            $update = Trigered_Aktivitas::where('id_trigered_aktivitas', $id)->first();
+            $update->update($data);
+
+            return redirect()->route('admin.trigered.aktivitas')->with('success', 'Berhasil update trigered');
+        } catch (\Exception $e) {
             return redirect()->route('admin.trigered.aktivitas')->with('error', 'Data tidak ditemukan');
         }
     }
@@ -495,38 +550,78 @@ class AdminController extends Controller
     public function trigered_destroy_aktivitas($id)
     {
         // Mencari aktivitas berdasarkan ID
-        $trigeredAktivitas = Trigered_Activity::findOrFail($id);
-    
+        $trigeredaktivitas = Trigered_Aktivitas::findOrFail($id);
+
         // Menghapus aktivitas
-        $trigeredAktivitas->delete();
-    
+        $trigeredaktivitas->delete();
+
         // Mengalihkan kembali dengan pesan sukses
-        return redirect()->route('admin.trigered.aktivitas')->with('success', 'Aktivitas berhasil dihapus.');
+        return redirect()->route('admin.trigered.aktivitas')->with('success', 'aktivitas berhasil dihapus.');
     }
 
-    public function trigered_store_penanganan(Request $request){
-        $data = [
-            'id_penanganan' => $request->id_penanganan,
-            'jumlah' => $request->jumlah,
-            'konten' => $request->konten,
-        ];
-        Trigered_Penanganan::create($data);
-        return redirect()->route('admin.trigered.penanganan')->with('success', 'Berhasil menambahkan trigered ');
+    public function trigered_store_penanganan(Request $request)
+    {
+        // Validasi tidak ada yang kosong
+        $this->validate($request, [
+            'penanganan' => 'required',
+            'judul' => 'required',
+            'level' => 'required',
+            'konten' => 'required',
+            'kemajuan' => 'required',
+            'kemunduran' => 'required'
+        ]);
 
+        $trigerPenanganan = Trigered_Penanganan::where(['id_penanganan' => $request->penanganan, 'level' => $request->level])->first();
+        if($trigerPenanganan == null){
+            $data = [
+                'id_penanganan' => $request->penanganan,
+                'judul' => $request->judul,
+                'level' => $request->level,
+                'konten' => $request->konten,
+                'kemajuan' => $request->kemajuan,
+                'kemunduran' => $request->kemunduran
+            ];
+    
+            // Proses Update data di table Trigered_Penanganan dengan try Catch
+            try {
+                Trigered_Penanganan::create($data);
+    
+                return redirect()->route('admin.trigered.penanganan')->with('success', 'Berhasil nambah trigered');
+            } catch (\Exception $e) {
+                return redirect()->route('admin.trigered.penanganan')->with('error', 'Data tidak ditemukan');
+            }
+        }
+        return redirect()->route('admin.trigered.penanganan')->with('error', 'Data sudah ada');
     }
 
     public function trigered_upload_penanganan(Request $request, $id)
     {
-       
-        $data = Trigered_Penanganan::where('id_trigered_penanganan', $id)->first();
-        if ($data) {
-            $data->id_penanganan = $request->id_penanganan;
-            $data->jumlah = $request->jumlah;
-            $data->konten = $request->konten;
-            $data->update();
-    
-            return redirect()->route('admin.trigered.penanganan')->with('success', 'Berhasil menambahkan trigered');
-        } else {
+        // Validasi tidak ada yang kosong
+        $this->validate($request, [
+            'penanganan' => 'required',
+            'judul' => 'required',
+            'level' => 'required',
+            'konten' => 'required',
+            'kemajuan' => 'required',
+            'kemunduran' => 'required'
+        ]);
+
+        $data = [
+            'id_penanganan' => $request->penanganan,
+            'judul' => $request->judul,
+            'level' => $request->level,
+            'konten' => $request->konten,
+            'kemajuan' => $request->kemajuan,
+            'kemunduran' => $request->kemunduran
+        ];
+
+        // Proses Update data di table Trigered_Penanganan dengan try Catch
+        try {
+            $update = Trigered_Penanganan::where('id_trigered_penanganan', $id)->first();
+            $update->update($data);
+
+            return redirect()->route('admin.trigered.penanganan')->with('success', 'Berhasil update trigered');
+        } catch (\Exception $e) {
             return redirect()->route('admin.trigered.penanganan')->with('error', 'Data tidak ditemukan');
         }
     }
@@ -535,13 +630,11 @@ class AdminController extends Controller
     {
         // Mencari penanganan berdasarkan ID
         $trigeredpenanganan = Trigered_Penanganan::findOrFail($id);
-    
+
         // Menghapus penanganan
         $trigeredpenanganan->delete();
-    
+
         // Mengalihkan kembali dengan pesan sukses
         return redirect()->route('admin.trigered.penanganan')->with('success', 'penanganan berhasil dihapus.');
     }
-    
-    
 }

@@ -69,47 +69,47 @@
             <div class="grid lg:grid-rows-1 md:grid-rows-2 grid-rows-5 grid-flow-col gap-4">
                 <a href="{{ route('admin.pemicu') }}" class="w-full">
                     <button
-                        class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Pemicu.png') }}"
                             alt="Pemicu"> Pemicu
                     </button>
                 </a>
                 <a href="{{ route('admin.komplikasi') }}" class="w-full">
                     <button
-                        class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
                             alt="Pemicu"> Komplikasi
                     </button>
                 </a>
                 <a href="{{ route('admin.artikel') }}" class="w-full">
-                    <button class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                    <button class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Blog.png') }}" alt="Blog"> Artikel
                     </button>
                 </a>
                 <a href="{{ route('admin.aktivitas') }}" class="w-full">
                     <button
-                        class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Aktivitas.png') }}"
                             alt="Aktivitas"> Aktivitas
                     </button>
                 </a>
                 <a href="{{ route('admin.penanganan') }}" class="w-full">
                     <button
-                        class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Penanganan.png') }}"
                             alt="Penanganan"> Penanganan
                     </button>
                 </a>
                 <a href="{{ route('admin.trigered.aktivitas') }}" class="w-full">
                     <button
-                        class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
                             alt="Penanganan"> Trigger Aktivitas
                     </button>
                 </a>
                 <a href="{{ route('admin.trigered.penanganan') }}" class="w-full">
                     <button
-                        class="px-5 py-3 bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded text-left flex align-center">
+                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
                         <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
                             alt="Penanganan"> Trigger Penanganan
                     </button>

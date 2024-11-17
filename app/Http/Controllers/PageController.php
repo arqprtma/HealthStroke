@@ -13,9 +13,10 @@ use App\Models\Pasien;
 use App\Models\Pemicu;
 use App\Models\Penanganan;
 use App\Models\Treatment;
-use App\Models\Trigered_Activity;
+use App\Models\Trigered_Aktivitas;
 use App\Models\Trigered_Penanganan;
 use App\Models\User;
+use App\Models\UserHealth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; // Make sure to include this
 use Illuminate\Http\Request;
@@ -24,6 +25,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
+    public function template_tailwind($code_access){
+        if($code_access == 'esaunggul'){
+            return view('template_tailwind');
+        }else{
+            // redirect akses di tolak
+            return redirect()->route('login');
+        }
+    }
     public function index(Request $request) {
         $data = [
             'title' => 'Flash Screen',
@@ -199,28 +208,42 @@ class PageController extends Controller
     }
 
     public function show_aktivitas(Request $request, $id) {
-        $aktivitas  = Aktivitas::with('kategori_aktivitas')->where('id_aktivitas', $id)->first();
+        $aktivitas  = Aktivitas::where('id_aktivitas', $id)->first();
 
         // Get the current user's ID
         $userId = Auth::id();
         $pasien = Pasien::with('user')->where('id_user', $userId)->first();
         $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
         $aktivitasId = json_decode($treatment->id_aktivitas);
-        // $penangananId = json_decode($treatment->id_penanganan);
 
         // Get Aktivitas Data
         $list_aktivitas = Aktivitas::with('pemicu','komplikasi','kategori_aktivitas')->whereIn('id_aktivitas', $aktivitasId)->whereNotIn('id_aktivitas', [$id])->get()->take(5);
 
         $today = Carbon::today();
-        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_aktivitas' => $id])->count();
-    
-        $trigerAkitvitas = Trigered_Activity::where('id_aktivitas' , '=', $id)->first();
+        $log_treatment_query = Log_treatment::where([
+            'id_pasien' => $pasien->id_pasien,
+            'id_aktivitas' => $id
+        ]);
+        // Check jika ada data $log_treatment yang dibuat pada hari ini
+        $log_treatment_today = (clone $log_treatment_query)->whereDate('created_at', $today)->count();
+        // Dapatkan semua data $log_treatment
+        $log_treatment = $log_treatment_query->get();
+
+        // get data user health
+        $userHealth = UserHealth::where(['id_pasien' => $pasien->id_pasien, 'id_treatment' => $id])->first();
+
+        $trigerAktivitas = Trigered_Aktivitas::where('id_aktivitas' , '=', $id)->get();
+
+        // $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_aktivitas' => $id])->count();
         $data = [
             'title' => 'Detail Aktivitas | StrokeCare',
+            'pasien' => $pasien,
             'aktivitas' => $aktivitas,
             'list_aktivitas' => $list_aktivitas,
             'log_treatment' => $log_treatment,
-            'trigerAktivitas' => $trigerAkitvitas
+            'log_treatment_today' => $log_treatment_today,
+            'trigerAktivitas' => $trigerAktivitas,
+            'userHealth' => $userHealth
         ];
         return view('auth.user.pasien.detail-aktivitas', $data);
     }
@@ -232,26 +255,36 @@ class PageController extends Controller
         $userId = Auth::id();
         $pasien = Pasien::with('user')->where('id_user', $userId)->first();
         $treatment = Treatment::where('id_pasien', $pasien->id_pasien)->first();
-        // $aktivitasId = json_decode($treatment->id_aktivitas);
         $penangananId = json_decode($treatment->id_penanganan);
 
         // Get Penanganan Data
         $list_penanganan = Penanganan::with('pemicu','komplikasi','kategori_penanganan')->whereIn('id_penanganan', $penangananId)->whereNotIn('id_penanganan', [$id])->get()->take(5);
 
         $today = Carbon::today();
-        // $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->whereDate('created_at', $today)->first();
+        $log_treatment_query = Log_treatment::where([
+            'id_pasien' => $pasien->id_pasien,
+            'id_penanganan' => $id
+        ]);
+        // Check jika ada data $log_treatment yang dibuat pada hari ini
+        $log_treatment_today = (clone $log_treatment_query)->whereDate('created_at', $today)->count();
+        // Dapatkan semua data $log_treatment
+        $log_treatment = $log_treatment_query->get();
 
-        $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->count();
-    
-        $trigerpenanganan = Trigered_Penanganan::where('id_penanganan' , '=', $id)->first();
-        
+        // get data user health
+        $userHealth = UserHealth::where(['id_pasien' => $pasien->id_pasien, 'id_treatment' => $id])->first();
+
+        $trigerPenanganan = Trigered_Penanganan::where('id_penanganan' , '=', $id)->get();
+
+        // $log_treatment = Log_treatment::where(['id_pasien' => $pasien->id_pasien, 'id_penanganan' => $id])->count();
         $data = [
             'title' => 'Detail penanganan | StrokeCare',
+            'pasien' => $pasien,
             'penanganan' => $penanganan,
             'list_penanganan' => $list_penanganan,
             'log_treatment' => $log_treatment,
-            'trigerpenanganan' => $trigerpenanganan
-
+            'log_treatment_today' => $log_treatment_today,
+            'trigerPenanganan' => $trigerPenanganan,
+            'userHealth' => $userHealth
         ];
         return view('auth.user.pasien.detail-penanganan', $data);
     }
@@ -500,12 +533,13 @@ class PageController extends Controller
         }
 
         public function trigered_aktivitas(){
-            $trigeredAktivitas = Trigered_Activity::join('aktivitas', 'aktivitas.id_aktivitas', '=', 'trigered_aktivitas.id_aktivitas')
-            ->select('aktivitas.deskripsi', 'trigered_aktivitas.jumlah', 'trigered_aktivitas.konten', 'trigered_aktivitas.id_trigered_aktivitas')
+            $trigeredaktivitas = Trigered_Aktivitas::join('aktivitas', 'aktivitas.id_aktivitas', '=', 'trigered_aktivitas.id_aktivitas')
+            ->select('aktivitas.deskripsi', 'trigered_aktivitas.judul', 'trigered_aktivitas.level', 'trigered_aktivitas.konten','trigered_aktivitas.kemajuan', 'trigered_aktivitas.kemunduran', 'trigered_aktivitas.id_trigered_aktivitas')
             ->get();
-                $data = [
-                    'title' => 'Tambah Trigered Aktivitas | StrokeCare',
-                'trigeredAktivitas' => $trigeredAktivitas
+
+            $data = [
+                'title' => 'Tambah Trigered Aktivitas | StrokeCare',
+                'trigeredaktivitas' => $trigeredaktivitas
             ];
             return view('auth.admin.trigered_aktivitas.index',$data);
         }
@@ -516,7 +550,7 @@ class PageController extends Controller
             $komplikasi = Komplikasi::select('id_komplikasi','nama')->get();
 
             $data = [
-                'title' => 'Tambah Trigered Aktivitas | StrokeCare',
+                'title' => 'Tambah Trigered aktivitas | StrokeCare',
                 'aktivitas' => $aktivitas,
                 'pemicu' => $pemicu,
                 'komplikasi' => $komplikasi,
@@ -525,16 +559,15 @@ class PageController extends Controller
         }
 
         public function trigered_edit_aktivitas($id){
-            $trigeredAktivitas = Trigered_Activity::join('aktivitas', 'aktivitas.id_aktivitas', '=', 'trigered_aktivitas.id_aktivitas')
-            ->select('aktivitas.*', 'trigered_aktivitas.*')
+            $trigerAktivitas = Trigered_Aktivitas::join('aktivitas', 'aktivitas.id_aktivitas', '=', 'trigered_aktivitas.id_aktivitas')
+            ->select('aktivitas.deskripsi', 'trigered_aktivitas.*')
             ->where('trigered_aktivitas.id_trigered_aktivitas', $id)
             ->first();
 
-            $aktivitas = Aktivitas::all();
-            // dd($trigeredAktivitas);
+            $aktivitas = Aktivitas::select('id_aktivitas','deskripsi')->get();
             $data = [
-                'title' => 'Edit Trigered Aktivitas | StrokeCare',
-                'trigeredAktivitas' => $trigeredAktivitas,
+                'title' => 'Edit Trigered aktivitas | StrokeCare',
+                'trigerAktivitas' => $trigerAktivitas,
                 'aktivitas' => $aktivitas
             ];
 
@@ -543,10 +576,11 @@ class PageController extends Controller
 
         public function trigered_penanganan(){
             $trigeredpenanganan = Trigered_Penanganan::join('penanganan', 'penanganan.id_penanganan', '=', 'trigered_penanganan.id_penanganan')
-            ->select('penanganan.deskripsi', 'trigered_penanganan.jumlah', 'trigered_penanganan.konten', 'trigered_penanganan.id_trigered_penanganan')
+            ->select('penanganan.deskripsi', 'trigered_penanganan.judul', 'trigered_penanganan.level', 'trigered_penanganan.konten','trigered_penanganan.kemajuan', 'trigered_penanganan.kemunduran', 'trigered_penanganan.id_trigered_penanganan')
             ->get();
-                $data = [
-                    'title' => 'Tambah Trigered penanganan | StrokeCare',
+
+            $data = [
+                'title' => 'Tambah Trigered penanganan | StrokeCare',
                 'trigeredpenanganan' => $trigeredpenanganan
             ];
             return view('auth.admin.trigered_penanganan.index',$data);
@@ -567,16 +601,15 @@ class PageController extends Controller
         }
 
         public function trigered_edit_penanganan($id){
-            $trigeredpenanganan = Trigered_Penanganan::join('penanganan', 'penanganan.id_penanganan', '=', 'trigered_penanganan.id_penanganan')
-            ->select('penanganan.*', 'trigered_penanganan.*')
+            $trigerPenanganan = Trigered_Penanganan::join('penanganan', 'penanganan.id_penanganan', '=', 'trigered_penanganan.id_penanganan')
+            ->select('penanganan.deskripsi', 'trigered_penanganan.*')
             ->where('trigered_penanganan.id_trigered_penanganan', $id)
             ->first();
 
-            $penanganan = penanganan::all();
-            // dd($trigeredpenanganan);
+            $penanganan = penanganan::select('id_penanganan','deskripsi')->get();
             $data = [
                 'title' => 'Edit Trigered penanganan | StrokeCare',
-                'trigeredpenanganan' => $trigeredpenanganan,
+                'trigerPenanganan' => $trigerPenanganan,
                 'penanganan' => $penanganan
             ];
 

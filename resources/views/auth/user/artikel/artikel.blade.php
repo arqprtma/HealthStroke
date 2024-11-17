@@ -73,8 +73,7 @@
                     @endphp
                     <a href="{{ route('detail-artikel', ['id' => $artikel->id]) }}" class="{{ $kategori }} w-[100%] lg:w-[100%] lg:h-[200px] bg-[#FFFF] rounded-lg h-[120px] flex mt-3 justify-evenly shadow-lg relative" style="display: flex">
                         <div class="avatar w-[30%] lg:w-[30%] lg:w-[30%] flex-1.2 flex justify-center items-center">
-                            <img src="/images/Logo-apps.png" alt=""
-                                class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]">
+                            <img src="/images/Logo-apps.png" alt="" class="ms-2 w-[100px] h-[100px] lg:w-[200px] lg:h-[150px]">
                         </div>
                         <div class="deskripsi flex-1 text-sm ">
                             <div class="konten">

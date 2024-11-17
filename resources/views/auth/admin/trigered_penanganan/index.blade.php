@@ -47,8 +47,11 @@
               <tr class="h-10">
                 <th class="border w-auto p-3">No</th>
                 <th class="border w-auto p-3">penanganan</th>
-                <th class="border w-auto p-3">Jumlah</th>
+                <th class="border w-auto p-3">Judul</th>
+                <th class="border w-auto p-3">Level</th>
                 <th class="border w-auto p-3">Konten</th>
+                <th class="border w-auto p-3">Kemajuan</th>
+                <th class="border w-auto p-3">kemunduran</th>
                 <th class="border w-auto p-3">Aksi</th>
               </tr>
             </thead>
@@ -58,8 +61,11 @@
                 <tr>
                     <td>{{$i}}</td>
                     <td class="border w-auto p-3">{{strip_tags($item->deskripsi)}}</td>
-                    <td class="border w-auto p-3">{{$item->jumlah}}</td>
+                    <td class="border w-auto p-3">{{$item->judul}}</td>
+                    <td class="border w-auto p-3">{{$item->level}}</td>
                     <td class="border w-auto p-3">{{strip_tags($item->konten) }}</td>
+                    <td class="border w-auto p-3">{{$item->kemajuan}}</td>
+                    <td class="border w-auto p-3">{{$item->kemunduran}}</td>
                     {{-- <td class="border w-auto p-3">edit | delete</td> --}}
                     <td class="border w-auto min-w-[130px] p-3 text-center">
                         <a href="{{ route('admin.trigered.penanganan.edit', ['id' => $item->id_trigered_penanganan]) }}" class="text-blue-500 inline-block">Edit</a> | <a href="javascript:void(0)" onclick="ConfirmDelete('{{ $item->id_trigered_penanganan }}')" class="text-red-500 inline-block">Hapus</a>

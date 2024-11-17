@@ -12,7 +12,10 @@ class Trigered_Penanganan extends Model
     protected $primaryKey = 'id_trigered_penanganan';
     protected $fillable = [
         'id_penanganan',
-        'jumlah',
-        'konten'
+        'judul',
+        'level',
+        'konten',
+        'kemajuan',
+        'kemunduran'
     ];
 }

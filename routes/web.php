@@ -43,6 +43,8 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/dashboard');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
+Route::get('/template-tailwind/{code_access}', [PageController::class, 'template_tailwind'])->name('template');
+
 Route::middleware(['middleware' => 'guest'])->group(function () {
     Route::get('/', [PageController::class, 'index'])->name('index');
     Route::get('/login', [PageController::class, 'login'])->name('login');
@@ -113,6 +115,7 @@ Route::middleware(['CheckAuth', 'verified'])->group(function () {
     Route::get('/detail-penanganan/{id}', [PageController::class, 'show_penanganan'])->name('detail-penanganan');
     Route::get('/detail-aktivitas/{id}/proses', [UserController::class, 'add_log_aktivitas'])->name('add-log-aktivitas');
     Route::get('/detail-penanganan/{id}/proses', [UserController::class, 'add_log_penanganan'])->name('add-log-penanganan');
+    Route::post('/proses-perkembangan-pasien', [UserController::class, 'update_perkembangan_pasien'])->name('update-perkembangan-pasien');
 
     Route::get('/artikel', [PageController::class, 'artikel'])->name('artikel');
     Route::get('/detail-artikel/{id}', [PageController::class, 'show_artikel'])->name('detail-artikel');

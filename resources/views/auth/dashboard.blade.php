@@ -190,7 +190,7 @@
                 <h1 class="font-bold text-sm lg:text-lg mb-2">Pengetahuan</h1>
                 <div class="modal-button max-w-sm rounded-md overflow-hidden shadow-lg bg-white hover:scale-105 cursor-pointer" data-modal-target="#pengetahuan-hipertensi">
                     <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">Hipertensi</div>
+                        <div class="font-bold text-xl mb-2">Stroke</div>
                         <p class="text-gray-700 text-base two-lines">
                             Pecah atau terjepit pembuluh darah di otak sehingga menyebabkan kerusakan jaringan otak
                         </p>
@@ -400,7 +400,7 @@
 
     <div id="pengetahuan-hipertensi" class="modal fixed inset-0 bg-black bg-opacity-50 d-none items-center justify-center">
         <div class="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg transition-transform transform">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Hipertensi</h2>
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Stroke</h2>
             <div class="content">
                 <h4 class="font-semibold mt-4 text-lg text-gray-700">Pengertian</h4>
                 <p class="text-gray-600 mb-4">Pecah atau terjepit pembuluh darah di otak sehingga menyebabkan kerusakan jaringan otak.</p>

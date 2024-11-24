@@ -200,14 +200,14 @@
 
             @if ($pasien)
                 <div id="deskripsi" class="deskripsi container lg:w-[80%] mx-auto px-4 mb-10 mt-[50px]">
-                    <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil rehabilitas yang dikerjakan</h1>
+                    <h1 class="font-bold text-sm lg:text-lg mb-2">Hasil perawatan yang dikerjakan</h1>
                     <div class="lg:w-[100%] w-[100%] mx-auto top-12 p-5 bg-[#FFFF] rounded-lg text-sm">
                         <div class="float-right">
                             Filter per minggu : <input type="date" onchange="filterDate()" id="firstDate" name="firstDate" class="lg:me-2 p-1 rounded-lg border-[#15ADA7] border-2">
                         </div>
                         <canvas id="myChart" width="400" height="400"></canvas>
                         <h3 class="font-bold">Hasil </h3>
-                        <p>Total rehabilitas : {{ count($aktivitasId) + count($penangananId) }} </p>
+                        <p>Total perawatan : {{ count($aktivitasId) + count($penangananId) }} </p>
                         <p>Total yang dikerjakan (1 Minggu) : <span id="total_treatment">...</span> </p>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
 
             <div id="tasks" class="tasks container lg:w-[80%] mx-auto px-4 mb-10 mt-[5px]">
                 <div class="judul flex justify-between">
-                    <h1 class="font-bold text-sm lg:text-lg">Rehabilitas</h1>
+                    <h1 class="font-bold text-sm lg:text-lg">Perawatan</h1>
                 </div>
                 <div class="container bg-[#FFFF] w-[100%] h-[500px] rounded-lg pb-5 shadow-lg mt-2 overflow-y-auto">
                     <div class="judul flex justify-evenly pt-7 w-[80%] mx-auto">
@@ -467,7 +467,7 @@
                             data: {
                                 labels: data.weekDayNames, // Menggunakan nama hari dalam bahasa Indonesia
                                 datasets: [{
-                                    label: 'Jumlah Rehabilitas Selesai',
+                                    label: 'Jumlah Perawatan Selesai',
                                     data: data.weekDayValues,
                                     backgroundColor: 'rgba(34, 150, 209, 0.7)',
                                     borderColor: 'rgba(34, 150, 209, 1)',
@@ -490,7 +490,7 @@
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Grafik Histori Rehabilitas'
+                                    text: 'Grafik Histori Perawatan'
                                 },
                                 legend: {
                                     display: true,

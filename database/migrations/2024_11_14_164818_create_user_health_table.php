@@ -22,7 +22,7 @@ class CreateUserHealthTable extends Migration
             $table->timestamps();
 
             // Foreign key relation
-            $table->foreign('id_pasien')->references('id_pasien')->on('pasien')->onDelete('cascade');
+            $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
         });
     }
 

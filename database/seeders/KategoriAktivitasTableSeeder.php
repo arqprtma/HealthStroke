@@ -45,7 +45,9 @@ class KategoriAktivitasTableSeeder extends Seeder
             ],
         ];
 
-        // Insert data into the 'kategori_aktivitas' table
-        DB::table('kategori_aktivitas')->insert($kategoriAktivitas);
+        // Insert atau update data di tabel 'kategori_aktivitas' (aman dijalankan berulang kali)
+        foreach ($kategoriAktivitas as $item) {
+            DB::table('kategori_aktivitas')->updateOrInsert(['nama' => $item['nama']], $item);
+        }
     }
 }

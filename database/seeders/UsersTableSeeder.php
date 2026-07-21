@@ -23,6 +23,7 @@ class UsersTableSeeder extends Seeder
                 'id' => 1,
                 'nama' => 'Agung Dwi Sahputra',
                 'email' => 'agungdwisahputra@gmail.com',
+                'email_verified_at' => $now,
                 'gender' => 'L',
                 'umur' => 21,
                 'username' => 'agung.ds20',
@@ -35,6 +36,7 @@ class UsersTableSeeder extends Seeder
                 'id' => 2,
                 'nama' => 'Ariq Pratama',
                 'email' => 'ariqp63@gmail.com',
+                'email_verified_at' => $now,
                 'gender' => 'L',
                 'umur' => 22,
                 'username' => 'ariq.p63',
@@ -44,7 +46,9 @@ class UsersTableSeeder extends Seeder
             ],
         ];
 
-        // Masukkan data ke dalam tabel users
-        DB::table('users')->insert($users);
+        // Masukkan atau update data di tabel users (aman dijalankan berulang kali)
+        foreach ($users as $user) {
+            DB::table('users')->updateOrInsert(['id' => $user['id']], $user);
+        }
     }
 }

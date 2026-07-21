@@ -40,7 +40,9 @@ class KategoriPenangananTableSeeder extends Seeder
             ],
         ];
 
-        // Insert data into the 'kategori_penanganan' table
-        DB::table('kategori_penanganan')->insert($kategoriPenanganan);
+        // Insert atau update data di tabel 'kategori_penanganan' (aman dijalankan berulang kali)
+        foreach ($kategoriPenanganan as $item) {
+            DB::table('kategori_penanganan')->updateOrInsert(['nama' => $item['nama']], $item);
+        }
     }
 }

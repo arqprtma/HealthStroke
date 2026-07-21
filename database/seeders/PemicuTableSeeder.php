@@ -35,7 +35,9 @@ class PemicuTableSeeder extends Seeder
             ],
         ];
 
-        // Insert data into the 'pemicu' table
-        DB::table('pemicu')->insert($pemicus);
+        // Insert atau update data di tabel 'pemicu' (aman dijalankan berulang kali)
+        foreach ($pemicus as $pemicu) {
+            DB::table('pemicu')->updateOrInsert(['nama' => $pemicu['nama']], $pemicu);
+        }
     }
 }

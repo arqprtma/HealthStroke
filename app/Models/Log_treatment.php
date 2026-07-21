@@ -11,6 +11,8 @@ class Log_treatment extends Model
 
     protected $table = 'log_treatment';
 
+    protected $primaryKey = 'id_log_treatment';
+
     protected $fillable = [
         'id_pasien',
         'id_penanganan',

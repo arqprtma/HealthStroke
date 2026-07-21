@@ -45,7 +45,9 @@ class KomplikasiTableSeeder extends Seeder
             ],
         ];
 
-        // Insert data into the 'komplikasi' table
-        DB::table('komplikasi')->insert($komplikasi);
+        // Insert atau update data di tabel 'komplikasi' (aman dijalankan berulang kali)
+        foreach ($komplikasi as $item) {
+            DB::table('komplikasi')->updateOrInsert(['nama' => $item['nama']], $item);
+        }
     }
 }

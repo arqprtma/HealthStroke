@@ -35,7 +35,9 @@ class KategoriArtikelTableSeeder extends Seeder
             ],
         ];
 
-        // Insert data into the 'kategori_artikel' table
-        DB::table('kategori_artikel')->insert($kategoriArtikel);
+        // Insert atau update data di tabel 'kategori_artikel' (aman dijalankan berulang kali)
+        foreach ($kategoriArtikel as $item) {
+            DB::table('kategori_artikel')->updateOrInsert(['nama' => $item['nama']], $item);
+        }
     }
 }

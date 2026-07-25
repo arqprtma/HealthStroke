@@ -72,17 +72,21 @@
         </style>
     </head>
 
-    <body class="bg-[#F8F8FF]">
-        {{-- {{ dd($penanganan) }} --}}
-        <div class="container mx-auto">
-            {{-- <div class="back w-[35px] relative top-[50px] h-[35px] left-[20px]"> --}}
-            {{-- </div> --}}
-            <div class="content relative top-[50px] lg:top-[50px] w-[80%] mx-auto">
-                <a href={{ '/dashboard' }} class="block w-[35px] h-[35px] -ms-3">
-                    <img src="../images/arrow-back.png" alt="">
+    <body class="bg-ghost">
+        <header class="sticky top-0 z-30 border-b border-gray-100 bg-white/95 backdrop-blur">
+            <div class="mx-auto flex h-14 max-w-screen-md items-center gap-2 px-4">
+                <a href="{{ route('dashboard') }}" aria-label="Kembali"
+                   class="-ml-2 flex h-9 w-9 items-center justify-center rounded-full text-gray-600 transition hover:bg-gray-100">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
                 </a>
-
-                <h1 class="font-bold mt-5 mb-5 text-[14px] lg:text-[24px]">{{ $penanganan->kategori_penanganan->nama }}</h1>
+                <span class="font-bold text-gray-800">Detail Penanganan</span>
+            </div>
+        </header>
+        <div class="mx-auto max-w-screen-md px-4 pb-16 pt-5">
+            <div class="content">
+                <h1 class="mb-5 text-lg font-bold text-primary lg:text-2xl">{{ $penanganan->kategori_penanganan->nama }}</h1>
 
                 <!-- Pemberitahuan User -->
                 @if (count($log_treatment) > 0)
@@ -106,7 +110,7 @@
 
                 <!-- Decision Card -->
                 @if ($trigerPenanganan != null && $userHealth != null)
-                    <div class="max-w-md p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+                    <div class="mx-auto max-w-md rounded-2xl bg-white p-6 shadow-sm">
                         <div class="flex items-center justify-between flex-col mb-4">
                             <h2 class="text-lg font-semibold text-gray-800">Decision Progress</h2>
                             <div>
@@ -203,25 +207,24 @@
                 @endif
                 <!-- End Decision Card -->
 
-                <h2 class="mt-5 mb-5 text-sm lg:text-lg">Deskripsi : </h2>
-                <p class=" mx-auto text-sm lg:text-lg">{!! $penanganan->deskripsi !!}</p>
+                <h2 class="mt-5 mb-3 text-sm font-bold lg:text-lg">Deskripsi</h2>
+                <div class="rich-content">{!! $penanganan->deskripsi !!}</div>
                 @if ($penanganan->video)
                     <h5 class="mt-5 text-sm lg:text-base">Video Penanganan Treatment : </h5>
-                    <iframe class="w-[100%] h-[50vw] mt-5 mb-10" src="https://www.youtube.com/embed/{{ $penanganan->video }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                    <iframe class="mt-5 mb-10 h-[50vw] w-full rounded-2xl shadow-sm" src="https://www.youtube.com/embed/{{ $penanganan->video }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                     </iframe>
                 @endif
 
                 <h3 class="text-sm font-bold lg:text-lg mt-12">Penanganan Lainnya</h3>
                 @foreach ($list_penanganan as $key => $list)
-                    <a href="{{ route('detail-penanganan', ['id' => $list->id_penanganan]) }}" class="block container w-[100%] mx-auto mt-2 rounded-sm bg-[#FFFF] p-3">
+                    <a href="{{ route('detail-penanganan', ['id' => $list->id_penanganan]) }}" class="block w-full mx-auto mt-2 rounded-xl bg-white p-3 shadow-sm transition hover:shadow-md">
                         <div class="deskripsi mx-auto">
                             <div class="flex justify-left gap-10 p-2 items-center">
                                 <div class="text-sm lg:text-base">
                                     {{ $key + 1 }}
                                 </div>
                                 <div class="deskripsi text-sm lg:text-base">
-                                    {{-- {!! Str::limit($list->deskripsi, 100, '...') !!} --}}
-                                    {!! $list->deskripsi !!}
+                                    {{ previewText($list->deskripsi, 90) }}
                                 </div>
                             </div>
                             {{-- <h1 class="text-sm lg:text-lg">{{ $key+1 }}. {!! $list->deskripsi !!}</h1> --}}
@@ -229,13 +232,10 @@
                     </a>
                 @endforeach
 
-                <button></button>
                 <div class="text-center mt-7 pb-10">
                     @if ($log_treatment_today < 1)
                         <a href="javascript:void(0)" id="button-dilakukan">
-                            <button class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-lg text-white">Sudah
-                                dilakukan
-                            </button>
+                            <button class="btn-primary w-full max-w-xs">Sudah dilakukan</button>
                         </a>
                     @endif
                     {{-- <a href="{{ route('add-log-penanganan', ['id' => $penanganan->id_penanganan]) }}">
@@ -263,24 +263,24 @@
 
         <!-- Modal Untuk Meminta Perkembangan Pasien -->
         @if (count($trigerPenanganan) != 0)
-            <div id="request-pengembangan-pasien" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-                <div class="bg-white rounded-lg max-h-[85vh] p-6 max-w-3xl w-full shadow-lg transition-transform transform overflow-auto">
+            <div id="request-pengembangan-pasien" class="modal fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center px-4">
+                <div class="bg-white rounded-2xl max-h-[85vh] p-6 max-w-3xl w-full shadow-lg transition-transform transform overflow-auto">
                     <h2 class="lg:text-2xl text-lg font-bold mb-4 text-gray-800">Penilaian Perkembangan Pasien</h2>
                     <div class="content">
                         <h4 class="font-semibold mt-4 lg:text-lg text-base text-gray-700">Indikator</h4>
                         <div class="overflow-x-auto">
-                            <table class="border-2 border-black">
+                            <table class="w-full border border-gray-300">
                                 <thead>
-                                    <tr>
-                                        <th class="border-2 lg:text-base text-sm border-black p-2">Level</th>
-                                        <th class="border-2 lg:text-base text-sm border-black p-2">Keterangan</th>
+                                    <tr class="bg-primary/5">
+                                        <th class="border border-gray-300 lg:text-base text-sm p-2">Level</th>
+                                        <th class="border border-gray-300 lg:text-base text-sm p-2">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($trigerPenanganan as $item)
                                         <tr>
-                                            <th class="border-2 border-black p-2" style="vertical-align: top;width:30px">{{ $item->level }}</th>
-                                            <td class="border-2 border-black p-2" style="vertical-align: top;">{!! $item->konten !!}</td>
+                                            <th class="border border-gray-300 p-2" style="vertical-align: top;width:30px">{{ $item->level }}</th>
+                                            <td class="border border-gray-300 p-2" style="vertical-align: top;">{!! $item->konten !!}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -336,8 +336,7 @@
 
         <!--Javascript -->
         {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/locale/id.min.js" integrity="sha512-he8U4ic6kf3kustvJfiERUpojM8barHoz0WYpAUDWQVn61efpm3aVAD8RWL8OloaDDzMZ1gZiubF9OSdYBqHfQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
         <script>
             // Modal Request Pengembangan Pasien
             $(document).ready(function() {
@@ -414,7 +413,7 @@
 
         <script>
             // Menggunakan SweetAlert2 untuk menampilkan konten dari triggered #button__dilakukan
-            document.getElementById('button-dilakukan').addEventListener('click', function() {
+            document.getElementById('button-dilakukan')?.addEventListener('click', function() {
                 Swal.fire({
                     title: "Apakah latihan hari ini sudah di lakukan ?",
                     showDenyButton: false,

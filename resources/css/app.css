@@ -2,68 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    html {
+        font-family: "Mulish", ui-sans-serif, system-ui, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+    }
+    body {
+        text-rendering: optimizeLegibility;
+    }
+}
 
 @layer components {
-    *{
-        font-size: 0.875rem; /* 14px */
-        line-height: 1.25rem; /* 20px */
+    /* Skala font dasar (mobile-first) */
+    :root {
+        font-size: 15px;
     }
-    @media(max-width:768px){
-        *{
-            font-size: 0.75rem; /* 12px */
-            line-height: 1rem; /* 16px */
+    @media (max-width: 768px) {
+        :root {
+            font-size: 14px;
         }
     }
 
     .btn-primary {
-        @apply bg-[#15ADA7];
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 font-semibold text-white shadow-sm transition hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[.98];
     }
 
     /* Batas Lines Text */
-    .one-lines, .two-lines, .three-lines, .four-lines{
+    .one-lines, .two-lines, .three-lines, .four-lines {
         display: -webkit-box !important;
         -webkit-box-orient: vertical !important;
         overflow: hidden !important;
     }
-    .one-lines{
-        -webkit-line-clamp: 1; /* Menampilkan dua baris */
-    }
-    .two-lines{
-        -webkit-line-clamp: 2; /* Menampilkan dua baris */
-    }
-    .three-lines{
-        -webkit-line-clamp: 3; /* Menampilkan dua baris */
-    }
-    .four-lines{
-        -webkit-line-clamp: 4; /* Menampilkan dua baris */
-    }
+    .one-lines   { -webkit-line-clamp: 1; }
+    .two-lines   { -webkit-line-clamp: 2; }
+    .three-lines { -webkit-line-clamp: 3; }
+    .four-lines  { -webkit-line-clamp: 4; }
     /* End Batas Lines Text */
 
     /* Batas Column */
-    .one-column, .two-column, .three-column, .four-column{
+    .one-column, .two-column, .three-column, .four-column {
         width: 100%;
         display: grid;
         grid-template-rows: auto;
         grid-auto-flow: row;
         gap: 6px;
     }
-    .one-column {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    .two-column {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .three-column {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .four-column {
-        grid-template-columns: repeat(4, 1fr);
-    }
+    .one-column   { grid-template-columns: repeat(1, 1fr); }
+    .two-column   { grid-template-columns: repeat(2, 1fr); }
+    .three-column { grid-template-columns: repeat(3, 1fr); }
+    .four-column  { grid-template-columns: repeat(4, 1fr); }
     /* End Batas Column */
 
     /* Create Modal */
-        .modal {
-            display: none;
-        }
+    .modal {
+        display: none;
+    }
     /* End Create Modal */
+}
+
+/* Konten edukasi (deskripsi aktivitas/penanganan yang kaya HTML) */
+.rich-content {
+    color: #374151;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+.rich-content p {
+    margin: 0.5rem 0;
+}
+.rich-content h4 {
+    margin: 1rem 0 0.35rem;
+    font-weight: 700;
+    color: #15ADA7;
+    font-size: 1rem;
+}
+.rich-content ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0.4rem 0;
+}
+.rich-content ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin: 0.4rem 0;
+}
+.rich-content li {
+    margin: 0.3rem 0;
+}
+.rich-content strong {
+    color: #111827;
+}
+.rich-content figure {
+    margin: 0.85rem 0;
+}
+.rich-content img {
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+}
+.rich-content figcaption {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+.rich-content .catatan {
+    margin: 0.85rem 0;
+    border-left: 4px solid #15ADA7;
+    background: #eefaf9;
+    padding: 0.6rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
 }

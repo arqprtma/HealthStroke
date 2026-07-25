@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             KategoriArtikelTableSeeder::class,
             AktivitasTableSeeder::class,
             PenangananTableSeeder::class,
+            TrigeredPenangananTableSeeder::class,
         ]);
     }
 }

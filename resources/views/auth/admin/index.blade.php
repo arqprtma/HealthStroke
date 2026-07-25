@@ -1,207 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- cdn tailwindcss --}}
-    <script src="https://cdn.tailwindcss.com"></script>
+@section('title', $title ?? 'Dashboard Admin | StrokeCare')
+@section('page-title', 'Dashboard')
 
-    <title>{{ $title }}</title>
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
-     {{-- font --}}
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
-
-     <style>
-         *{
-             font-family: 'mulish','sans-serif';
-         }
-     </style>
-</head>
-
-<body class="bg-[#F8F8FF]">
-    <div class="bg-auto bg-cover bg-left-top bg-no-repeat -mt-4 lg:h-[356px] h-[300px]" id="bg-blub">
-        <div class="navigasi container lg:w-[80%] mx-auto pt-10 pb-7 px-5">
-            <div class="navbar flex justify-between h-[20px]">
-                <div class="alert flex gap-2 box-border">
-                    <h1 class="font-bold">Hi, </h1><span>{{ auth()->user()->nama }}</span>
-                </div>
-                <div class="logo box-border relative">
-                    <img src="{{ asset('images/User.png') }}" alt="logo" class="w-[30px] h-[30px]" id="profile"
-                        data-target="#profile-admin">
-                    <div id="profile-admin"
-                        class="lg:w-[13vw] w-[35vw] h-auto bg-white absolute lg:right-0 right-0 top-10 rounded shadow-lg py-2 px-4 hidden">
-                        <ul>
-                            <li onclick="logout()" class="cursor-pointer font-bold text-red-500">Logout</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+@section('content')
+    {{-- Statistik --}}
+    <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col items-center justify-center rounded-2xl bg-primary p-6 text-white shadow-sm sm:p-8">
+            <span class="text-3xl font-bold sm:text-4xl">{{ count($users) }}</span>
+            <span class="mt-1 text-sm font-medium opacity-90">Pengguna</span>
         </div>
-        <div class="container lg:w-[80%] mx-auto pt-10 pb-7 px-5">
-            <h2 class="text-left font-bold text-black lg:text-xl text-base mb-2">Dashboard</h2>
-            <div class="flex align-items-center flex-nowrap flex-row">
-                <div
-                    class="w-[50%] h-auto lg:py-12 py-7 mx-1 bg-[#15ADA7] shadow-md flex items-center justify-center flex-col rounded">
-                    <h3 class="text-center lg:text-4xl text-xl font-bold text-white">{{ count($users) }}</h3>
-                    <span class="text-center lg:text-lg text-sm font-medium text-white">Pengguna</span>
-                </div>
-                <div
-                    class="w-[50%] h-auto lg:py-12 py-7 mx-1 bg-[#2296D1] shadow-md flex items-center justify-center flex-col rounded">
-                    <h3 class="text-center lg:text-4xl text-xl font-bold text-white">{{ count($pasien) }}</h3>
-                    <span class="text-center lg:text-lg text-sm font-medium text-white">Pasien Stroke</span>
-                </div>
-            </div>
+        <div class="flex flex-col items-center justify-center rounded-2xl bg-[#2296D1] p-6 text-white shadow-sm sm:p-8">
+            <span class="text-3xl font-bold sm:text-4xl">{{ count($pasien) }}</span>
+            <span class="mt-1 text-sm font-medium opacity-90">Pasien Stroke</span>
         </div>
     </div>
-    <div class="container lg:w-[80%] mx-auto pb-7 px-5">
-        <section id="presentase">
-            <h2 class="text-left font-bold text-black lg:text-xl text-base mb-2">Presentase pemicu stroke</h2>
-            <div class="bg-[#FFFFFF] p-5 rounded shadow-md">
-                <canvas id="myChart" width="400" height="400"></canvas>
+
+    {{-- Chart pemicu --}}
+    <section class="mt-8">
+        <h2 class="mb-3 text-base font-bold text-gray-800">Persentase Pemicu Stroke</h2>
+        <div class="rounded-2xl bg-white p-5 shadow-sm">
+            <div class="relative h-[300px] w-full sm:h-[380px]">
+                <canvas id="myChart"></canvas>
             </div>
-        </section>
-        <section id="menu" class="mt-8">
-            <h2 class="text-left font-bold text-black lg:text-xl text-base mb-2">Kelola Layanan</h2>
-            <div class="grid lg:grid-rows-1 md:grid-rows-2 grid-rows-5 grid-flow-col gap-4">
-                <a href="{{ route('admin.pemicu') }}" class="w-full">
-                    <button
-                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Pemicu.png') }}"
-                            alt="Pemicu"> Pemicu
-                    </button>
-                </a>
-                <a href="{{ route('admin.komplikasi') }}" class="w-full">
-                    <button
-                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
-                            alt="Pemicu"> Komplikasi
-                    </button>
-                </a>
-                <a href="{{ route('admin.artikel') }}" class="w-full">
-                    <button class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Blog.png') }}" alt="Blog"> Artikel
-                    </button>
-                </a>
-                <a href="{{ route('admin.aktivitas') }}" class="w-full">
-                    <button
-                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Aktivitas.png') }}"
-                            alt="Aktivitas"> Aktivitas
-                    </button>
-                </a>
-                <a href="{{ route('admin.penanganan') }}" class="w-full">
-                    <button
-                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Penanganan.png') }}"
-                            alt="Penanganan"> Penanganan
-                    </button>
-                </a>
-                <a href="{{ route('admin.trigered.aktivitas') }}" class="w-full">
-                    <button
-                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
-                            alt="Penanganan"> Trigger Aktivitas
-                    </button>
-                </a>
-                <a href="{{ route('admin.trigered.penanganan') }}" class="w-full">
-                    <button
-                        class="bg-[#15ADA7] hover:bg-[#0FA7A1] w-full text-white rounded flex align-center justify-center p-3">
-                        <img class="inline-block me-2 h-[22px]" src="{{ asset('images/admin/icons/Komplikasi.png') }}"
-                            alt="Penanganan"> Trigger Penanganan
-                    </button>
-                </a>
-            </div>
-        </section>
-    </div>
+        </div>
+    </section>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- Akses cepat --}}
+    <section class="mt-8">
+        <h2 class="mb-3 text-base font-bold text-gray-800">Kelola Layanan</h2>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            @php
+                $menu = [
+                    ['route' => 'admin.pemicu', 'label' => 'Pemicu'],
+                    ['route' => 'admin.komplikasi', 'label' => 'Komplikasi'],
+                    ['route' => 'admin.aktivitas', 'label' => 'Aktivitas'],
+                    ['route' => 'admin.penanganan', 'label' => 'Penanganan'],
+                    ['route' => 'admin.artikel', 'label' => 'Artikel'],
+                    ['route' => 'admin.trigered.aktivitas', 'label' => 'Trigger Aktivitas'],
+                    ['route' => 'admin.trigered.penanganan', 'label' => 'Trigger Penanganan'],
+                ];
+            @endphp
+            @foreach ($menu as $m)
+                <a href="{{ route($m['route']) }}"
+                   class="flex items-center justify-center rounded-xl bg-white p-4 text-center text-sm font-semibold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:text-primary hover:shadow-md">
+                    {{ $m['label'] }}
+                </a>
+            @endforeach
+        </div>
+    </section>
+@endsection
 
-    <!-- Responsive background Image -->
-    <script>
-        if ($(window).width() < 768) {
-            $('#bg-blub').css('background-image', 'url("/images/bg-mobile.png")');
-            $('#bg-blub').css('background-position', 'center -50px');
-        } else if ($(window).width() < 992) {
-            $('#bg-blub').css('background-image', 'url("/images/bg-tablet.png")');
-            $('#bg-blub').css('background-position', 'center -20px');
-        } else {
-            $('#bg-blub').css('background-image', 'url("/images/bg-desktop.png")');
-            $('#bg-blub').css('background-position', 'center -20px');
-        }
-    </script>
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var total_pemicu = '{{ implode(',', $total_pemicu) }}';
+    var list_pemicu = '{{ implode(',', $list_pemicu) }}';
 
-    <!-- Chart -->
-    <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var total_pemicu = '{{ implode(",", $total_pemicu) }}';
-        var list_pemicu = '{{ implode(",", $list_pemicu) }}';
-
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: list_pemicu.split(','),
-                datasets: [{
-                    label: 'Jumlah Pasien',
-                    data: total_pemicu.split(','),
-                    backgroundColor: 'rgba(34, 150, 209, 0.7)',
-                    borderColor: 'rgba(34, 150, 209, 1)',
-                    borderWidth: 1
-                }]
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: list_pemicu.split(','),
+            datasets: [{
+                label: 'Jumlah Pasien',
+                data: total_pemicu.split(','),
+                backgroundColor: 'rgba(34, 150, 209, 0.7)',
+                borderColor: 'rgba(34, 150, 209, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { beginAtZero: true },
+                y: { beginAtZero: true, ticks: { stepSize: 1 } }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1, // Jarak antar nilai pada sumbu y
-                            // max: 100 // Nilai maksimum pada sumbu y
-                        }
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Grafik Hasil Pemicu'
-                },
-                legend: {
-                    display: true,
-                    position: 'top'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                }
-            }
-        });
-    </script>
-
-    <!-- Popup Navbar -->
-    <script>
-        $('#profile').on('click', function() {
-            var data_target = $(this).data('target')
-
-            if ($(data_target).hasClass('hidden')) {
-                $(data_target).removeClass('hidden')
-            } else {
-                $(data_target).addClass('hidden')
-            }
-        })
-
-        // LOGOUT
-        function logout() {
-            window.location.href = '/logout';
+            plugins: { legend: { display: true, position: 'top' } }
         }
-    </script>
-</body>
-
-</html>
+    });
+</script>
+@endpush

@@ -2,6 +2,21 @@
 
 use App\Models\Trigered_Aktivitas;
 use App\Models\Trigered_Penanganan;
+use Illuminate\Support\Str;
+
+if (!function_exists('previewText')) {
+    /**
+     * Ubah konten HTML (deskripsi kaya) menjadi cuplikan teks polos yang rapi:
+     * sisipkan spasi antar-tag agar kata tidak menempel, lalu potong.
+     */
+    function previewText($html, int $limit = 90): string
+    {
+        $text = strip_tags(str_replace('<', ' <', (string) $html));
+        $text = trim(preg_replace('/\s+/', ' ', $text));
+
+        return Str::limit($text, $limit);
+    }
+}
 
 if (!function_exists('trigerPenangananByLevel')) {
     /**

@@ -1,179 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- cdn tailwindcss --}}
-    <script src="https://cdn.tailwindcss.com"></script>
+@section('topbar', 'Profil')
+@section('back', route('dashboard'))
 
-    <title>{{ $title }}Stroke</title>
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
-     {{-- font --}}
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
-
-     <style>
-         *{
-             font-family: 'mulish','sans-serif';
-         }
-     </style>
-</head>
-
-<body class="bg-[#F8F8FF]">
-    <div class="container mx-auto">
-        {{-- {{ auth()->user() }} --}}
-        <div class="back w-[50px] relative top-[50px]  h-[50px] left-[50px] lg:left-[310px]">
-            <a href={{ 'dashboard' }}>
-                <img src="images/arrow-back.png" alt="">
-            </a>
+@section('content')
+    <div class="mx-auto max-w-md">
+        {{-- Avatar --}}
+        <div class="mb-5 flex flex-col items-center">
+            <div class="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-white shadow-md ring-4 ring-primary/10">
+                <img src="{{ asset(auth()->user()->gender == 'P' ? 'images/pasien/woman.png' : 'images/pasien/man.png') }}"
+                     alt="Foto profil" class="h-20 w-20 object-contain">
+            </div>
+            <h2 class="mt-3 text-lg font-bold text-gray-800">{{ auth()->user()->nama }}</h2>
+            <p class="text-sm text-gray-400">{{ '@' . auth()->user()->username }}</p>
         </div>
-        <div class="gambar relative top-[50px] lg:top-[50px]">
-            @if (auth()->user()->gender == 'L')
-                <div class="w-[100px] h-[200] mx-auto">
-                    <img src="images/pasien/man.png" alt="Laki-Laki" class="img-preview">
-                </div>
-            @elseif (auth()->user()->gender == 'P')
-                <div class="w-[100px] h-[200] mx-auto">
-                    <img src="images/pasien/woman.png" alt="Perempuan" class="img-preview">
-                </div>
-            @endif
-        </div>
-        <div class="relative top-[65px] lg:top-[65px] w-[70%] lg:w-[50%] mx-auto">
+
+        <div class="rounded-2xl bg-white p-6 shadow-lg shadow-gray-200/60">
             <form action="{{ route('setting-profile', ['id' => auth()->user()->id]) }}" method="POST">
                 @csrf
-                <?php
-                // $nama = auth()->user()->nama;
-                // $namaArray = explode(' ', $nama);
+                <input type="hidden" name="id" value="{{ auth()->user()->id }}">
 
-                // $namaDepan = isset($namaArray[0]) ? $namaArray[0] : '';
-                // $namaBelakang = isset($namaArray[1]) ? $namaArray[1] : '';
-                ?>
-                <div class="mb-4">
-                    <label class="text-gray-700 text-sm font-bold mb-2" for="nama">
-                        Nama Lengkap
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="nama" name="nama" type="text" value="{{ auth()->user()->nama }}">
-                    @error('nama')
-                        <span class="text-red-700 text-xs">{{ $message }}</span>
-                    @enderror
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="id" name="id" type="text" hidden value={{ auth()->user()->id }}>
-                </div>
-                <div class="flex justify-between gap-1">
-                    <div class="mb-4 flex-1">
-                        <div>
-                            <label for="gender" class="text-gray-700 text-sm font-bold">Jenis Kelamin</label>
-                            <div class="relative inline-block w-full">
-                                <select id="gender" name="gender" class="block appearance-none w-full bg-white borde hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline lg:text-base text-sm mt-2">
-                                    @if (auth()->user()->gender == 'L')
-                                        <option value="L" selected>Laki-Laki</option>
-                                        <option value="P">Perempuan</option>
-                                    @elseif (auth()->user()->gender == 'P')
-                                        <option value="L">Laki-Laki</option>
-                                        <option value="P" selected>Perempuan</option>
-                                    @endif
+                <x-input name="nama" label="Nama Lengkap" placeholder="Masukkan nama lengkap"
+                         :value="old('nama', auth()->user()->nama)" required />
 
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute top-1/2 right-0 transform -translate-x-1/2 translate-y-0 px-1">
-                                    <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M14.293 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0 0-1.414z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            @error('gender')
-                                <span class="text-red-700 text-xs">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="mb-4 basis-1/3">
-                        <label class="text-gray-700 text-sm font-bold mb-2" for="umur">
-                            Umur
-                        </label>
-                        <input
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
-                            id="umur" type="text" name="umur" value={{ auth()->user()->umur }}>
-                        @error('umur')
-                            <span class="text-red-700 text-xs">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <x-select name="gender" label="Jenis Kelamin"
+                              :options="['L' => 'Laki-Laki', 'P' => 'Perempuan']"
+                              :selected="old('gender', auth()->user()->gender)" />
+                    <x-input name="umur" label="Umur" type="number" placeholder="Umur"
+                             :value="old('umur', auth()->user()->umur)" required />
                 </div>
-                <div class="mb-4">
-                    <label class="text-gray-700 text-sm font-bold mb-2" for="email">
-                        Email
-                    </label>
-                    <input
-                        class=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="email" name="email" type="email" value="{{ auth()->user()->email }}" readonly disabled>
-                    @error('email')
-                        <span class="text-red-700 text-xs">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label class="text-gray-700 text-sm font-bold mb-2" for="nama">
-                        Username
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" type="text" name="username" placeholder="Username"
-                        value="{{ auth()->user()->username }}" readonly disabled>
-                    @error('email')
-                        <span class="text-red-700 text-xs">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label class="text-gray-700 text-sm font-bold mb-2" for="nama">
-                        Ubah Password
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="password" name="password" type="password" placeholder="New Password">
-                    <span class="text-xs text-red-500">* Kosongkan bila tidak ingin merubah</span>
-                    @error('password')
-                        <span class="text-red-700 text-xs">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="text-center mt-7 pb-10">
-                    <button onclick="ConfirmUpdate()"
-                        class="transition delay-100 bg-[#15ADA7] hover:border-2 hover:border-[#15ADA7]  w-[197px] hover:bg-[#FFFF] hover:text-[#15ADA7] h-[40px] rounded-3xl text-white">Simpan</button>
-                </div>
+
+                <x-input name="email" label="Email" type="email" :value="auth()->user()->email"
+                         disabled class="cursor-not-allowed bg-gray-50 text-gray-400" />
+                <x-input name="username" label="Username" :value="auth()->user()->username"
+                         disabled class="cursor-not-allowed bg-gray-50 text-gray-400" />
+
+                <x-input name="password" label="Ubah Password" type="password" placeholder="Password baru" />
+                <p class="-mt-3 mb-4 text-xs text-gray-400">*Kosongkan bila tidak ingin mengubah password.</p>
+
+                <x-button class="mt-2">Simpan Perubahan</x-button>
             </form>
-
         </div>
     </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @if (session()->has('error'))
-        <script>
-            var pesan = "{{ session('error') }}"
-
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: pesan
-            });
-        </script>
-    @endif
-    @if (session()->has('success'))
-        <script>
-            var pesan = "{{ session('success') }}"
-            Swal.fire({
-                icon: "success",
-                title: "Yeayy...",
-                text: pesan
-            });
-        </script>
-    @endif
-</body>
-
-</html>
+@endsection
